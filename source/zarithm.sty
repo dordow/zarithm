@@ -1,0 +1,34 @@
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{zarith}[2023/02/26 Arithmetic in ZRM Z]
+
+\RequirePackage{amssymb}
+
+%% 'sans serif' option
+% \DeclareOption{sans}{
+%   \renewcommand{\familydefault}{\sfdefault}
+% }
+
+% Default option setting
+% \ExecuteOptions{roman} 
+
+%\ProcessOptions\relax
+
+%% Traditional LaTeX or TeX follows...
+\newcommand{\Arithmos}{\mathbb{A}}
+\newcommand{\Real}{\mathbb{R}}
+\newcommand{\Rational}{\mathbb{Q}}
+
+\newcommand{\azero}{0}
+\newcommand{\aone}{1}
+\newcommand{\aplus}{+}
+\newcommand{\amult}{*}
+\newcommand{\aminus}{-}
+\newcommand{\adiv}{/}
+\newcommand{\aneg}{-}
+\newcommand{\ainv}{^{-1}}
+\newcommand{\alt}{<}
+\newcommand{\aleq}{\leq}
+\newcommand{\agt}{>}
+\newcommand{\ageq}{\geq}
+
+\endinput

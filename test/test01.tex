@@ -1,0 +1,240 @@
+\documentclass[12pt]{scrartcl}
+
+\usepackage[T1]{fontenc}
+\usepackage[german,english]{babel}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{/home/frank/docs/reference/literature.bib}
+\AtEveryBibitem{\clearfield{url}}
+
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{tikz}
+\usepackage{units}
+\usepackage{gensymb}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{../source/zarithm}
+
+\usepackage[mark]{gitinfo2}
+\usepackage[outerbars]{changebar}
+\usepackage[pdf,shell]{dottex}
+
+%\usepackage{hyperref} % should be last but does not work then with zed-csp
+
+%\usepackage{savesym}
+\usepackage{zed-csp}
+% \savesymbol{because}
+% %\usepackage[nothing]{todo}
+% \usepackage{todo}
+% \restoresymbol{TXF}{because}
+
+%\include{../source/include.tex}
+%\newcommand{\dsum}{\mathrel{\Sigma}}
+
+
+%\nochangebars
+
+\newcommand{\remark}[1]{ \vspace{1em}\textbf{\underline{#1}}\vspace{1em} }
+%\newcommand{\comment}[1]{ \textbf{\underline{#1}} }
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{schemadef}{Schema}[section]
+\newtheorem{genericdef}{Generic Definition}[section]
+\newtheorem{zdef}{Definition}[section]
+
+% Operator Definitions
+\newcommand{\dsum}{\Sigma}
+
+\begin{document}
+
+% opening
+\title{Rebalancing von Depots}
+%\subtitle{Note 001}
+
+\author{Frank Dordowsky}
+
+% make the title area
+\maketitle
+
+\begin{abstract}
+This is a template report useful if constructs of formal language Z is
+used.
+\end{abstract}
+
+%\tableofcontents
+%\newpage
+
+\section{Einleitung}
+\label{sec:einleitung}
+
+Wieso weshalb warum
+
+\section{Definitionen}
+\label{sec:definitionen}
+Dieser Abschnitt enthält generelle, vor allem mathematische,
+Definitionen die im Folgenden verwendet werden.
+
+
+\begin{genericdef}[Distributed Sum]
+  \label{zdef:distributed-sum}
+  For a finite list of real numbers, its sum is always defined and is
+  recursively defined as:
+  \begin{gendef}[I]
+    \dsum : (I \ffun \Arithmos) \fun \Arithmos
+    \where
+    \dsum~\emptyset = \azero \\
+    \forall f: I \ffun \Arithmos | f \neq \emptyset @ \\
+    \t1 (\exists i: \dom f @ \dsum~f = (f~i) \aplus
+    \dsum(\{~i~\} \ndres f))
+  \end{gendef}
+\end{genericdef}
+
+\section{Wertpapiere}
+\label{sec:wertpapiere}
+Allgemeine Definitionen zu Wertpapieren.
+
+\begin{zdef}[Wertpapier]
+  \label{zdef:wertpapier}
+  Wertpapiere sind alle an den Börsen gehandelten Papiere.
+  \begin{zed}
+    [Wertpapier]
+  \end{zed}
+\end{zdef}
+
+Zu jedem Wertpapier gehört ein Kurs und ein Kurswert, der sich aus der
+Anzahl der gehaltenen Anteile ergibt.
+
+\begin{zdef}[Kurs und Kurswert]
+  \label{zdef:kurs-kurswert}
+  \begin{axdef}
+    kurs : Wertpapier \fun \Rational\\
+  \end{axdef}
+\end{zdef}
+kurs zu einem bestimmten Zeitpunkt, Einstandskurs, Kurswert,
+Einstandswert
+
+
+
+
+
+\section{Depot}
+\label{sec:depot}
+Anteil eines Assets, Wertpapiers am Portfolio
+
+
+Für die Depotaufteilung werden Anlageklassen definiert:
+
+\begin{zdef}[Anlageklassen]
+  \label{zdef:anlageklassen}
+  Die betrachteten Anlageklassen sind Aktien, Anleihen und Rohstoffe,
+  gemäß Jacobs \cite{Jacobs2016}. Hierbei bedeuten $AE$ Aktien Europa,
+  $AN$ Aktien Nordamerika, $AP$ Aktien Pazifikraum, $AS$ Aktien
+  Schwellenländer, $RE$ Renten Euroraum, und $RO$ Rohstoffe. 
+  \begin{zed}
+    Anlageklasse ::= AE | AN | AP | AS | RE | RO 
+  \end{zed}
+\end{zdef}
+
+\begin{zdef}[Aktien]
+  \label{zdef:aktien}
+  Die Aktien werden in einer Oberklasse zusammengefasst.
+  \begin{axdef}
+    Aktien : \power Anlageklasse
+    \where
+    Aktien = \{~AE, AN, AP, AS~\}
+  \end{axdef}
+\end{zdef}
+
+\begin{zdef}[Depotaufteilung]
+  \label{zdef:depotaufteilung}
+  \begin{axdef}
+    dpt\_auft : Anlageklasse \pfun \nat_1
+    \where
+    \dsum(dpt\_auft) = 100
+  \end{axdef}
+\end{zdef}
+% \begin{genericdef}[ID]
+%   \label{genericdef:id}
+%   \begin{gendef}[X]
+%     id: X \fun X \where id = \{~x: X @ x \mapsto x~\}
+%   \end{gendef}
+% \end{genericdef}
+
+% \begin{zdef}[Time]
+%   \label{zdef:time}
+%   \begin{zed}
+%     TIME == \nat \\
+%   \end{zed}
+% \end{zdef}
+
+
+% \begin{zed}
+%   TimeSteps \dres tmStp = id
+% \also
+%   \forall t: TIME @ tmStp(t) \leq t < tmStp(t) + 100
+% \end{zed}
+
+
+% \begin{prop}
+%   \label{prop:some-proposition}
+%   \begin{argue}
+%     \vdash \forall ic: \num; sf: TimeSteps \fun VOLT; ts: TimeSteps | \\
+%     \t1   ts \ne period @ \\
+%     \t2 int(ic,sf)(ts+100) - int(ic,sf)(ts) = 100*ic*sf(ts)
+%   \end{argue}
+% \end{prop}
+
+% \begin{proof}
+%   The proof is as follows:
+
+%   \begin{argue}
+%     \forall ic: \num; sf: TimeSteps \fun VOLT; ts: TimeSteps | ts \ne
+%     period \also ts + 100 \in TimeSteps \and ts + 100 \ne 0 \also
+%     int(ic,sf)(ts+100) = int(ic,sf)(ts) + 100*ic*sf(ts)
+%   \end{argue}
+%   The last line follows from the definition of the integrator applied to
+%   values of time steps, and the lemma follows from the last line above.
+% \end{proof}
+
+% We formalize the specification of the calibration algorithm (which is
+% performed manually) with the following Z schema:
+
+% \begin{schema}{Calibration}
+%   Bcal?: BW \\
+%   Tcal?: TEMP \\
+%   mc?: ModuleCharacteristics
+% \also
+%   ro!: RampOffsets \\
+%   rs!: RampSets \\
+%   ic!: \num \\
+%   fm!: FREQ
+% \where
+%   \forall TS: SensorTempSteps; ts: TimeSteps @\\ 
+% \t1    rs!(Bcal?,TS,ts) = rs!(Bcal?,snsTempMin,ts)
+% \also
+%   \forall t: TIME @ \\
+% \t1    abs(freqRampOf(ic!,ro!,rs!,mc?)(Bcal?,Tcal?,t) -\\
+% \t2      idealRamp(Bcal?,fm!)(t)) \leq eps
+% \end{schema}
+
+
+% \begin{argue}
+%   [DetermineIntegrationConstant] \vdash \forall ts: TimeStep | ts \ne period @ \\
+% \t1   Ucal?(ts+100) - Ucal?(ts) = \\
+% \t2     int(ic!,rampSlopeOf(rs?)(Bcal?,Tcal?))(ts+100) - \\
+% \t3       int(ic!,rampSlopeOf(rs?)(Bcal?,Tcal?))(ts) = \\
+% \t1     100*ic!*rampSlopeOf(rs?)(Bcal?,Tcal?)(ts) =    \\
+% \t1   100*ic!*dac(rs?(Bcal?,snsTmpStp(Tcal?),ts))
+% \end{argue}
+
+% 
+% bibliography
+\printbibliography{}
+
+%\todos
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
