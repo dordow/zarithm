@@ -33,9 +33,9 @@
 \newcommand{\remark}[1]{ \vspace{1em}\textbf{\underline{#1}}\vspace{1em} }
 %\newcommand{\comment}[1]{ \textbf{\underline{#1}} }
 
-% \newcommand{\Arithmos}{\mathbb{A}}
-% \newcommand{\Real}{\mathbb{R}}
-% \newcommand{\Rational}{\mathbb{Q}}
+% \newcommand{\arithmos}{\mathbb{A}}
+% \newcommand{\real}{\mathbb{R}}
+% \newcommand{\rat}{\mathbb{Q}}
 
 % \newcommand{\azero}{0}
 % \newcommand{\aone}{1}
@@ -78,17 +78,17 @@ according to \cite{Valentine2012} or \cite{Arthan1996}.
 \section{Introduction}
 \label{sec:intro}
 
-\section{Arithmos $\Arithmos$}
+\section{Arithmos $\arithmos$}
 \label{sec:arithmos}
 
 \begin{zdef}[Arithmos]
   \label{zdef:arithmos}
-  $\Arithmos$, which can be pronounced “arithmos”, is the encompassing
+  $\arithmos$, which can be pronounced “arithmos”, is the encompassing
   set of numbers whose whole extent is deliberately left
   unspecified. This definition has been adopted from
   \cite{Valentine2012}. 
   \begin{zed}
-    [\Arithmos] 
+    [\arithmos] 
   \end{zed}
 \end{zdef}
 
@@ -97,26 +97,26 @@ according to \cite{Valentine2012} or \cite{Arthan1996}.
 \begin{zdef}[Laws of Addition]
   \label{zdef:laws-addition}
   \begin{axdef}
-    \_ \aplus \_ : \Arithmos \cross \Arithmos \fun \Arithmos\\
-    \_ \aminus \_ : \Arithmos \cross \Arithmos \fun \Arithmos\\
-    \aneg : \Arithmos \fun \Arithmos\\
-    \azero : \Arithmos\\
-    \aone : \Arithmos\\
+    \_ \aplus \_ : \arithmos \cross \arithmos \fun \arithmos\\
+    \_ \aminus \_ : \arithmos \cross \arithmos \fun \arithmos\\
+    \aneg : \arithmos \fun \arithmos\\
+    \azero : \arithmos\\
+    \aone : \arithmos\\
     \where
-    \forall x : \Arithmos @ x \aplus \azero = \azero \aplus x = x \\
-    \forall x : \Arithmos @ x \aplus (\aneg x) = \azero \\
-    \forall x : \Arithmos @ \aneg (\aneg x) = x \\
-    \forall x,y: \Arithmos @ x \aplus y = y \aplus x \\
-    \forall x,y,z: \Arithmos @ ( x \aplus y ) \aplus z = x \aplus (y
+    \forall x : \arithmos @ x \aplus \azero = \azero \aplus x = x \\
+    \forall x : \arithmos @ x \aplus (\aneg x) = \azero \\
+    \forall x : \arithmos @ \aneg (\aneg x) = x \\
+    \forall x,y: \arithmos @ x \aplus y = y \aplus x \\
+    \forall x,y,z: \arithmos @ ( x \aplus y ) \aplus z = x \aplus (y
     \aplus z) \\
-    \forall x,y : \Arithmos @ x \aminus y = x \aplus (\aneg y)\\
+    \forall x,y : \arithmos @ x \aminus y = x \aplus (\aneg y)\\
   \end{axdef}
 \end{zdef}
 
 \begin{zdef}[Non-zero Numbers]
   \label{zdef:non-negative-numbers}
   \begin{zed}
-    \Arithmos_1 == \Arithmos \setminus \{ \azero \}
+    \arithmos_1 == \arithmos \setminus \{ \azero \}
   \end{zed}
 \end{zdef}
 
@@ -127,40 +127,40 @@ according to \cite{Valentine2012} or \cite{Arthan1996}.
 \begin{zdef}[Laws of Multiplication]
   \label{zdef:laws-multiplication}
   \begin{axdef}
-    \_ \amult \_ : \Arithmos \cross \Arithmos \fun \Arithmos\\
-    \_ \adiv \_ : \Arithmos \cross \Arithmos_1 \fun \Arithmos\\
-    \_ \ainv : \Arithmos_1 \fun \Arithmos_1\\
+    \_ \amult \_ : \arithmos \cross \arithmos \fun \arithmos\\
+    \_ \adiv \_ : \arithmos \cross \arithmos_1 \fun \arithmos\\
+    \_ \ainv : \arithmos_1 \fun \arithmos_1\\
     \where
-    \forall x : \Arithmos @ x \amult \aone = \aone \amult x = x \\
-    \forall x : \Arithmos_1 @ x \amult (x \ainv) = \aone \\
-    \forall x : \Arithmos_1 @ (x \ainv)\ainv = x \\
-    \forall x,y: \Arithmos @ x \amult y = y \amult x \\
-    \forall x,y,z: \Arithmos @ ( x \amult y ) \amult z = x \amult (y
+    \forall x : \arithmos @ x \amult \aone = \aone \amult x = x \\
+    \forall x : \arithmos_1 @ x \amult (x \ainv) = \aone \\
+    \forall x : \arithmos_1 @ (x \ainv)\ainv = x \\
+    \forall x,y: \arithmos @ x \amult y = y \amult x \\
+    \forall x,y,z: \arithmos @ ( x \amult y ) \amult z = x \amult (y
     \amult z) \\
-    \forall x: \Arithmos; y : \Arithmos_1 @ x \adiv y = x \amult (y
+    \forall x: \arithmos; y : \arithmos_1 @ x \adiv y = x \amult (y
     \ainv)\\
-    \forall x: \Arithmos @ x \amult \azero = \azero \amult x =
+    \forall x: \arithmos @ x \amult \azero = \azero \amult x =
     \azero\\
-    \forall x, y, z: \Arithmos @ x \amult ( y \aplus z ) = x \amult y
+    \forall x, y, z: \arithmos @ x \amult ( y \aplus z ) = x \amult y
     \aplus x \amult z \\
   \end{axdef}
 \end{zdef}
 
 
-\section{Real Numbers $\Real$}
+\section{Real Numbers $\real$}
 \label{sec:real-numbers}
 
 \begin{zdef}[Real Numbers]
   \label{zdef:real-numbers}
   \begin{axdef}
-    \Real : \power \Arithmos\\
+    \real : \power \arithmos\\
     \where
-    % \azero \in \Real\\
-    % \aone \in \Real\\
-    \ran ( (\Real \cross \Real) \dres (\_ \aplus \_) ) \subset \Real\\
-    \ran ( (\Real \cross \Real) \dres (\_ \amult \_) ) \subset \Real\\
-    \ran (\Real \dres (\aneg ))  \subset \Real\\
-    \ran (\Real \dres (\_ \ainv ))  \subset \Real\\
+    % \azero \in \real\\
+    % \aone \in \real\\
+    \ran ( (\real \cross \real) \dres (\_ \aplus \_) ) \subset \real\\
+    \ran ( (\real \cross \real) \dres (\_ \amult \_) ) \subset \real\\
+    \ran (\real \dres (\aneg ))  \subset \real\\
+    \ran (\real \dres (\_ \ainv ))  \subset \real\\
   \end{axdef}
 \end{zdef}
 
@@ -168,11 +168,11 @@ according to \cite{Valentine2012} or \cite{Arthan1996}.
 \begin{zdef}[Total Order on Real Numbers]
   \label{zdef:order-on-reals}
   \begin{axdef}
-    \_ \alt \_ : \Real \rel \Real\\
+    \_ \alt \_ : \real \rel \real\\
     \where
-    \forall x : \Real @ \lnot x \alt x\\
-    \forall x, y: \Real @ x \alt y \lor x = y \lor y \alt x\\
-    \forall x, y, z: \Real | x \alt y \land y \alt z @ x \alt z \\
+    \forall x : \real @ \lnot x \alt x\\
+    \forall x, y: \real @ x \alt y \lor x = y \lor y \alt x\\
+    \forall x, y, z: \real | x \alt y \land y \alt z @ x \alt z \\
     \azero \alt \aone\\
   \end{axdef}
 \end{zdef}
@@ -181,31 +181,31 @@ according to \cite{Valentine2012} or \cite{Arthan1996}.
 %%inrel \agt
 %%inrel \ageq
 \begin{zed}
-  (\_ \aleq \_) == (\_ \alt \_ ) \cup \id \Real \\
+  (\_ \aleq \_) == (\_ \alt \_ ) \cup \id \real \\
   (\_ \agt \_) == (\_ \alt \_ ) \inv \\
-  (\_ \ageq \_) == (\_ \agt \_ ) \cup \id \Real \\
+  (\_ \ageq \_) == (\_ \agt \_ ) \cup \id \real \\
 \end{zed}
 
-\section{Rational Numbers $\Rational$}
+\section{Rational Numbers $\rat$}
 \label{sec:rational-numbers}
 
 
 \begin{axdef}
-  \Rational : \power \Real
+  \rat : \power \real
   \where
-  \azero \in \Rational\\
-  \aone \in \Rational\\
-  \ran ( (\Rational \cross \Rational) \dres (\_ \aplus \_) ) \subset \Rational\\
-  \ran ( (\Rational \cross \Rational) \dres (\_ \amult \_) ) \subset \Rational\\
-  \ran (\Rational \dres (\aneg ))  \subset \Rational\\
-  \ran (\Rational \dres (\_ \ainv ))  \subset \Rational\\
+  \azero \in \rat\\
+  \aone \in \rat\\
+  \ran ( (\rat \cross \rat) \dres (\_ \aplus \_) ) \subset \rat\\
+  \ran ( (\rat \cross \rat) \dres (\_ \amult \_) ) \subset \rat\\
+  \ran (\rat \dres (\aArithmetic in Z.neg ))  \subset \rat\\
+  \ran (\rat \dres (\_ \ainv ))  \subset \rat\\
 \end{axdef}
 
 \section{Integers and Rational Numbers}
 \label{sec:integers-and-rationals}
 
 \begin{axdef}
-  embd : \num \inj \Rational \\
+  embd : \num \inj \rat \\
   \where
   embd~0 = \azero \\
   embd~1 = \aone \\
