@@ -6,61 +6,17 @@
 \addbibresource{/home/frank/docs/reference/literature.bib}
 \AtEveryBibitem{\clearfield{url}}
 
-\usepackage{graphicx}
-\usepackage{url}
-\usepackage{tikz}
-\usepackage{units}
-\usepackage{gensymb}
-\usepackage{amsthm}
 \usepackage{zarithm}
-
+\usepackage{zed-csp} % must be included after zarithm
 \usepackage[mark]{gitinfo2}
 \usepackage[outerbars]{changebar}
-\usepackage[pdf,shell]{dottex}
-
-%\usepackage{hyperref} % should be last but does not work then with zed-csp
-
-\usepackage{savesym}
-\usepackage{zed-csp}
-\savesymbol{because}
-%\usepackage[nothing]{todo}
-\usepackage{todo}
-\restoresymbol{TXF}{because}
-
-
-%\nochangebars
-
 \newcommand{\remark}[1]{ \vspace{1em}\textbf{\underline{#1}}\vspace{1em} }
 %\newcommand{\comment}[1]{ \textbf{\underline{#1}} }
-
-% \newcommand{\arithmos}{\mathbb{A}}
-% \newcommand{\real}{\mathbb{R}}
-% \newcommand{\rat}{\mathbb{Q}}
-
-% \newcommand{\azero}{0}
-% \newcommand{\aone}{1}
-% \newcommand{\aplus}{+}
-% \newcommand{\amult}{*}
-% \newcommand{\aminus}{-}
-% \newcommand{\adiv}{/}
-% \newcommand{\aneg}{-}
-% \newcommand{\ainv}{^{-1}}
-% \newcommand{\alt}{<}
-% \newcommand{\aleq}{\leq}
-% \newcommand{\agt}{>}
-% \newcommand{\ageq}{\geq}
-
-%\include{include.tex}
-
-\newtheorem{prop}{Proposition}[section]
-\newtheorem{schemadef}{Schema}[section]
-\newtheorem{genericdef}{Generic Definition}[section]
-\newtheorem{zdef}{Definition}[section]
 
 \begin{document}
 
 %opening
-\title{Arithmetic with Z and Fuzz}
+\title{Arithmetic Definitions in  Z to be used with Fuzz}
 
 \author{Frank Dordowsky}
 
@@ -72,7 +28,7 @@ Goal is to create a prelude for fuzz that copes with arithmetics
 according to \cite{Valentine2012} or \cite{Arthan1996}.
 \end{abstract}
 
-\tableofcontents
+%\tableofcontents
 %\newpage
 
 \section{Introduction}
@@ -81,101 +37,82 @@ according to \cite{Valentine2012} or \cite{Arthan1996}.
 \section{Arithmos $\arithmos$}
 \label{sec:arithmos}
 
-\begin{zdef}[Arithmos]
-  \label{zdef:arithmos}
-  $\arithmos$, which can be pronounced “arithmos”, is the encompassing
-  set of numbers whose whole extent is deliberately left
-  unspecified. This definition has been adopted from
-  \cite{Valentine2012}. 
-  \begin{zed}
-    [\arithmos] 
-  \end{zed}
-\end{zdef}
+$\arithmos$, which can be pronounced “arithmos”, is the encompassing
+set of numbers whose whole extent is deliberately left
+unspecified. This definition has been adopted from
+\cite{Valentine2012}.
+
+\begin{zed}
+  [\arithmos] 
+\end{zed}
 
 %%inop \aplus 3
 %%inop \aminus 3
-\begin{zdef}[Laws of Addition]
-  \label{zdef:laws-addition}
-  \begin{axdef}
-    \_ \aplus \_ : \arithmos \cross \arithmos \fun \arithmos\\
-    \_ \aminus \_ : \arithmos \cross \arithmos \fun \arithmos\\
-    \aneg : \arithmos \fun \arithmos\\
-    \azero : \arithmos\\
-    \aone : \arithmos\\
-    \where
-    \forall x : \arithmos @ x \aplus \azero = \azero \aplus x = x \\
-    \forall x : \arithmos @ x \aplus (\aneg x) = \azero \\
-    \forall x : \arithmos @ \aneg (\aneg x) = x \\
-    \forall x,y: \arithmos @ x \aplus y = y \aplus x \\
-    \forall x,y,z: \arithmos @ ( x \aplus y ) \aplus z = x \aplus (y
-    \aplus z) \\
-    \forall x,y : \arithmos @ x \aminus y = x \aplus (\aneg y)\\
-  \end{axdef}
-\end{zdef}
+\begin{axdef}
+  \_ \aplus \_ : \arithmos \cross \arithmos \fun \arithmos\\
+  \_ \aminus \_ : \arithmos \cross \arithmos \fun \arithmos\\
+  \aneg : \arithmos \fun \arithmos\\
+  \azero : \arithmos\\
+  \aone : \arithmos\\
+  \where
+  \forall x : \arithmos @ x \aplus \azero = \azero \aplus x = x \\
+  \forall x : \arithmos @ x \aplus (\aneg x) = \azero \\
+  \forall x : \arithmos @ \aneg (\aneg x) = x \\
+  \forall x,y: \arithmos @ x \aplus y = y \aplus x \\
+  \forall x,y,z: \arithmos @ ( x \aplus y ) \aplus z = x \aplus (y
+  \aplus z) \\
+  \forall x,y : \arithmos @ x \aminus y = x \aplus (\aneg y)\\
+\end{axdef}
 
-\begin{zdef}[Non-zero Numbers]
-  \label{zdef:non-negative-numbers}
-  \begin{zed}
-    \arithmos_1 == \arithmos \setminus \{ \azero \}
-  \end{zed}
-\end{zdef}
-
+\begin{zed}
+  \arithmos_1 == \arithmos \setminus \{ \azero \}
+\end{zed}
 
 %%inop \amult 4
 %%inop \adiv 4
 %%postop \ainv
-\begin{zdef}[Laws of Multiplication]
-  \label{zdef:laws-multiplication}
-  \begin{axdef}
-    \_ \amult \_ : \arithmos \cross \arithmos \fun \arithmos\\
-    \_ \adiv \_ : \arithmos \cross \arithmos_1 \fun \arithmos\\
-    \_ \ainv : \arithmos_1 \fun \arithmos_1\\
-    \where
-    \forall x : \arithmos @ x \amult \aone = \aone \amult x = x \\
-    \forall x : \arithmos_1 @ x \amult (x \ainv) = \aone \\
-    \forall x : \arithmos_1 @ (x \ainv)\ainv = x \\
-    \forall x,y: \arithmos @ x \amult y = y \amult x \\
-    \forall x,y,z: \arithmos @ ( x \amult y ) \amult z = x \amult (y
-    \amult z) \\
-    \forall x: \arithmos; y : \arithmos_1 @ x \adiv y = x \amult (y
-    \ainv)\\
-    \forall x: \arithmos @ x \amult \azero = \azero \amult x =
-    \azero\\
-    \forall x, y, z: \arithmos @ x \amult ( y \aplus z ) = x \amult y
-    \aplus x \amult z \\
-  \end{axdef}
-\end{zdef}
-
+\begin{axdef}
+  \_ \amult \_ : \arithmos \cross \arithmos \fun \arithmos\\
+  \_ \adiv \_ : \arithmos \cross \arithmos_1 \fun \arithmos\\
+  \_ \ainv : \arithmos_1 \fun \arithmos_1\\
+  \where
+  \forall x : \arithmos @ x \amult \aone = \aone \amult x = x \\
+  \forall x : \arithmos_1 @ x \amult (x \ainv) = \aone \\
+  \forall x : \arithmos_1 @ (x \ainv)\ainv = x \\
+  \forall x,y: \arithmos @ x \amult y = y \amult x \\
+  \forall x,y,z: \arithmos @ ( x \amult y ) \amult z = x \amult (y
+  \amult z) \\
+  \forall x: \arithmos; y : \arithmos_1 @ x \adiv y = x \amult (y
+  \ainv)\\
+  \forall x: \arithmos @ x \amult \azero = \azero \amult x =
+  \azero\\
+  \forall x, y, z: \arithmos @ x \amult ( y \aplus z ) = x \amult y
+  \aplus x \amult z \\
+\end{axdef}
 
 \section{Real Numbers $\real$}
 \label{sec:real-numbers}
 
-\begin{zdef}[Real Numbers]
-  \label{zdef:real-numbers}
-  \begin{axdef}
-    \real : \power \arithmos\\
-    \where
-    % \azero \in \real\\
-    % \aone \in \real\\
-    \ran ( (\real \cross \real) \dres (\_ \aplus \_) ) \subset \real\\
-    \ran ( (\real \cross \real) \dres (\_ \amult \_) ) \subset \real\\
-    \ran (\real \dres (\aneg ))  \subset \real\\
-    \ran (\real \dres (\_ \ainv ))  \subset \real\\
-  \end{axdef}
-\end{zdef}
+\begin{axdef}
+  \real : \power \arithmos\\
+  \where
+  % \azero \in \real\\
+  % \aone \in \real\\
+  \ran ( (\real \cross \real) \dres (\_ \aplus \_) ) \subset \real\\
+  \ran ( (\real \cross \real) \dres (\_ \amult \_) ) \subset \real\\
+  \ran (\real \dres (\aneg ))  \subset \real\\
+  \ran (\real \dres (\_ \ainv ))  \subset \real\\
+\end{axdef}
 
 %%inrel \alt
-\begin{zdef}[Total Order on Real Numbers]
-  \label{zdef:order-on-reals}
-  \begin{axdef}
-    \_ \alt \_ : \real \rel \real\\
-    \where
-    \forall x : \real @ \lnot x \alt x\\
-    \forall x, y: \real @ x \alt y \lor x = y \lor y \alt x\\
-    \forall x, y, z: \real | x \alt y \land y \alt z @ x \alt z \\
-    \azero \alt \aone\\
-  \end{axdef}
-\end{zdef}
+\begin{axdef}
+  \_ \alt \_ : \real \rel \real\\
+  \where
+  \forall x : \real @ \lnot x \alt x\\
+  \forall x, y: \real @ x \alt y \lor x = y \lor y \alt x\\
+  \forall x, y, z: \real | x \alt y \land y \alt z @ x \alt z \\
+  \azero \alt \aone\\
+\end{axdef}
 
 %%inrel \aleq
 %%inrel \agt
@@ -189,7 +126,6 @@ according to \cite{Valentine2012} or \cite{Arthan1996}.
 \section{Rational Numbers $\rat$}
 \label{sec:rational-numbers}
 
-
 \begin{axdef}
   \rat : \power \real
   \where
@@ -197,7 +133,7 @@ according to \cite{Valentine2012} or \cite{Arthan1996}.
   \aone \in \rat\\
   \ran ( (\rat \cross \rat) \dres (\_ \aplus \_) ) \subset \rat\\
   \ran ( (\rat \cross \rat) \dres (\_ \amult \_) ) \subset \rat\\
-  \ran (\rat \dres (\aArithmetic in Z.neg ))  \subset \rat\\
+  \ran (\rat \dres (\aneg ))  \subset \rat\\
   \ran (\rat \dres (\_ \ainv ))  \subset \rat\\
 \end{axdef}
 
@@ -215,104 +151,14 @@ according to \cite{Valentine2012} or \cite{Arthan1996}.
 \end{axdef}
 
 
-% This section contains some generic definitions that are not part of
-% the mathematical toolsset of Z.
-
-% \begin{zdef}
-%   \label{zdef:abs}
-%   \begin{axdef}
-%     abs: \num \fun \num \where \forall z: \num @ abs(z) = \IF z \geq 0
-%     \THEN z \ELSE -z
-%   \end{axdef}
-% \end{zdef}
-
-% \begin{genericdef}[ID]
-%   \label{genericdef:id}
-%   \begin{gendef}[X]
-%     id: X \fun X \where id = \{~x: X @ x \mapsto x~\}
-%   \end{gendef}
-% \end{genericdef}
-
-% \begin{zdef}[Time]
-%   \label{zdef:time}
-%   \begin{zed}
-%     TIME == \nat \\
-%   \end{zed}
-% \end{zdef}
-
-% %%unchecked
-% \begin{zed}
-%   TimeSteps \dres tmStp = id
-% \also
-%   \forall t: TIME @ tmStp(t) \leq t < tmStp(t) + 100
-% \end{zed}
-
-
-% \begin{prop}
-%   \label{prop:some-proposition}
-%   \begin{argue}
-%     \vdash \forall ic: \num; sf: TimeSteps \fun VOLT; ts: TimeSteps | \\
-%     \t1   ts \ne period @ \\
-%     \t2 int(ic,sf)(ts+100) - int(ic,sf)(ts) = 100*ic*sf(ts)
-%   \end{argue}
-% \end{prop}
-
-% \begin{proof}
-%   The proof is as follows:
-
-%   \begin{argue}
-%     \forall ic: \num; sf: TimeSteps \fun VOLT; ts: TimeSteps | ts \ne
-%     period \also ts + 100 \in TimeSteps \and ts + 100 \ne 0 \also
-%     int(ic,sf)(ts+100) = int(ic,sf)(ts) + 100*ic*sf(ts)
-%   \end{argue}
-%   The last line follows from the definition of the integrator applied to
-%   values of time steps, and the lemma follows from the last line above.
-% \end{proof}
-
-% We formalize the specification of the calibration algorithm (which is
-% performed manually) with the following Z schema:
-
-% %%unchecked
-% \begin{schema}{Calibration}
-%   Bcal?: BW \\
-%   Tcal?: TEMP \\
-%   mc?: ModuleCharacteristics
-% \also
-%   ro!: RampOffsets \\
-%   rs!: RampSets \\
-%   ic!: \num \\
-%   fm!: FREQ
-% \where
-%   \forall TS: SensorTempSteps; ts: TimeSteps @\\ 
-% \t1    rs!(Bcal?,TS,ts) = rs!(Bcal?,snsTempMin,ts)
-% \also
-%   \forall t: TIME @ \\
-% \t1    abs(freqRampOf(ic!,ro!,rs!,mc?)(Bcal?,Tcal?,t) -\\
-% \t2      idealRamp(Bcal?,fm!)(t)) \leq eps
-% \end{schema}
-
-
-% \begin{argue}
-%   [DetermineIntegrationConstant] \vdash \forall ts: TimeStep | ts \ne period @ \\
-% \t1   Ucal?(ts+100) - Ucal?(ts) = \\
-% \t2     int(ic!,rampSlopeOf(rs?)(Bcal?,Tcal?))(ts+100) - \\
-% \t3       int(ic!,rampSlopeOf(rs?)(Bcal?,Tcal?))(ts) = \\
-% \t1     100*ic!*rampSlopeOf(rs?)(Bcal?,Tcal?)(ts) =    \\
-% \t1   100*ic!*dac(rs?(Bcal?,snsTmpStp(Tcal?),ts))
-% \end{argue}
 
 % 
 % bibliography
 \printbibliography{}
 
-\todos
+%\todos
 
 \end{document}
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: t
-%%% End:
-
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: t
