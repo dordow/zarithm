@@ -113,6 +113,29 @@ Anzahl der gehaltenen Anteile ergibt.
 kurs zu einem bestimmten Zeitpunkt, Einstandskurs, Kurswert,
 Einstandswert
 
+\begin{zdef}[Anlageklassen]
+  \label{zdef:anlageklassen}
+  Es werden drei \emph{Anlageklassen} betrachtet: \emph{Aktien}
+  \emph{Anleihen} und \emph{Rohstoffe}. Diese drei Anlagenklassen
+  sind disjunkt.\\
+  Zu jeder Klasse gehört ein \emph{Gewicht}
+  $g_{Ak}, g_{An}, g_{Ro} \in \mathbb{Q}$ mit
+  $g_{Ak} + g_{An} + g_{Ro} = 1 $.
+  \begin{axdef}
+    Aktien, Anleihen, Rohstoffe : \power Wertpapier
+    \where
+    \disjoint \langle Aktien, Anleihen,  Rohstoffe \rangle
+  \end{axdef}
+  \begin{axdef}
+    g\_Ak, g\_An, g\_Ro: \rat
+    \where
+    g\_Ak \aplus g\_An \aplus g\_Ro = \aone
+  \end{axdef}
+\end{zdef}
+
+Zur Zeit werden folgende Gewichte verwendet: $g_{Ak}=0.6$, $g_{An} =
+0.25$ und $g_{Ro} = 0.15$.
+
 
 
 
@@ -135,24 +158,24 @@ Für die Depotaufteilung werden Anlageklassen definiert:
   \end{zed}
 \end{zdef}
 
-\begin{zdef}[Aktien]
-  \label{zdef:aktien}
-  Die Aktien werden in einer Oberklasse zusammengefasst.
-  \begin{axdef}
-    Aktien : \power Anlageklasse
-    \where
-    Aktien = \{~AE, AN, AP, AS~\}
-  \end{axdef}
-\end{zdef}
+% \begin{zdef}[Aktien]
+%   \label{zdef:aktien}
+%   Die Aktien werden in einer Oberklasse zusammengefasst.
+%   \begin{axdef}
+%     Aktien : \power Anlageklasse
+%     \where
+% %    Aktien = \{~AE, AN, AP, AS~\}
+%   \end{axdef}
+% \end{zdef}
 
-\begin{zdef}[Depotaufteilung]
-  \label{zdef:depotaufteilung}
-  \begin{axdef}
-    dpt\_auft : Anlageklasse \pfun \nat_1
-    \where
-    \dsum(dpt\_auft) = 100
-  \end{axdef}
-\end{zdef}
+% \begin{zdef}[Depotaufteilung]
+%   \label{zdef:depotaufteilung}
+%   \begin{axdef}
+%     dpt\_auft : Anlageklasse \pfun \nat_1
+%     \where
+%     \dsum(dpt\_auft) = 100
+%   \end{axdef}
+% \end{zdef}
 % \begin{genericdef}[ID]
 %   \label{genericdef:id}
 %   \begin{gendef}[X]
