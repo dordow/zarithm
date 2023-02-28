@@ -141,13 +141,13 @@ unspecified. This definition has been adopted from
 \label{sec:integers-and-rationals}
 
 \begin{axdef}
-  embd : \num \inj \rat \\
+  numembd : \num \inj \rat \\
   \where
-  embd~0 = \azero \\
-  embd~1 = \aone \\
-  \forall i, j : \num @ embd (i+j) = embd~i \aplus embd~j \\
-  \forall i, j : \num @ embd (i*j) = embd~i \amult embd~j \\
-  \forall i, j : \num | i <j @ embd~i \alt embd~j \\
+  numembd~0 = \azero \\
+  numembd~1 = \aone \\
+  \forall i, j : \num @ numembd (i+j) = numembd~i \aplus numembd~j \\
+  \forall i, j : \num @ numembd (i*j) = numembd~i \amult numembd~j \\
+  \forall i, j : \num | i <j @ numembd~i \alt numembd~j \\
 \end{axdef}
 
 
