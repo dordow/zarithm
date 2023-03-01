@@ -23,13 +23,12 @@
 
 %\usepackage{savesym}
 \usepackage{zed-csp}
+\usepackage{../source/zarithm}
 % \savesymbol{because}
 % %\usepackage[nothing]{todo}
 % \usepackage{todo}
 % \restoresymbol{TXF}{because}
 
-%\include{../source/include.tex}
-%\newcommand{\dsum}{\mathrel{\Sigma}}
 
 
 %\nochangebars
@@ -108,7 +107,11 @@ Anzahl der gehaltenen Anteile ergibt.
   \label{zdef:kurs-kurswert}
   \begin{axdef}
     kurs : Wertpapier \fun \rat\\
+%    kurswert : Wertpapier \cross \nat \fun \rat\\
   \end{axdef}
+  \begin{zed}
+    kurswert == (\lambda wp : Wertpapier; st : \nat @ (kurs~wp) \amult (numembd~st))
+  \end{zed}
 \end{zdef}
 kurs zu einem bestimmten Zeitpunkt, Einstandskurs, Kurswert,
 Einstandswert
@@ -136,7 +139,17 @@ Einstandswert
 Zur Zeit werden folgende Gewichte verwendet: $g_{Ak}=0.6$, $g_{An} =
 0.25$ und $g_{Ro} = 0.15$.
 
-
+\begin{zdef}[Subanlageklassen]
+  \label{zdef:subanlageklassen}
+  Subanlageklassen sind disjunkte Mengen von Wertpapieren, die zur
+  Gänze zu einer der Anlageklassen gehören (oder zu gar keiner??).
+  \begin{axdef}
+    SubAnlKlassen : \finset_1 (\finset_1 Wertpapier) \\
+    \where
+    \forall sak_1, sak_2 : SubAnlKlassen | sak_1 \neq sak_2 @  sak_1
+    \cap sak_2 = \emptyset\\  
+  \end{axdef}
+\end{zdef}
 
 
 
