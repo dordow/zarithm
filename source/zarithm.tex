@@ -123,6 +123,11 @@ unspecified. This definition has been adopted from
   (\_ \ageq \_) == (\_ \agt \_ ) \cup \id \real \\
 \end{zed}
 
+\begin{zed}
+  \realplus == \{~r :\real | r \agt \azero~\}\\
+  \realminus == \real \setminus ( \realplus \cup \{~\azero~\})
+\end{zed}
+
 \section{Rational Numbers $\rat$}
 \label{sec:rational-numbers}
 
@@ -136,6 +141,11 @@ unspecified. This definition has been adopted from
   \ran (\rat \dres (\aneg ))  \subset \rat\\
   \ran (\rat \dres (\_ \ainv ))  \subset \rat\\
 \end{axdef}
+
+\begin{zed}
+  \ratplus == \{~q :\rat | q \agt \azero~\}\\
+  \ratminus == \rat \setminus ( \ratplus \cup \{~\azero~\})
+\end{zed}
 
 \section{Integers and Rational Numbers}
 \label{sec:integers-and-rationals}
