@@ -24,7 +24,7 @@
 \maketitle
 
 \begin{abstract}
-The intention of this \LaTeX file is to extend teh mathematical
+The intention of this \LaTeX file is to extend the mathematical
 tool-kit of the Z reference manual to include rational and real
 numbers. 
 \end{abstract}
@@ -34,6 +34,29 @@ numbers.
 
 \section{Introduction}
 \label{sec:intro}
+Rational and real numbers are often used in the specification of
+embedded systems to represent environmental variables such as
+distances, termperatures, voltage levels etc. The mathematical toolkit
+of the Z reference manual (ZRM) does not contain rational and real
+numbers, whereas the number toolkit of the ISO Z standard
+does. However, moving to standard (ISO) Z is not always the favourite
+option, especially if a large amount of Z Specification in ZRM style
+is available. Moreover, most Z textbooks have been written prior to
+ISO Z. For those who wish to stick with ZRM, this set of two files
+(\texttt{zarithm.sty} and \texttt{zarithm.tex}, this file) are
+intended to provide a solution.
+
+The file \texttt{zarithm.sty} is only used for typesetting, whereas
+\texttt{zarithm.tex} includes the Z definitions of the types for
+rational and real numbers, their basic operations and numerical
+comparisons The Z definitions are sufficient for type setting, not for
+automated proof. If the user intends to use autoated proof, there is
+probably no way to transit to standard Z.
+
+The ZRM comes along with the tool \texttt{fuzz}, a typechecker. The
+approach described here makes use of the fact that fuzz accepts more
+than one \LaTeX file and remembers the Z definitions or the
+``earlier'' files.
 
 \section{Arithmos $\arithmos$}
 \label{sec:arithmos}
