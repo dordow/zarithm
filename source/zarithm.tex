@@ -24,8 +24,9 @@
 \maketitle
 
 \begin{abstract}
-Goal is to create a prelude for fuzz that copes with arithmetics
-according to \cite{Valentine2012} or \cite{Arthan1996}.
+The intention of this \LaTeX file is to extend teh mathematical
+tool-kit of the Z reference manual to include rational and real
+numbers. 
 \end{abstract}
 
 %\tableofcontents
@@ -54,6 +55,7 @@ unspecified. This definition has been adopted from
   \aneg : \arithmos \fun \arithmos\\
   \azero : \arithmos\\
   \aone : \arithmos\\
+  \aten : \arithmos\\
   \where
   \forall x : \arithmos @ x \aplus \azero = \azero \aplus x = x \\
   \forall x : \arithmos @ x \aplus (\aneg x) = \azero \\
@@ -96,8 +98,9 @@ unspecified. This definition has been adopted from
 \begin{axdef}
   \real : \power \arithmos\\
   \where
-  % \azero \in \real\\
-  % \aone \in \real\\
+  \azero \in \real\\
+  \aone \in \real\\
+  \aten \in \real\\
   \ran ( (\real \cross \real) \dres (\_ \aplus \_) ) \subset \real\\
   \ran ( (\real \cross \real) \dres (\_ \amult \_) ) \subset \real\\
   \ran (\real \dres (\aneg ))  \subset \real\\
@@ -136,6 +139,7 @@ unspecified. This definition has been adopted from
   \where
   \azero \in \rat\\
   \aone \in \rat\\
+  \aten \in \rat\\
   \ran ( (\rat \cross \rat) \dres (\_ \aplus \_) ) \subset \rat\\
   \ran ( (\rat \cross \rat) \dres (\_ \amult \_) ) \subset \rat\\
   \ran (\rat \dres (\aneg ))  \subset \rat\\
@@ -157,6 +161,7 @@ unspecified. This definition has been adopted from
   numembd~1 = \aone \\
   \forall i, j : \num @ numembd (i+j) = numembd~i \aplus numembd~j \\
   \forall i, j : \num @ numembd (i*j) = numembd~i \amult numembd~j \\
+  \forall z : \num @ numembd (succ~z) = (numembd~z) \aplus \aone \\
   \forall i, j : \num | i <j @ numembd~i \alt numembd~j \\
 \end{axdef}
 
