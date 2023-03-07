@@ -142,15 +142,18 @@ Zur Zeit werden folgende Gewichte verwendet: $g_{Ak}=0.6$, $g_{An} =
 \begin{zdef}[Subanlageklassen]
   \label{zdef:subanlageklassen}
   Subanlageklassen sind disjunkte Mengen von Wertpapieren, die zur
-  Gänze zu einer der Anlageklassen gehören (oder zu gar keiner??).
+  Gänze zu einer der Anlageklassen gehören.
   \begin{axdef}
     SubAnlKlassen : \finset_1 (\finset_1 Wertpapier) \\
-    \where
-    \forall sak_1, sak_2 : SubAnlKlassen | sak_1 \neq sak_2 @  sak_1
-    \cap sak_2 = \emptyset\\  
+    \where \forall sak_1, sak_2 : SubAnlKlassen | sak_1 \neq sak_2 @
+    sak_1 \cap sak_2 = \emptyset\\
+    \forall sak : SubAnlKlassen @ sak \subseteq Aktien \lor sak
+    \subseteq Anleihen \lor sak     \subseteq Rohstoffe \\
   \end{axdef}
 \end{zdef}
 
+Aus dieser Definition und der Disjunktheit folgt dass jede
+Subanlagenklasse in genau einer Anlageklasse liegt.  
 
 
 \section{Depot}
