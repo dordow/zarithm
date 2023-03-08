@@ -116,6 +116,9 @@ Anzahl der gehaltenen Anteile ergibt.
 kurs zu einem bestimmten Zeitpunkt, Einstandskurs, Kurswert,
 Einstandswert
 
+\section{Anlageklassen}
+\label{sec:anlageklassen}
+
 \begin{zdef}[Anlageklassen]
   \label{zdef:anlageklassen}
   Es werden drei \emph{Anlageklassen} betrachtet: \emph{Aktien}
@@ -159,6 +162,14 @@ Subanlagenklasse in genau einer Anlageklasse liegt.
   \label{zdef:gewichtung-subanlageklassen}
   \begin{axdef}
     gew : SubAnlKlassen \fun \rat \\
+    \where
+    \dsum~gew = \aone \\
+    \dsum~(\{~sak : SubAnlKlassen | sak \subseteq Aktien~\} \dres gew)
+    = g\_Ak \\
+    \dsum~(\{~sak : SubAnlKlassen | sak \subseteq Anleihen~\} \dres gew)
+    = g\_An \\
+    \dsum~(\{~sak : SubAnlKlassen | sak \subseteq Rohstoffe~\} \dres gew)
+    = g\_Ro \\
   \end{axdef}
 \end{zdef}
 
