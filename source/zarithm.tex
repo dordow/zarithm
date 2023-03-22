@@ -185,18 +185,29 @@ a unary operator $\aneg$ to negate any number, encoded as
 
 \section{Integers and Rational Numbers}
 \label{sec:integers-and-rationals}
+Unfortunately it is not possible to include the integer numbers into
+$\arithmos$, one can only embed them:
 
 \begin{axdef}
   numembd : \num \inj \rat \\
   \where
   numembd~0 = \azero \\
-  numembd~1 = \aone \\
-  \forall i, j : \num @ numembd (i+j) = numembd~i \aplus numembd~j \\
-  \forall i, j : \num @ numembd (i*j) = numembd~i \amult numembd~j \\
-  \forall z : \num @ numembd (succ~z) = (numembd~z) \aplus \aone \\
-  \forall i, j : \num | i <j @ numembd~i \alt numembd~j \\
+  \forall n : \nat @ numembd (succ~n) = (numembd~n) \aplus \aone \\
+  \forall z : \num | z < 0 @ numembd~z = \aneg(numembd(-z)) \\
 \end{axdef}
 
+The following laws can be easily derived from the definition:
+\begin{zed}
+  numembd~1 = \aone \\
+  numembd~10 = \aten \\
+  \forall i, j : \num @ numembd (i+j) = numembd~i \aplus numembd~j \\
+  \forall i, j : \num @ numembd (i-j) = numembd~i \aminus numembd~j \\
+  \forall i, j : \num @ numembd (i*j) = numembd~i \amult numembd~j \\
+  \forall i, j : \num | i < j @ numembd~i \alt numembd~j \\
+\end{zed}
+
+\section{Mixing Integers and Arithmos}
+\label{sec:mixing}
 
 
 % 
