@@ -243,10 +243,42 @@ clumsy. Therefore, shortcuts for mixed operations are introduced.
 \end{axdef}
 
 Similarily, we need to mix integers and rationals or reals in
-relations:
+relations. Especially there is a need to equality.
+
+%%inrel \aaeqz
+%%inrel \azeqa
+%%inrel \aaltz
+%%inrel \azlta
+%%inrel \azleqa
+%%inrel \aaleqz
+%%inrel \aagtz
+%%inrel \azgta
+%%inrel \aageqz
+%%inrel \azgeqa
+\begin{zed}
+  (\_ \aaeqz \_) == \{~x:\arithmos;z:\num | z \azminus x = \azero @ x
+  \mapsto z~\}\\
+  (\_ \azeqa \_) == \{~x:\arithmos;z:\num | x \aminusz z = \azero @ z
+  \mapsto x~\}\\
+  (\_ \aaltz \_) == \{~x:\arithmos;z:\num | z \azminus x \agt \azero @ x
+  \mapsto z~\}\\
+    (\_ \azlta \_) == \{~x:\arithmos;z:\num | x \aminusz z \agt \azero @ z
+  \mapsto x~\}\\
+  (\_ \azleqa \_) == (\_ \azeqa \_) \cup (\_ \azlta \_)\\
+  (\_ \aaleqz \_) == (\_ \aaeqz \_) \cup (\_ \aaltz \_)\\
+  (\_ \aagtz \_) == \{~x:\arithmos;z:\num | x \aminusz z \agt \azero @ x
+  \mapsto z~\}\\
+  (\_ \azgta \_) == \{~x:\arithmos;z:\num | z \azminus x \agt \azero @ z
+  \mapsto x~\}\\
+  (\_ \aageqz \_) == (\_ \aaeqz \_) \cup (\_ \aagtz \_) \\
+  (\_ \azgeqa \_) == (\_ \azeqa \_) \cup (\_ \azgta \_) \\
+\end{zed}
 
 \section{Special Functions}
 \label{sec:special-functions}
+
+\subsection{Absolute Value}
+\label{sec:abs}
 
 \begin{axdef}
   abs: \arithmos \pfun \realplus \cup \{~\azero~\}\\
@@ -259,6 +291,17 @@ relations:
   \real \dres abs = \id \real \oplus (\lambda x: \realminus @ \aneg x)\\
 \end{axdef}
 
+\subsection{Power}
+\label{sec:power}
+
+%%inop \apwr 4
+\begin{axdef}
+  \_ \apwr \_ : \arithmos \cross \num \pfun \arithmos \\
+  \where
+  \forall n: \nat @ \azero \apwr n = \azero\\
+  \forall x: \arithmos @ x \apwr 0 = \aone\\
+  \forall x: \arithmos; z : \num @ x \apwr (z+1) = x \amult (x \apwr z)\\
+\end{axdef}
 % 
 % bibliography
 \printbibliography{}
