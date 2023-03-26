@@ -210,8 +210,37 @@ The following laws can be easily derived from the definition:
   \forall i, j : \num | i < j @ numembd~i \alt numembd~j \\
 \end{zed}
 
-\section{Mixing Integers and Arithmos}
-\label{sec:mixing}
+Mixing integers with real and rational numbers in arithmetic
+operations would require to use the embedding above which would look
+clumsy. Therefore, shortcuts for mixed operations are introduced.
+
+%%inop \azplus 3
+%%inop \aplusz 3
+%%inop \azminus 3
+%%inop \aminusz 3
+%%inop \azmult 4
+%%inop \amultz 4
+%%inop \azdiv 4
+%%inop \adivz 4
+\begin{axdef}
+  \_ \azplus \_ : \num \cross \arithmos \fun \arithmos\\
+  \_ \aplusz \_ : \arithmos \cross \num \fun \arithmos\\
+  \_ \azmult \_ : \num \cross \arithmos \fun \arithmos\\
+  \_ \amultz \_ : \arithmos \cross \num \fun \arithmos\\
+  \_ \azminus \_ : \num \cross \arithmos \fun \arithmos\\
+  \_ \aminusz \_ : \arithmos \cross \num \fun \arithmos\\
+  \_ \azdiv \_ : \num \cross \arithmos_1 \fun \arithmos\\
+  \_ \adivz \_ : \arithmos \cross (\num \setminus \{~0~\}) \fun \arithmos\\
+  \where
+  \forall z: \num; x : \arithmos @ z \azplus x = numembd(z) \aplus x =
+  x \aplus numembd(z) = x \aplusz z\\
+  \forall z: \num; x : \arithmos @ z \azmult x = numembd(z) \amult x =
+  x \amult numembd(z) = x \amultz z\\
+  \forall z: \num; x : \arithmos @ z \azminus x = numembd(z) \aminus x =
+  x \aminus numembd(z) = x \aminusz z\\
+  \forall z: \num ; x :\arithmos_1 @ z \azdiv x = numembd(z) \adiv x\\
+    \forall z: \num ; x :\arithmos | z \neq 0 @ x \adivz z = x \adiv numembd(z)\\
+\end{axdef}
 
 \section{Special Functions}
 \label{sec:special-functions}
