@@ -87,6 +87,7 @@ a unary operator $\aneg$ to negate any number, encoded as
   \aneg : \arithmos \fun \arithmos\\
   \azero : \arithmos\\
   \aone : \arithmos\\
+  \atwo : \arithmos\\
   \aten : \arithmos\\
   \where
   \forall x : \arithmos @ x \aplus \azero = \azero \aplus x = x \\
@@ -132,6 +133,7 @@ a unary operator $\aneg$ to negate any number, encoded as
   \where
   \azero \in \real\\
   \aone \in \real\\
+  \atwo \in \real\\
   \aten \in \real\\
   \ran ( (\real \cross \real) \dres (\_ \aplus \_) ) \subset \real\\
   \ran ( (\real \cross \real) \dres (\_ \amult \_) ) \subset \real\\
@@ -171,6 +173,7 @@ a unary operator $\aneg$ to negate any number, encoded as
   \where
   \azero \in \rat\\
   \aone \in \rat\\
+  \atwo \in \rat\\
   \aten \in \rat\\
   \ran ( (\rat \cross \rat) \dres (\_ \aplus \_) ) \subset \rat\\
   \ran ( (\rat \cross \rat) \dres (\_ \amult \_) ) \subset \rat\\
@@ -199,6 +202,7 @@ $\arithmos$, one can only embed them:
 The following laws can be easily derived from the definition:
 \begin{zed}
   numembd~1 = \aone \\
+  numembd~2 = \atwo \\
   numembd~10 = \aten \\
   \forall i, j : \num @ numembd (i+j) = numembd~i \aplus numembd~j \\
   \forall i, j : \num @ numembd (i-j) = numembd~i \aminus numembd~j \\
@@ -209,6 +213,19 @@ The following laws can be easily derived from the definition:
 \section{Mixing Integers and Arithmos}
 \label{sec:mixing}
 
+\section{Special Functions}
+\label{sec:special-functions}
+
+\begin{axdef}
+  abs: \arithmos \pfun \realplus \cup \{~\azero~\}\\
+  \where
+  abs(\azero) = \azero\\
+  abs(\aone) = \aone\\
+  \forall x, y : \dom abs @ abs(x \amult y) = abs(x) \amult abs(y)\\
+  \forall x, y : \dom abs @ abs(x \aplus y) \aleq abs(x) \aplus
+  abs(y)\\
+  \real \dres abs = \id \real \oplus (\lambda x: \realminus @ \aneg x)\\
+\end{axdef}
 
 % 
 % bibliography
