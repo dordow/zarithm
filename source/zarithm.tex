@@ -357,10 +357,24 @@ commutativity and associativity of the multiplication in $\arithmos$.
 
 \subsection{Maximum of finite Set of real Numbers}
 \label{sec:max-real}
+For every non-empty finite set of real numbers there is a maximum:
+\begin{axdef}
+  \realmax : \finset_1 \real \fun \real
+  \where
+  \forall S: \finset_1 \real @ ( \realmax(S) \in S ) \land (\forall x : S @ x \aleq \realmax(S))
+\end{axdef}
+For infinite sets the maximum may not exist, but for finite sets it is
+unique and the function is well-defined.
 
 \subsection{Minimum of finite Set of real Numbers}
 \label{sec:min-real}
-
+There is a similar definition for the minimum of a finite set of real
+numbers: 
+\begin{axdef}
+  \realmin : \finset_1 \real \fun \real
+  \where
+  \forall S: \finset_1 \real @ ( \realmin(S) \in S ) \land (\forall x : S @ x \ageq \realmin(S))
+\end{axdef}
 
 
 % 
