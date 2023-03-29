@@ -305,12 +305,61 @@ relations. Especially there is a need to equality.
 
 \subsection{Square Root}
 \label{sec:square-root}
+The square root is a partial function on $\arithmos$.
+\begin{axdef}
+  sqrt : \arithmos \pfun \arithmos
+  \where
+  \forall x : \dom sqrt @ sqrt(x) \amult sqrt(x) = x
+\end{axdef}
+
+The square root function has the following properties, derived from
+its definition:
+\begin{zed}
+  sqrt(\azero) = \azero\\
+  sqrt(\aone) = \aone\\
+  \realplus \cup \{~\azero~\} \subseteq \dom sqrt\\
+  \dom (sqrt \rres \real) = \realplus \cup \{~\azero~\}\\
+  \ran (\real \dres sqrt) = \realplus \cup \{~\azero~\}\\
+\end{zed}
 
 \subsection{Finite Distributed Sum}
 \label{sec:fin-distr-sum}
+The finite distributed sum of a finite indexed set of elements of
+$\arithmos$ is defined as follows:
+
+\begin{gendef}[I]
+    \findistsum : (I \ffun \arithmos) \fun \arithmos
+    \where
+    \findistsum~\emptyset = \azero \\
+    \forall f: I \ffun \arithmos | f \neq \emptyset @ \\
+    \t1 (\exists i: \dom f @ \findistsum~f = (f~i) \aplus
+    \findistsum(\{~i~\} \ndres f))
+\end{gendef}
+The definition is valid irrespective of the index $i$ due to
+commutativity and associativity of the addition in $\arithmos$. 
 
 \subsection{Finite Distributed Product}
 \label{sec:fin-distr-product}
+Similar to the finite distributed sum there is a finite distributed
+product of a finite indexed set of elements of
+$\arithmos$ is defined as follows:
+
+\begin{gendef}[I]
+    \findistprod : (I \ffun \arithmos) \fun \arithmos
+    \where
+    \findistprod~\emptyset = \aone \\
+    \forall f: I \ffun \arithmos | f \neq \emptyset @ \\
+    \t1 (\exists i: \dom f @ \findistprod~f = (f~i) \amult
+    \findistprod(\{~i~\} \ndres f))
+\end{gendef}
+The definition is valid irrespective of the index $i$ due to
+commutativity and associativity of the multiplication in $\arithmos$.
+
+\subsection{Maximum of finite Set of real Numbers}
+\label{sec:max-real}
+
+\subsection{Minimum of finite Set of real Numbers}
+\label{sec:min-real}
 
 
 
