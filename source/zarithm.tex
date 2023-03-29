@@ -2,14 +2,10 @@
 
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
-\usepackage[backend=biber]{biblatex}
-\addbibresource{/home/frank/docs/reference/literature.bib}
-\AtEveryBibitem{\clearfield{url}}
 
 \usepackage{zarithm}
 \usepackage{zed-csp} % must be included after zarithm
 \usepackage[mark]{gitinfo2}
-\usepackage[outerbars]{changebar}
 \newcommand{\remark}[1]{ \vspace{1em}\textbf{\underline{#1}}\vspace{1em} }
 %\newcommand{\comment}[1]{ \textbf{\underline{#1}} }
 
@@ -37,14 +33,14 @@ numbers.
 Rational and real numbers are often used in the specification of
 embedded systems to represent environmental variables such as
 distances, termperatures, voltage levels etc. The mathematical toolkit
-of the Z reference manual (ZRM) does not contain rational and real
-numbers, whereas the number toolkit of the ISO Z standard
-does. However, moving to standard (ISO) Z is not always the favourite
-option, especially if a large amount of Z Specification in ZRM style
-is available. Moreover, most Z textbooks have been written prior to
-ISO Z. For those who wish to stick with ZRM, this set of two files
-(\texttt{zarithm.sty} and \texttt{zarithm.tex}, this file) are
-intended to provide a solution.
+of the Z reference manual (ZRM \cite{Spivey1998}) does not contain
+rational and real numbers, whereas the number toolkit of the ISO Z
+standard does. However, moving to standard (ISO) Z \cite{ISO13568} is
+not always the favourite option, especially if a large amount of Z
+specifications in ZRM style is available. Moreover, most Z textbooks
+have been written prior to ISO Z. For those who wish to stick with
+ZRM, this set of two files (\texttt{zarithm.sty} and
+\texttt{zarithm.tex}, this file) are intended to provide a solution.
 
 The file \texttt{zarithm.sty} is only used for typesetting, whereas
 \texttt{zarithm.tex} includes the Z definitions of the types for
@@ -379,9 +375,22 @@ numbers:
 
 % 
 % bibliography
-\printbibliography{}
-
-%\todos
+\begin{thebibliography}{99}
+\bibitem{Valentine2012}
+	Sam Valentine,
+  	\textit{Definitions of Numbers in Z},
+    2012
+  \bibitem{Spivey1998}
+    J. M. Spivey,
+    \textit{The Z Notation: A Reference Manual},
+    Prentice Hall International (UK) Ltd,
+    1998,
+    2nd edition
+  \bibitem{ISO13568}
+    ISO/IEC 13568:2002(E),
+    \textit{Information technology -- Z formal specification notation -- Syntax, type system and semantics},
+    2002
+\end{thebibliography}
 
 \end{document}
 %%% Local Variables:
