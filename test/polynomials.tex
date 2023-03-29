@@ -1,0 +1,138 @@
+\documentclass[12pt]{scrartcl}
+
+\usepackage[T1]{fontenc}
+\usepackage[german,english]{babel}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{/home/frank/docs/reference/literature.bib}
+\AtEveryBibitem{\clearfield{url}}
+
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{tikz}
+\usepackage{units}
+\usepackage{gensymb}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{../source/zarithm}
+
+\usepackage[mark]{gitinfo2}
+\usepackage[outerbars]{changebar}
+\usepackage[pdf,shell]{dottex}
+
+%\usepackage{hyperref} % should be last but does not work then with zed-csp
+
+%\usepackage{savesym}
+\usepackage{zed-csp}
+\usepackage{../source/zarithm}
+% \savesymbol{because}
+% %\usepackage[nothing]{todo}
+% \usepackage{todo}
+% \restoresymbol{TXF}{because}
+
+
+
+%\nochangebars
+
+\newcommand{\remark}[1]{ \vspace{1em}\textbf{\underline{#1}}\vspace{1em} }
+%\newcommand{\comment}[1]{ \textbf{\underline{#1}} }
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{schemadef}{Schema}[section]
+\newtheorem{genericdef}{Generic Definition}[section]
+\newtheorem{zdef}{Definition}[section]
+
+\begin{document}
+
+% opening
+\title{Polynomials}
+\author{Frank Dordowsky}
+
+% make the title area
+\maketitle
+
+\begin{abstract}
+  This is a test paper for the Arithmetics in Z package and style,
+  using polynomials.
+\end{abstract}
+
+%\tableofcontents
+%\newpage
+
+% \section{Introduction}
+% \label{sec:intro}
+
+% Wieso weshalb warum
+
+
+\begin{zdef}[Polynomials]
+  \label{zdef:polynomials}
+  \begin{zed}
+    POLYNOMIAL == (\nat \ffun \real) \setminus \emptyset
+  \end{zed}
+\end{zdef}
+
+\begin{zdef}[Coeefficients of a Polynom]
+  \label{zdef:coefficient}
+  The $i$-th coefficient of a polynom is the real value at position
+  $i$. 
+  \begin{zed}
+    coefficient == (\lambda p: POLYNOMIAL; i: \nat | i \in \dom p @
+    p(i))
+  \end{zed}
+\end{zdef}
+
+\begin{zdef}[Degree of a Polynomial]
+  The degree of a polynomial is the largest coefficient not equal to
+  zero.
+  \label{zdef:degree}
+  \begin{zed}
+    deg == (\lambda p: POLYNOMIAL @ max~(\dom (p \nrres
+  \{~\azero~\})))
+  \end{zed}
+\end{zdef}
+Attention: not correct, domain above may be emtpy, for emtpy sets max
+not defined!
+
+\begin{zdef}[Equivalence of Polynoms]
+  \label{zdef:polynom-equivalence}
+  Two polynomials are equivalent if they agree at all non-zero
+  coefficients. 
+\newcommand{\polyeq}{\equiv}
+%%inrel \polyeq
+  \begin{axdef}
+    \_ \polyeq \_ : POLYNOMIAL \rel POLYNOMIAL\\
+    \where \forall p, q : POLYNOMIAL @ (p \polyeq q) \iff ((p \nrres
+    \{~\azero~\} )= (q \nrres \{~\azero~\}))
+  \end{axdef}
+\end{zdef}
+It is clear from the definition that $\equiv$ is an equivalence
+relation.
+
+\begin{zdef}[Padding with Zeros]
+  \label{zdef:padding-zeros}
+  Padding means filling undefined coefficients with zeros:
+  \begin{zed}
+    pad == (\lambda p: POLYNOMIAL; N : \nat @ (\lambda i : 0 \upto N @
+    \azero) \oplus p )
+  \end{zed}
+\end{zdef}
+
+a padded polynomial is equivalent to the polynomial
+
+addition and multiplication of polynomials
+
+zero polynomial
+
+evaluation of polynomials.
+
+% 
+% bibliography
+\printbibliography{}
+
+%\todos
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
