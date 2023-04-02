@@ -67,7 +67,8 @@
 \begin{zdef}[Polynomials]
   \label{zdef:polynomials}
   \begin{zed}
-    POLYNOMIAL == (\nat \ffun \real) \setminus \emptyset
+    POLYNOMIAL == \{~p: \nat \fun \real | (\exists N: \nat @ (\forall n:
+    \nat | n > N @ p(n)=\azero))~\}
   \end{zed}
 \end{zdef}
 
@@ -76,22 +77,34 @@
   The $i$-th coefficient of a polynom is the real value at position
   $i$. 
   \begin{zed}
-    coefficient == (\lambda p: POLYNOMIAL; i: \nat | i \in \dom p @
-    p(i))
+    coefficient == (\lambda p: POLYNOMIAL; i: \nat @ p(i))
   \end{zed}
 \end{zdef}
 
-\begin{zdef}[Degree of a Polynomial]
-  The degree of a polynomial is the largest coefficient not equal to
-  zero.
-  \label{zdef:degree}
-  \begin{zed}
-    deg == (\lambda p: POLYNOMIAL @ max~(\dom (p \nrres
-  \{~\azero~\})))
-  \end{zed}
+\newcommand{\zeropol}{\mathbf{0}}
+\begin{zdef}[Zero Polynomial]
+  \label{zdef:zero-polynomial}
+  The \emph{zero polynomial} $\zeropol$ has only coefficients of value
+  $\azero$:
+  \begin{axdef}
+    \zeropol : POLYNOMIAL
+    \where
+    \ran \zeropol = \{~\azero~\}
+  \end{axdef}
 \end{zdef}
-Attention: not correct, domain above may be emtpy, for emtpy sets max
-not defined!
+
+\begin{zdef}[Degree of a Polynomial]
+  The degree of a non-zero polynomial is the largest coefficient not equal to
+  zero, and equal to $-1$ for the zero polynomial.
+  \label{zdef:degree}
+  \begin{axdef}
+    deg : POLYNOMIAL \fun \nat
+    \where
+    deg~\zeropol = -1 \\
+    \forall p: POLYNOMIAL | p \neq \zeropol @ deg~p = max~(\dom (p \nrres
+  \{~\azero~\}))\\
+  \end{axdef}
+\end{zdef}
 
 \begin{zdef}[Equivalence of Polynoms]
   \label{zdef:polynom-equivalence}
