@@ -106,35 +106,29 @@
   \end{axdef}
 \end{zdef}
 
-\begin{zdef}[Equivalence of Polynoms]
-  \label{zdef:polynom-equivalence}
-  Two polynomials are equivalent if they agree at all non-zero
-  coefficients. 
-\newcommand{\polyeq}{\equiv}
-%%inrel \polyeq
+\newcommand{\polyplus}{+}
+\begin{zdef}[Addition of Polynomials]
+  \label{zdef:polynomial-addition}
+%%inop \polyplus 3 
   \begin{axdef}
-    \_ \polyeq \_ : POLYNOMIAL \rel POLYNOMIAL\\
-    \where \forall p, q : POLYNOMIAL @ (p \polyeq q) \iff ((p \nrres
-    \{~\azero~\} )= (q \nrres \{~\azero~\}))
+    \_ \polyplus \_ : POLYNOMIAL \cross POLYNOMIAL \fun POLYNOMIAL\\
+    \where
+    \forall p, q : POLYNOMIAL @ p \polyplus q = (\lambda i: \nat @ p~i
+    \aplus q~i)
   \end{axdef}
 \end{zdef}
-It is clear from the definition that $\equiv$ is an equivalence
-relation.
 
-\begin{zdef}[Padding with Zeros]
-  \label{zdef:padding-zeros}
-  Padding means filling undefined coefficients with zeros:
+\begin{prop}[Zero Polynomial is neutral Element]
+  \label{prop:zero-polynomial-neutral-element}
+  The zero polynomial $\zeropol$ is the neutral element of the
+  polynomial addition:
   \begin{zed}
-    pad == (\lambda p: POLYNOMIAL; N : \nat @ (\lambda i : 0 \upto N @
-    \azero) \oplus p )
+    \forall p: POLYNOMIAL @ p \polyplus \zeropol = \zeropol \polyplus
+    p = p
   \end{zed}
-\end{zdef}
-
-a padded polynomial is equivalent to the polynomial
+\end{prop}
 
 addition and multiplication of polynomials
-
-zero polynomial
 
 evaluation of polynomials.
 
