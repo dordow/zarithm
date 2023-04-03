@@ -62,6 +62,18 @@
 % \label{sec:intro}
 
 % Wieso weshalb warum
+The generic finite distributed sum of zarithm.tex is refined to the
+finite sum of reals:
+\newcommand{\finsum}{\sum}
+\begin{zdef}[Finite Sum]
+  \label{zdef:finite-sum}
+  \begin{axdef}
+    \finsum : \nat \cross \nat \cross (\nat \fun \real) \fun \real \\
+    \where
+    \forall k, l : \nat; f: \nat \fun \real | k \leq l @
+    \finsum(k,l,f) = \findistsum((k \upto l) \dres f)
+  \end{axdef}
+\end{zdef}
 
 
 \begin{zdef}[Polynomials]
@@ -72,9 +84,9 @@
   \end{zed}
 \end{zdef}
 
-\begin{zdef}[Coeefficients of a Polynom]
+\begin{zdef}[Coeefficients of a Polynomial]
   \label{zdef:coefficient}
-  The $i$-th coefficient of a polynom is the real value at position
+  The $i$-th coefficient of a polynomial is the real value at position
   $i$. 
   \begin{zed}
     coefficient == (\lambda p: POLYNOMIAL; i: \nat @ p(i))
@@ -129,6 +141,32 @@
 \end{prop}
 
  multiplication of polynomials
+
+ For the evaluation of polynomials we use the Horner schema. As a
+ preparation we define the left shifting of polynomials.
+ 
+\begin{zdef}[Left-Shift of a Polynomial]
+  \label{zdef:left-shift}
+  \begin{axdef}
+    lshift: POLYNOMIAL \fun POLYNOMIAL \\
+    \where
+    lshift~\zeropol = \zeropol\\
+    \forall p : POLYNOMIAL | p \neq \zeropol @ (\forall i: \nat @ (lshift~p)(i)=p(i+1))
+  \end{axdef}
+\end{zdef}
+
+\begin{zdef}[Evaluation of Polynomials]
+  \label{zdef:evaluation}
+  The evaluation of a polynomial $p$ yields a function from $\real$ to
+  $\real$:
+  \begin{axdef}
+    eval: POLYNOMIAL \fun (\real \fun \real)\\
+    \where
+    eval(\zeropol) = (\lambda v: \real @ \azero)\\
+    \forall p: POLYNOMIAL | p \neq \zeropol @ eval(p) = (\lambda v:
+    \real @ p(0) \aplus v \amult ((eval(lshift~p))(v)))
+  \end{axdef}
+\end{zdef}
 
 evaluation of polynomials. maybe using Horner schema, left shift of
 polynomials. 
