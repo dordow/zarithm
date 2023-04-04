@@ -168,9 +168,29 @@ finite sum of reals:
   \end{axdef}
 \end{zdef}
 
-evaluation of polynomials. maybe using Horner schema, left shift of
-polynomials. 
+\begin{prop}[Evaluation of Polynomials]
+  \label{prop:evalutation}
+  \begin{zed}
+    \forall p: POLYNOMIAL; v: \real | p \neq \zeropol @ (eval~p)(v) = \\
+    \t1 \finsum(0,deg~p,(\lambda i: \nat @ (p~i)\amult(v \apwr i)))
+  \end{zed}
+\end{prop}
 
+\begin{proof}
+  Induction over $deg~p$.
+  \begin{argue}
+    $deg~p = \azero$\quad \vdash (p~0 \neq \azero) \land (\forall i:
+    \nat_1 @ p~i = \azero)\\
+    \t1 \vdash lshift~p = \zeropol\\
+    \t1 \vdash eval(lshift~p) = eval(\zeropol) = (\lambda v: \real @
+    \azero)\\
+    \t1 \vdash eval(p) = (\lambda v: \real @ p(0) \aplus v \amult
+    \azero) = (\lambda v: \real @ p(0))\\
+    \t2 = \finsum(0,0,(\lambda i: \nat @ (p~i)\amult(v \apwr i)))
+  \end{argue}
+\end{proof}
+
+Roots.
 % 
 % bibliography
 \printbibliography{}
