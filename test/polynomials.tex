@@ -58,15 +58,17 @@
 %\tableofcontents
 %\newpage
 
-% \section{Introduction}
-% \label{sec:intro}
+\section{Introduction}
+\label{sec:intro}
+The arithmetics of polynomials is used as a test bed for the
+arithmetics in Z, type checked with \texttt{fuzz}.
 
-% Wieso weshalb warum
-The generic finite distributed sum of zarithm.tex is refined to the
-finite sum of reals:
+As a prepararation, the generic finite distributed sum in
+\texttt{zarithm.tex} is refined to the \emph{finite sum of reals}:
 \newcommand{\finsum}{\sum}
 \begin{zdef}[Finite Sum]
   \label{zdef:finite-sum}
+  
   \begin{axdef}
     \finsum : \nat \cross \nat \cross (\nat \fun \real) \fun \real \\
     \where
@@ -75,9 +77,14 @@ finite sum of reals:
   \end{axdef}
 \end{zdef}
 
-
+\section{Polynomials}
+\label{sec:polynomials}
+Now the central definition of the paper, the set of polynomials:
 \begin{zdef}[Polynomials]
   \label{zdef:polynomials}
+  A polynomial is actually a finite set of non-zero real numbers,
+  which are members of a function from all natural numbers to the real
+  numbers.
   \begin{zed}
     POLYNOMIAL == \{~p: \nat \fun \real | (\exists N: \nat @ (\forall n:
     \nat | n > N @ p(n)=\azero))~\}
@@ -118,6 +125,10 @@ finite sum of reals:
   \end{axdef}
 \end{zdef}
 
+\section{Addition and Multiplication of Polynomials}
+\label{sec:addition-multiplication}
+There are two operations on the set of polynomials, the addition and
+the multiplication of polynomials.
 \newcommand{\polyplus}{+}
 \begin{zdef}[Addition of Polynomials]
   \label{zdef:polynomial-addition}
@@ -142,8 +153,11 @@ finite sum of reals:
 
  multiplication of polynomials
 
- For the evaluation of polynomials we use the Horner schema. As a
- preparation we define the left shifting of polynomials.
+\section{Evaluation of Polynomials}
+\label{sec:evaluation}
+
+For the evaluation of polynomials we use the Horner schema. As a
+preparation we define the left shifting of polynomials.
  
 \begin{zdef}[Left-Shift of a Polynomial]
   \label{zdef:left-shift}
@@ -188,7 +202,15 @@ finite sum of reals:
     \azero) = (\lambda v: \real @ p(0))\\
     \t2 = \finsum(0,0,(\lambda i: \nat @ (p~i)\amult(v \apwr i)))
   \end{argue}
+
+  We now assume that the proposition is correct for all polynomials of
+  degree $n$ and consider polynomial $p$ of degree $n+1$.
+  
 \end{proof}
+
+\section{Roots of a Polynomial}
+\label{sec:roots}
+
 
 \begin{zdef}[Roots of a Polynomial]
   \label{zdef:roots}
