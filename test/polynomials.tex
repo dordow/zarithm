@@ -37,6 +37,7 @@
 %\newcommand{\comment}[1]{ \textbf{\underline{#1}} }
 
 \newtheorem{prop}{Proposition}[section]
+\newtheorem{lemma}{Lemma}[section]
 \newtheorem{schemadef}{Schema}[section]
 \newtheorem{genericdef}{Generic Definition}[section]
 \newtheorem{zdef}{Definition}[section]
@@ -180,6 +181,18 @@ preparation we define the left shifting of polynomials.
   \end{axdef}
 \end{zdef}
 
+\begin{lemma}[Degree of left-shifted Polynomial]
+  \label{lemma:degree-left-shift}
+  Left shifting a polynomial reduces its degree by one.
+  \begin{zed}
+    \forall p: POLYNOMIAL @ deg (lshift~p) = deg p - 1
+  \end{zed}
+\end{lemma}
+
+\begin{proof}[Proof of Lemma \ref{lemma:degree-left-shift}]
+  
+\end{proof}
+
 \begin{zdef}[Evaluation of Polynomials]
   \label{zdef:evaluation}
   The evaluation of a polynomial $p$ yields a function from $\real$ to
@@ -192,6 +205,7 @@ preparation we define the left shifting of polynomials.
     \real @ p(0) \aplus v \amult ((eval(lshift~p))(v)))
   \end{axdef}
 \end{zdef}
+
 
 \begin{prop}[Evaluation of Polynomials]
   \label{prop:evalutation}
@@ -216,7 +230,16 @@ preparation we define the left shifting of polynomials.
 
   We now assume that the proposition is correct for all polynomials of
   degree $n$ and consider polynomial $p$ of degree $n+1$.
-  
+
+  \begin{argue}
+    deg~p = n+1\\
+    \vdash eval(p)(v) = p(0) \aplus v \amult (eval(lshift~p))(v) &
+    Def. \ref{zdef:left-shift}\\
+    \t1 = p(0) \aplus v \amult \finsum(0,deg(lshift~p),(\lambda i:
+    \nat @ ((lshift~p)~i)\amult(v \apwr i))) & Lemma
+    \ref{lemma:degree-left-shift} \\ & and induction\\
+    \t1 = 
+  \end{argue}
 \end{proof}
 
 \section{Roots of a Polynomial}
