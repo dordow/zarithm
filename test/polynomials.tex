@@ -82,7 +82,7 @@ As a prepararation, the generic finite distributed sum in
 Now the central definition of the paper, the set of polynomials:
 \begin{zdef}[Polynomials]
   \label{zdef:polynomials}
-  A polynomial is actually a finite set of non-zero real numbers,
+  A polynomial is actually a finite sequence of non-zero real numbers,
   which are members of a function from all natural numbers to the real
   numbers.
   \begin{zed}
@@ -151,7 +151,18 @@ the multiplication of polynomials.
   \end{zed}
 \end{prop}
 
- multiplication of polynomials
+\newcommand{\polymult}{*}
+\begin{zdef}[Multiplication of Polynomials]
+  \label{zdef:polynomial-multiplication}
+%%inop \polymult 4 
+  \begin{axdef}
+    \_ \polymult \_ : POLYNOMIAL \cross POLYNOMIAL \fun POLYNOMIAL\\
+    \where
+    \forall p, q : POLYNOMIAL @ p \polymult q = (\lambda i: \nat @
+    \finsum(0,i,(\lambda j: \nat @ p(j) \amult q(i-j))))
+  \end{axdef}
+\end{zdef}
+
 
 \section{Evaluation of Polynomials}
 \label{sec:evaluation}
