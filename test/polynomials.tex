@@ -215,7 +215,7 @@ preparation we define the left shifting of polynomials.
   \end{zed}
 \end{prop}
 
-\begin{proof}
+\begin{proof}[Proof of proposition \ref{prop:evalutation}]
   Induction over $deg~p$.
   \begin{argue}
     $deg~p = \azero$\quad \vdash (p~0 \neq \azero) \land (\forall i:
@@ -232,13 +232,19 @@ preparation we define the left shifting of polynomials.
   degree $n$ and consider polynomial $p$ of degree $n+1$.
 
   \begin{argue}
-    deg~p = n+1\\
+    \forall p: POLYNOMIAL | deg~p = n+1\\
     \vdash eval(p)(v) = p(0) \aplus v \amult (eval(lshift~p))(v) &
     Def. \ref{zdef:left-shift}\\
     \t1 = p(0) \aplus v \amult \finsum(0,deg(lshift~p),(\lambda i:
     \nat @ ((lshift~p)~i)\amult(v \apwr i))) & Lemma
     \ref{lemma:degree-left-shift} \\ & and induction\\
-    \t1 = 
+    \t1 = p(0) \aplus \finsum(0,deg(lshift~p),(\lambda i:
+    \nat @ ((lshift~p)~i)\amult(v \apwr (i+1))))\\
+    \t1 = p(0) \aplus \finsum(1,deg(lshift~p)+1,(\lambda i:
+    \nat_1 @ ((lshift~p)~(i+1))\amult(v \apwr i)))\\
+    \t1 = p(0) \aplus \finsum(1,deg~p,(\lambda i:
+    \nat_1 @ p(i)\amult(v \apwr i)))\\
+    \t1 = \finsum(0,deg~p,(\lambda i: \nat @ p(i)\amult(v \apwr i)))\\
   \end{argue}
 \end{proof}
 
