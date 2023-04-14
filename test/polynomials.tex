@@ -164,6 +164,29 @@ the multiplication of polynomials.
   \end{axdef}
 \end{zdef}
 
+\begin{zdef}[Special binomial]
+  \label{zdef:special-binnomial}
+  $P$ is a constructor to produce the polynomial $x^n - r^n$ for a
+  given $r \in \real$ and $n \in \nat_1$.
+  \begin{zed}
+    P == (\lambda n: \nat_1; r: \real @ (\zeropol \oplus \{~0 \mapsto
+    r \apwr n~\}) \oplus \{~n \mapsto \aone ~\})
+  \end{zed}
+\end{zdef}
+
+\begin{prop}[Factorization of special binnomial]
+  \label{prop:factorization-binomial}
+  For a given $r \in \real$ and $n \in \nat_1$ there is a polynomial
+  $p$ with $(x^n-r^n) = p \polymult (x - r)$.
+  \begin{zed}
+    \forall n: \nat_1; r: \real @ \exists p : POLYNOMIAL @ P(n,r) = p
+    \polymult P(1,r)
+  \end{zed}
+\end{prop}
+
+\begin{proof}[Proof of proposition \ref{prop:factorization-binomial}]
+  to be completed
+\end{proof}
 
 \section{Evaluation of Polynomials}
 \label{sec:evaluation}
@@ -278,7 +301,8 @@ preparation we define the left shifting of polynomials.
     (eval(p))(r) = \azero~\}
   \end{axdef}
 \end{zdef}
-Roots.
+
+factor theorem
 % 
 % bibliography
 \printbibliography{}
