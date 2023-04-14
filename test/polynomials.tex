@@ -176,11 +176,27 @@ preparation we define the left shifting of polynomials.
   \begin{axdef}
     lshift: POLYNOMIAL \fun POLYNOMIAL \\
     \where
-    lshift~\zeropol = \zeropol\\
-    \forall p : POLYNOMIAL | p \neq \zeropol @ (\forall i: \nat @ (lshift~p)(i)=p(i+1))
+    \forall p : POLYNOMIAL @ (\forall i: \nat @ (lshift~p)(i)=p(i+1))
   \end{axdef}
 \end{zdef}
 
+\begin{prop}[Left-shifting the zero Polynomial]
+  \label{prop:left-shift-zero-polynomial}
+  \begin{zed}
+    lshift~\zeropol = \zeropol
+  \end{zed}
+\end{prop}
+
+\begin{proof}[Proof of proposition
+  \ref{prop:left-shift-zero-polynomial}]
+  \begin{argue}
+    \forall i : \nat @ (lshift~\zeropol)(i) = \zeropol(i+1) = \azero &
+    def. of zero polynomial  \ref{zdef:zero-polynomial} and
+    lshift \ref{zdef:left-shift}\\
+    \vdash lshift~\zeropol = \zeropol \\
+  \end{argue}
+  
+\end{proof}
 \begin{lemma}[Degree of left-shifted Polynomial]
   \label{lemma:degree-left-shift}
   Left shifting a non-zero polynomial reduces its degree by one.
