@@ -20,7 +20,7 @@
 \maketitle
 
 \begin{abstract}
-The intention of this \LaTeX file is to extend the mathematical
+The intention of this \LaTeX\ file is to extend the mathematical
 tool-kit of the Z reference manual to include rational and real
 numbers. 
 \end{abstract}
@@ -47,12 +47,12 @@ The file \texttt{zarithm.sty} is only used for typesetting, whereas
 rational and real numbers, their basic operations and numerical
 comparisons The Z definitions are sufficient for type setting, not for
 automated proof. If the user intends to use autoated proof, there is
-probably no way to transit to standard Z.
+probably no better way than to transit to standard Z.
 
 The ZRM comes along with the tool \texttt{fuzz}, a typechecker. The
 approach described here makes use of the fact that fuzz accepts more
-than one \LaTeX file and remembers the Z definitions or the
-``earlier'' files.
+than one \LaTeX file and remembers the Z definitions of the files
+provided first.
 
 \section{Arithmos $\arithmos$}
 \label{sec:arithmos}
@@ -121,8 +121,25 @@ a unary operator $\aneg$ to negate any number, encoded as
   \aplus x \amult z \\
 \end{axdef}
 
+The encoding of the constants is shown in table
+\ref{tab:arithmos-constant-encoding}. 
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{ll}
+    $0$    & \texttt{\textbackslash{}azero} \\
+    $1.0$  & \texttt{\textbackslash{}aone} \\
+    $2.0$  & \texttt{\textbackslash{}atwo} \\
+    $10.0$ & \texttt{\textbackslash{}aten} \\
+  \end{tabular}
+  \caption{Coding $\arithmos$ Constants}
+  \label{tab:arithmos-constant-encoding}
+\end{table}
+%
 \section{Real Numbers $\real$}
 \label{sec:real-numbers}
+Real numbers are a subset $\real$ of Arithmos, which contains the
+constants shown in Table \ref{tab:arithmos-constant-encoding}.
 
 \begin{axdef}
   \real : \power \arithmos\\
@@ -137,6 +154,12 @@ a unary operator $\aneg$ to negate any number, encoded as
   \ran (\real \dres (\_ \ainv ))  \subset \real\\
 \end{axdef}
 
+The real numbers are abgeschlossen with respect to addition,
+multiplication, negation and inversion.
+
+For real numbers, there is a relation ``$<$'', encoded as
+\texttt{\textbackslash{}alt}:
+
 %%inrel \alt
 \begin{axdef}
   \_ \alt \_ : \real \rel \real\\
@@ -147,6 +170,9 @@ a unary operator $\aneg$ to negate any number, encoded as
   \azero \alt \aone\\
 \end{axdef}
 
+The definition of the other relations $\aleq$, $\agt$ and $\ageq$ can
+be traced back to this relation:
+
 %%inrel \aleq
 %%inrel \agt
 %%inrel \ageq
@@ -155,6 +181,13 @@ a unary operator $\aneg$ to negate any number, encoded as
   (\_ \agt \_) == (\_ \alt \_ ) \inv \\
   (\_ \ageq \_) == (\_ \agt \_ ) \cup \id \real \\
 \end{zed}
+They are encoded as \texttt{\textbackslash{}aleq},
+\texttt{\textbackslash{}agt} and \texttt{\textbackslash{}ageq}.
+
+
+There are shortcuts for positive and negative real numbers, encoded as
+\texttt{\textbackslash{}realplus} and
+\texttt{\textbackslash{}realminus}.
 
 \begin{zed}
   \realplus == \{~r :\real | r \agt \azero~\}\\
