@@ -126,6 +126,18 @@ Now the central definition of the paper, the set of polynomials:
   \end{axdef}
 \end{zdef}
 
+\begin{lemma}[Alternative Description of Degree]
+  \label{lemma:alternative-degree}
+  \begin{zed}
+    \forall p: POLYNOMIAL @ deg~p = n \iff p(n) \neq \azero \land
+    (\forall i : \nat | i > n @ p(i) = \azero)
+  \end{zed}
+\end{lemma}
+
+\begin{proof}[Proof of lemma \ref{lemma:alternative-degree}]
+  to  be completed
+  
+\end{proof}
 \section{Addition and Multiplication of Polynomials}
 \label{sec:addition-multiplication}
 There are two operations on the set of polynomials, the addition and
@@ -220,6 +232,7 @@ preparation we define the left shifting of polynomials.
   \end{argue}
   
 \end{proof}
+
 \begin{lemma}[Degree of left-shifted Polynomial]
   \label{lemma:degree-left-shift}
   Left shifting a non-zero polynomial reduces its degree by one.
@@ -229,7 +242,23 @@ preparation we define the left shifting of polynomials.
 \end{lemma}
 
 \begin{proof}[Proof of Lemma \ref{lemma:degree-left-shift}]
-  to be completed.
+  It is necessary to distinguish two cases: $deg~p = 0$ and $deg~p >
+  0$. Starting with  $deg~p = 0$:
+  \begin{argue}
+    p : POLYNOMIAL | deg~p = 0 @ p(0) \neq \azero \land
+    (\forall i: \nat | i > 0 @ p(i) = \azero)\\
+    \vdash (lshift~p) = \zeropol \\
+    \vdash deg(lshift~p) = deg(\zeropol) = -1 = deg~p - 1
+  \end{argue}
+  Now for the case $deg~p > 0$:
+  \begin{argue}
+    p : POLYNOMIAL | deg~p > 0 @ p(deg~p) \neq \azero \land
+    (\forall i: \nat | i > deg~p @ p(i) = \azero)\\
+    \vdash (lshift~p)((deg~p)-1) = p(deg~p) \neq \azero \\
+    \t1 \land (\forall i: \nat | i > ((deg~p)-1) @ (lshift~p)(i) =
+    p(i+1) = \azero)\\
+    \vdash deg(lshift~p) = deg~p - 1
+  \end{argue}
 \end{proof}
 
 \begin{zdef}[Evaluation of Polynomials]
