@@ -428,10 +428,10 @@ The commands for constants is shown in table
 \begin{table}[htbp]
   \centering
   \begin{tabular}{ll}
-    $0$    & \texttt{\textbackslash{}azero} \\
-    $1.0$  & \texttt{\textbackslash{}aone} \\
-    $2.0$  & \texttt{\textbackslash{}atwo} \\
-    $10.0$ & \texttt{\textbackslash{}aten} \\
+    $0$    & \verb|\azero| \\
+    $1.0$  & \verb|\aone| \\
+    $2.0$  & \verb|\atwo| \\
+    $10.0$ & \verb|\aten| \\
   \end{tabular}
   \caption{Commands for $\arithmos$ Constants}
   \label{tab:latex-constants}
@@ -439,9 +439,22 @@ The commands for constants is shown in table
 %
 \subsection{\LaTeX{} Commands for unary Operators}
 \label{sec:latex-commands-unary-operators}
-
+Table \ref{tab:latex-unary-operators} shows commands to typeset
+unary operators.
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{ll}
+    $x\ainv$    & \verb|x\ainv| \\
+    $\aneg x$    & \verb|\aneg x| \\
+  \end{tabular}
+  \caption{Commands for unary Operators}
+  \label{tab:latex-unary-operators}
+\end{table}
+%
 \subsection{\LaTeX{} Commands for binary Operators}
 \label{sec:latex-commands-binary-operators}
+Table \ref{tab:latex-binary-operators} shows commands to typeset
+binary operators.
 
 \begin{table}[htbp]
   \centering
@@ -462,13 +475,40 @@ The commands for constants is shown in table
     $\azdiv$ & $\arithmos, \real, \rat$ & $\num \setminus \{0\}$ & \verb|\adivz| \\
     \hline
   \end{tabular}
-  \caption{Commands for Number Sets}
-  \label{tab:latex-number-sets}
+  \caption{Commands for binary Operators}
+  \label{tab:latex-binary-operators}
 \end{table}
 
 
 \subsection{\LaTeX{} Commands for Relations}
 \label{sec:latex-commands-relations}
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{llll}
+    Relation & Left & Right & Command \\
+    \hline \\
+    $=$ & $\arithmos, \real, \rat$ & $\arithmos, \real, \rat$ & \verb|=| \\
+    $\aaeqz$ & $\arithmos, \real, \rat$ & $\num$ & \verb|\aaeqz| \\
+    $\azeqa$ & $\num$ & $\arithmos, \real, \rat$ & \verb|\azeqa| \\
+    $\alt$ & $\real, \rat$ & $\real, \rat$ & \verb|\alt| \\
+    $\aaltz$ & $\real, \rat$ & $\num$ & \verb|\aaltz| \\
+    $\azlta$ & $\num$ & $\real, \rat$ & \verb|\azlta| \\
+    $\aleq$ & $\real, \rat$ & $\real, \rat$ & \verb|\aleq| \\
+    $\aaleqz$ & $\real, \rat$ & $\num$ & \verb|\aaleqz| \\
+    $\azleqa$ & $\num$ & $\real, \rat$ & \verb|\azleqa| \\
+    $\agt$ & $\real, \rat$ & $\real, \rat$ & \verb|\agt| \\
+    $\aagtz$ & $\real, \rat$ & $\num$ & \verb|\aagtz| \\
+    $\azgta$ & $\num$ & $\real, \rat$ & \verb|\azgta| \\
+    $\ageq$ & $\real, \rat$ & $\real, \rat$ & \verb|\ageq| \\
+    $\aageqz$ & $\real, \rat$ & $\num$ & \verb|\ageq| \\
+    $\azgeqa$ & $\num$ & $\real, \rat$ & \verb|\ageq| \\
+    \hline
+  \end{tabular}
+  \caption{Commands for Relations}
+  \label{tab:latex-relations}
+\end{table}
+
 
 \subsection{\LaTeX{} Commands for special Functions}
 \label{sec:latex-commands-special-functions}
