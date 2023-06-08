@@ -120,26 +120,11 @@ a unary operator $\aneg$ to negate any number, encoded as
   \forall x, y, z: \arithmos @ x \amult ( y \aplus z ) = x \amult y
   \aplus x \amult z \\
 \end{axdef}
-
-The encoding of the constants is shown in table
-\ref{tab:arithmos-constant-encoding}. 
-
-\begin{table}[htbp]
-  \centering
-  \begin{tabular}{ll}
-    $0$    & \texttt{\textbackslash{}azero} \\
-    $1.0$  & \texttt{\textbackslash{}aone} \\
-    $2.0$  & \texttt{\textbackslash{}atwo} \\
-    $10.0$ & \texttt{\textbackslash{}aten} \\
-  \end{tabular}
-  \caption{Coding $\arithmos$ Constants}
-  \label{tab:arithmos-constant-encoding}
-\end{table}
 %
 \section{Real Numbers $\real$}
 \label{sec:real-numbers}
 Real numbers are a subset $\real$ of Arithmos, which contains the
-constants shown in Table \ref{tab:arithmos-constant-encoding}.
+constants defined  in section \ref{sec:arithmos}.
 
 \begin{axdef}
   \real : \power \arithmos\\
@@ -154,8 +139,8 @@ constants shown in Table \ref{tab:arithmos-constant-encoding}.
   \ran (\real \dres (\_ \ainv ))  \subset \real\\
 \end{axdef}
 
-The real numbers are abgeschlossen with respect to addition,
-multiplication, negation and inversion.
+The real numbers are closed with respect to addition, multiplication,
+negation and inversion.
 
 For real numbers, there is a relation ``$<$'', encoded as
 \texttt{\textbackslash{}alt}:
@@ -212,7 +197,8 @@ There are shortcuts for positive and negative real numbers, encoded as
 
 \begin{zed}
   \ratplus == \{~q :\rat | q \agt \azero~\}\\
-  \ratminus == \rat \setminus ( \ratplus \cup \{~\azero~\})
+  \ratminus == \rat \setminus ( \ratplus \cup \{~\azero~\}) \\
+  \rat_1 == \ratplus \cup \ratminus \\
 \end{zed}
 
 \section{Integers and Rational Numbers}
@@ -404,6 +390,89 @@ numbers:
   \where
   \forall S: \finset_1 \real @ ( \realmin(S) \in S ) \land (\forall x : S @ x \ageq \realmin(S))
 \end{axdef}
+
+\section{\LaTeX{} Commands}
+\label{sec:latex-commands}
+This section summarizes the \LaTeX{} commands for typesetting the
+number sets defined in this paper, the numerical constants,
+operations, relations and special functions.
+
+\subsection{\LaTeX{} Commands for Number Sets}
+\label{sec:latex-commands-number-sets}
+The commands for number sets is shown in table
+\ref{tab:latex-number-sets}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{ll}
+    $\arithmos$    & \verb|\arithmos| \\
+    $\arithmos_1$  & \verb|\arithmos_1| \\
+    $\real$        & \verb|\real| \\
+    $\realplus$    & \verb|\realplus| \\ 
+    $\realminus$   & \verb|\realminus| \\
+    $\rat$         & \verb|\rat| \\
+    $\rat_1$         & \verb|\rat_1| \\
+    $\ratplus$    & \verb|\ratplus| \\ 
+    $\ratminus$   & \verb|\ratminus| \\
+  \end{tabular}
+  \caption{Commands for Number Sets}
+  \label{tab:latex-number-sets}
+\end{table}
+
+%
+\subsection{\LaTeX{} Commands for Numerical Constants}
+\label{sec:latex-commands-numerical-constants}
+The commands for constants is shown in table
+\ref{tab:latex-constants}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{ll}
+    $0$    & \texttt{\textbackslash{}azero} \\
+    $1.0$  & \texttt{\textbackslash{}aone} \\
+    $2.0$  & \texttt{\textbackslash{}atwo} \\
+    $10.0$ & \texttt{\textbackslash{}aten} \\
+  \end{tabular}
+  \caption{Commands for $\arithmos$ Constants}
+  \label{tab:latex-constants}
+\end{table}
+%
+\subsection{\LaTeX{} Commands for unary Operators}
+\label{sec:latex-commands-unary-operators}
+
+\subsection{\LaTeX{} Commands for binary Operators}
+\label{sec:latex-commands-binary-operators}
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{llll}
+    Operator & Left & Right & Command \\
+    \hline \\
+    $\aplus$ & $\arithmos, \real, \rat$ & $\arithmos, \real, \rat$ & \verb|\aplus| \\
+    $\aplusz$ & $\num$ & $\arithmos, \real, \rat$ & \verb|\azplus| \\
+    $\azplus$ & $\arithmos, \real, \rat$ & $\num$ & \verb|\aplusz| \\
+    $\aminus$ & $\arithmos, \real, \rat$ & $\arithmos, \real, \rat$ & \verb|\aminus| \\
+    $\aminusz$ & $\num$ & $\arithmos, \real, \rat$ & \verb|\azminus| \\
+    $\azminus$ & $\arithmos, \real, \rat$ & $\num$ & \verb|\aminusz| \\
+    $\amult$ & $\arithmos, \real, \rat$ & $\arithmos, \real, \rat$ & \verb|\amult| \\
+    $\amultz$ & $\num$ & $\arithmos, \real, \rat$ & \verb|\azmult| \\
+    $\azmult$ & $\arithmos, \real, \rat$ & $\num$ & \verb|\amultz| \\
+    $\adiv$ & $\arithmos, \real, \rat$ & $\arithmos_1, \real_1, \rat_1$ & \verb|\adiv| \\
+    $\adivz$ & $\num$ & $\arithmos_1, \real_1, \rat_1$ & \verb|\azdiv| \\
+    $\azdiv$ & $\arithmos, \real, \rat$ & $\num \setminus \{0\}$ & \verb|\adivz| \\
+    \hline
+  \end{tabular}
+  \caption{Commands for Number Sets}
+  \label{tab:latex-number-sets}
+\end{table}
+
+
+\subsection{\LaTeX{} Commands for Relations}
+\label{sec:latex-commands-relations}
+
+\subsection{\LaTeX{} Commands for special Functions}
+\label{sec:latex-commands-special-functions}
+
 
 
 % 
