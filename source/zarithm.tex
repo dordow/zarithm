@@ -397,6 +397,9 @@ This section summarizes the \LaTeX{} commands for typesetting the
 number sets defined in this paper, the numerical constants,
 operations, relations and special functions.
 
+The \LaTeX{} commands listed here are defined in the style file
+\verb|zarithm.sty|.
+
 \subsection{\LaTeX{} Commands for Number Sets}
 \label{sec:latex-commands-number-sets}
 The commands for number sets is shown in table
@@ -482,6 +485,7 @@ binary operators.
 
 \subsection{\LaTeX{} Commands for Relations}
 \label{sec:latex-commands-relations}
+Table \ref{tab:latex-relations} shows commands to typeset relations.
 
 \begin{table}[htbp]
   \centering
@@ -508,10 +512,27 @@ binary operators.
   \caption{Commands for Relations}
   \label{tab:latex-relations}
 \end{table}
-
-
+%
 \subsection{\LaTeX{} Commands for special Functions}
 \label{sec:latex-commands-special-functions}
+Table \ref{tab:latex-special-functions} shows commands to typeset
+special functions.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{ll}
+    $abs(x)$    & \verb|abs(x)| \\
+    $x \apwr n$    & \verb|x \apwr n| \\
+    $sqrt(x)$    & \verb|sqrt(x)| \\
+    Finite distributes sum & \verb|\findistsum| \\
+    Finite distributes product & \verb|\findistprod| \\
+    $\realmax$ & \verb|\realmax| \\
+    $\realmin$ & \verb|\realmin| \\
+  \end{tabular}
+  \caption{Commands for special Functions}
+  \label{tab:latex-special-functions}
+\end{table}
+%
 
 
 
