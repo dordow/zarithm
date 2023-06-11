@@ -45,9 +45,9 @@ ZRM, this set of two files (\texttt{zarithm.sty} and
 The file \texttt{zarithm.sty} is only used for typesetting, whereas
 \texttt{zarithm.tex} includes the Z definitions of the types for
 rational and real numbers, their basic operations and numerical
-comparisons The Z definitions are sufficient for type setting, not for
-automated proof. If the user intends to use autoated proof, there is
-probably no better way than to transit to standard Z.
+comparisons. The Z definitions are sufficient for type setting, not
+for automated proof. If the user intends to use automated proof, there
+is probably no better way than to transit to standard Z.
 
 The ZRM comes along with the tool \texttt{fuzz}, a typechecker. The
 approach described here makes use of the fact that fuzz accepts more
@@ -59,7 +59,7 @@ provided first.
 
 $\arithmos$, which can be pronounced “arithmos”, is the encompassing
 set of numbers whose whole extent is deliberately left
-unspecified. This definition has been adopted from
+unspecified. This definition has been adopted from Valentine
 \cite{Valentine2012}.
 
 \begin{zed}
@@ -72,9 +72,9 @@ $\arithmos$ is a field with respect to two operations $\aplus$ and
 $\amult$, and neutral elements $\azero$ and $\aone$. Note that these
 are not identical to the elements $0$ and $1$ defined in $\num$.
 
-The addition is encoded by "\texttt{\textbackslash{}aplus}". There is
-a unary operator $\aneg$ to negate any number, encoded as
-"\texttt{\textbackslash{}aneg}"
+The folllowing axiomatic definition introduces addition, subtractin,
+and negation, together with some important constants.
+%
 %%inop \aplus 3
 %%inop \aminus 3
 \begin{axdef}
@@ -93,12 +93,19 @@ a unary operator $\aneg$ to negate any number, encoded as
   \forall x,y,z: \arithmos @ ( x \aplus y ) \aplus z = x \aplus (y
   \aplus z) \\
   \forall x,y : \arithmos @ x \aminus y = x \aplus (\aneg y)\\
+  \atwo = \aone \aplus \aone \\
+  \aten = \atwo \aplus \atwo \aplus \atwo \aplus \atwo \aplus \atwo \\
 \end{axdef}
-
+% 
+$\arithmos_1$ is the set of non-zero numbers:
+%
 \begin{zed}
   \arithmos_1 == \arithmos \setminus \{ \azero \}
 \end{zed}
-
+%
+The next axiomatic definition introduces multiplication, division and
+inversion. 
+%
 %%inop \amult 4
 %%inop \adiv 4
 %%postop \ainv
@@ -123,9 +130,9 @@ a unary operator $\aneg$ to negate any number, encoded as
 %
 \section{Real Numbers $\real$}
 \label{sec:real-numbers}
-Real numbers are a subset $\real$ of Arithmos, which contains the
-constants defined  in section \ref{sec:arithmos}.
-
+The set of real numbers $\real$ is a subset $\arithmos$, which
+contains the constants defined in section \ref{sec:arithmos}.
+%
 \begin{axdef}
   \real : \power \arithmos\\
   \where
@@ -142,9 +149,8 @@ constants defined  in section \ref{sec:arithmos}.
 The real numbers are closed with respect to addition, multiplication,
 negation and inversion.
 
-For real numbers, there is a relation ``$<$'', encoded as
-\texttt{\textbackslash{}alt}:
-
+For real numbers, there is a relation ``$<$'':
+%
 %%inrel \alt
 \begin{axdef}
   \_ \alt \_ : \real \rel \real\\
@@ -154,10 +160,10 @@ For real numbers, there is a relation ``$<$'', encoded as
   \forall x, y, z: \real | x \alt y \land y \alt z @ x \alt z \\
   \azero \alt \aone\\
 \end{axdef}
-
+%
 The definition of the other relations $\aleq$, $\agt$ and $\ageq$ can
 be traced back to this relation:
-
+%
 %%inrel \aleq
 %%inrel \agt
 %%inrel \ageq
@@ -166,22 +172,18 @@ be traced back to this relation:
   (\_ \agt \_) == (\_ \alt \_ ) \inv \\
   (\_ \ageq \_) == (\_ \agt \_ ) \cup \id \real \\
 \end{zed}
-They are encoded as \texttt{\textbackslash{}aleq},
-\texttt{\textbackslash{}agt} and \texttt{\textbackslash{}ageq}.
-
-
-There are shortcuts for positive and negative real numbers, encoded as
-\texttt{\textbackslash{}realplus} and
-\texttt{\textbackslash{}realminus}.
-
+%
+There are shortcuts for positive and negative real numbers:
+%
 \begin{zed}
   \realplus == \{~r :\real | r \agt \azero~\}\\
   \realminus == \real \setminus ( \realplus \cup \{~\azero~\})
 \end{zed}
-
+%
 \section{Rational Numbers $\rat$}
 \label{sec:rational-numbers}
-
+The set of rational numbers $\rat$ is a subset $\real$.
+%
 \begin{axdef}
   \rat : \power \real
   \where
@@ -194,13 +196,16 @@ There are shortcuts for positive and negative real numbers, encoded as
   \ran (\rat \dres (\aneg ))  \subset \rat\\
   \ran (\rat \dres (\_ \ainv ))  \subset \rat\\
 \end{axdef}
+The constants defined in section \ref{sec:arithmos} are also members
+of $\rat$.
 
+There are shortcuts for the positive, negative and non-zero rational numbers:
 \begin{zed}
   \ratplus == \{~q :\rat | q \agt \azero~\}\\
   \ratminus == \rat \setminus ( \ratplus \cup \{~\azero~\}) \\
   \rat_1 == \ratplus \cup \ratminus \\
 \end{zed}
-
+%
 \section{Integers and Rational Numbers}
 \label{sec:integers-and-rationals}
 Unfortunately it is not possible to include the integer numbers into
@@ -226,9 +231,10 @@ The following laws can be easily derived from the definition:
 \end{zed}
 
 Mixing integers with real and rational numbers in arithmetic
-operations would require to use the embedding above which would look
-clumsy. Therefore, shortcuts for mixed operations are introduced.
-
+operations would require to use the embedding which would procude
+unweildy and clumsy expressions. Therefore, shortcuts for mixed
+operations are introduced.
+%
 %%inop \azplus 3
 %%inop \aplusz 3
 %%inop \azminus 3
@@ -258,7 +264,7 @@ clumsy. Therefore, shortcuts for mixed operations are introduced.
 \end{axdef}
 
 Similarily, we need to mix integers and rationals or reals in
-relations. Especially there is a need to equality.
+relations. Especially there is a need to define equality.
 
 %%inrel \aaeqz
 %%inrel \azeqa
@@ -271,23 +277,25 @@ relations. Especially there is a need to equality.
 %%inrel \aageqz
 %%inrel \azgeqa
 \begin{zed}
-  (\_ \aaeqz \_) == \{~x:\arithmos;z:\num | z \azminus x = \azero @ x
+  (\_ \aaeqz \_) == \{~x:\real;z:\num | z \azminus x = \azero @ x
   \mapsto z~\}\\
-  (\_ \azeqa \_) == \{~x:\arithmos;z:\num | x \aminusz z = \azero @ z
+  (\_ \azeqa \_) == \{~x:\real;z:\num | x \aminusz z = \azero @ z
   \mapsto x~\}\\
-  (\_ \aaltz \_) == \{~x:\arithmos;z:\num | z \azminus x \agt \azero @ x
+  (\_ \aaltz \_) == \{~x:\real;z:\num | z \azminus x \agt \azero @ x
   \mapsto z~\}\\
-    (\_ \azlta \_) == \{~x:\arithmos;z:\num | x \aminusz z \agt \azero @ z
+    (\_ \azlta \_) == \{~x:\real;z:\num | x \aminusz z \agt \azero @ z
   \mapsto x~\}\\
   (\_ \azleqa \_) == (\_ \azeqa \_) \cup (\_ \azlta \_)\\
   (\_ \aaleqz \_) == (\_ \aaeqz \_) \cup (\_ \aaltz \_)\\
-  (\_ \aagtz \_) == \{~x:\arithmos;z:\num | x \aminusz z \agt \azero @ x
+  (\_ \aagtz \_) == \{~x:\real;z:\num | x \aminusz z \agt \azero @ x
   \mapsto z~\}\\
-  (\_ \azgta \_) == \{~x:\arithmos;z:\num | z \azminus x \agt \azero @ z
+  (\_ \azgta \_) == \{~x:\real;z:\num | z \azminus x \agt \azero @ z
   \mapsto x~\}\\
   (\_ \aageqz \_) == (\_ \aaeqz \_) \cup (\_ \aagtz \_) \\
   (\_ \azgeqa \_) == (\_ \azeqa \_) \cup (\_ \azgta \_) \\
 \end{zed}
+Note that the definitions that look identical are of different type,
+either subset of $\num \cross \real$ or $\real \cross \num$.
 
 \section{Special Functions}
 \label{sec:special-functions}
@@ -400,8 +408,6 @@ operations, relations and special functions.
 The \LaTeX{} commands listed here are defined in the style file
 \verb|zarithm.sty|.
 
-\subsection{\LaTeX{} Commands for Number Sets}
-\label{sec:latex-commands-number-sets}
 The commands for number sets is shown in table
 \ref{tab:latex-number-sets}.
 
@@ -423,8 +429,6 @@ The commands for number sets is shown in table
 \end{table}
 
 %
-\subsection{\LaTeX{} Commands for Numerical Constants}
-\label{sec:latex-commands-numerical-constants}
 The commands for constants is shown in table
 \ref{tab:latex-constants}.
 
@@ -440,8 +444,6 @@ The commands for constants is shown in table
   \label{tab:latex-constants}
 \end{table}
 %
-\subsection{\LaTeX{} Commands for unary Operators}
-\label{sec:latex-commands-unary-operators}
 Table \ref{tab:latex-unary-operators} shows commands to typeset
 unary operators.
 \begin{table}[htbp]
@@ -454,8 +456,6 @@ unary operators.
   \label{tab:latex-unary-operators}
 \end{table}
 %
-\subsection{\LaTeX{} Commands for binary Operators}
-\label{sec:latex-commands-binary-operators}
 Table \ref{tab:latex-binary-operators} shows commands to typeset
 binary operators.
 
@@ -482,9 +482,6 @@ binary operators.
   \label{tab:latex-binary-operators}
 \end{table}
 
-
-\subsection{\LaTeX{} Commands for Relations}
-\label{sec:latex-commands-relations}
 Table \ref{tab:latex-relations} shows commands to typeset relations.
 
 \begin{table}[htbp]
@@ -513,8 +510,6 @@ Table \ref{tab:latex-relations} shows commands to typeset relations.
   \label{tab:latex-relations}
 \end{table}
 %
-\subsection{\LaTeX{} Commands for special Functions}
-\label{sec:latex-commands-special-functions}
 Table \ref{tab:latex-special-functions} shows commands to typeset
 special functions.
 
@@ -532,10 +527,6 @@ special functions.
   \caption{Commands for special Functions}
   \label{tab:latex-special-functions}
 \end{table}
-%
-
-
-
 % 
 % bibliography
 \begin{thebibliography}{99}
