@@ -400,24 +400,24 @@ numbers:
 \section{\LaTeX{} Commands}
 \label{sec:latex-commands}
 This section summarizes the \LaTeX{} commands for typesetting the
-number sets defined in this paper, the numerical constants,
-operations, relations and special functions.
+number sets defined in this paper (Table~\ref{tab:latex-number-sets}),
+the numerical constants (Table \ref{tab:latex-constants}), operations
+(Table \ref{tab:latex-unary-operators} and
+\ref{tab:latex-binary-operators}), relations (Table
+\ref{tab:latex-relations}) and special functions )Table
+\ref{tab:latex-special-functions}).
 
 The \LaTeX{} commands listed here are defined in the style file
 \verb|zarithm.sty|.
 
 \begin{table}[htbp]
   \centering
-  \begin{tabular}{ll}
-    $\arithmos$    & \verb|\arithmos| \\
-    $\arithmos_1$  & \verb|\arithmos_1| \\
-    $\real$        & \verb|\real| \\
-    $\realplus$    & \verb|\realplus| \\ 
-    $\realminus$   & \verb|\realminus| \\
-    $\rat$         & \verb|\rat| \\
-    $\rat_1$         & \verb|\rat_1| \\
-    $\ratplus$    & \verb|\ratplus| \\ 
-    $\ratminus$   & \verb|\ratminus| \\
+  \begin{tabular}{llp{1cm}ll}
+    $\arithmos$    & \verb|\arithmos| && $\rat$ & \verb|\rat| \\
+    $\arithmos_1$  & \verb|\arithmos_1| && $\rat_1$ & \verb|\rat_1| \\
+    $\real$        & \verb|\real| && $\ratplus$ & \verb|\ratplus| \\ 
+    $\realplus$    & \verb|\realplus| && $\ratminus$ & \verb|\ratminus| \\
+    $\realminus$   & \verb|\realminus| && & \\
   \end{tabular}
   \caption{Commands for Number Sets}
   \label{tab:latex-number-sets}
@@ -425,11 +425,9 @@ The \LaTeX{} commands listed here are defined in the style file
 %
 \begin{table}[htbp]
   \centering
-  \begin{tabular}{ll}
-    $0$    & \verb|\azero| \\
-    $1.0$  & \verb|\aone| \\
-    $2.0$  & \verb|\atwo| \\
-    $10.0$ & \verb|\aten| \\
+  \begin{tabular}{llp{1cm}ll}
+    $0$    & \verb|\azero| && $2.0$  & \verb|\atwo| \\
+    $1.0$  & \verb|\aone| && $10.0$ & \verb|\aten| \\
   \end{tabular}
   \caption{Commands for $\arithmos$ Constants}
   \label{tab:latex-constants}
