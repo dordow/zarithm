@@ -1,0 +1,356 @@
+\documentclass[12pt]{scrartcl}
+
+\usepackage[T1]{fontenc}
+\usepackage[german,english]{babel}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{/home/frank/docs/reference/literature.bib}
+\AtEveryBibitem{\clearfield{url}}
+
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{tikz}
+\usepackage{units}
+\usepackage{gensymb}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{../source/zarithm}
+
+\usepackage[mark]{gitinfo2}
+\usepackage[outerbars]{changebar}
+\usepackage[pdf,shell]{dottex}
+
+%\usepackage{hyperref} % should be last but does not work then with zed-csp
+
+%\usepackage{savesym}
+\usepackage{zed-csp}
+\usepackage{../source/zarithm}
+% \savesymbol{because}
+% %\usepackage[nothing]{todo}
+% \usepackage{todo}
+% \restoresymbol{TXF}{because}
+
+
+
+%\nochangebars
+
+\newcommand{\remark}[1]{ \vspace{1em}\textbf{\underline{#1}}\vspace{1em} }
+%\newcommand{\comment}[1]{ \textbf{\underline{#1}} }
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{schemadef}{Schema}[section]
+\newtheorem{genericdef}{Generic Definition}[section]
+\newtheorem{zdef}{Definition}[section]
+
+\begin{document}
+
+% opening
+\title{Polynomials}
+\author{Frank Dordowsky}
+
+% make the title area
+\maketitle
+
+\begin{abstract}
+  This is a test paper for the Arithmetics in Z package and style,
+  using polynomials.
+\end{abstract}
+
+%\tableofcontents
+%\newpage
+
+\section{Introduction}
+\label{sec:intro}
+The arithmetics of polynomials is used as a test bed for the
+arithmetics in Z, type checked with \texttt{fuzz}.
+
+As a prepararation, the generic finite distributed sum in
+\texttt{zarithm.tex} is refined to the \emph{finite sum of reals}:
+\newcommand{\finsum}{\sum}
+\begin{zdef}[Finite Sum]
+  \label{zdef:finite-sum}
+  
+  \begin{axdef}
+    \finsum : \nat \cross \nat \cross (\nat \fun \real) \fun \real \\
+    \where
+    \forall k, l : \nat; f: \nat \fun \real | k \leq l @
+    \finsum(k,l,f) = \findistsum((k \upto l) \dres f)
+  \end{axdef}
+\end{zdef}
+
+\section{Polynomials}
+\label{sec:polynomials}
+Now the central definition of the paper, the set of polynomials:
+\begin{zdef}[Polynomials]
+  \label{zdef:polynomials}
+  A polynomial is actually a finite sequence of non-zero real numbers,
+  which are members of a function from all natural numbers to the real
+  numbers.
+  \begin{zed}
+    POLYNOMIAL == \{~p: \nat \fun \real | (\exists N: \nat @ (\forall n:
+    \nat | n > N @ p(n)=\azero))~\}
+  \end{zed}
+\end{zdef}
+
+\begin{zdef}[Coeefficients of a Polynomial]
+  \label{zdef:coefficient}
+  The $i$-th coefficient of a polynomial is the real value at position
+  $i$. 
+  \begin{zed}
+    coefficient == (\lambda p: POLYNOMIAL; i: \nat @ p(i))
+  \end{zed}
+\end{zdef}
+
+\newcommand{\zeropol}{\mathbf{0}}
+\begin{zdef}[Zero Polynomial]
+  \label{zdef:zero-polynomial}
+  The \emph{zero polynomial} $\zeropol$ has only coefficients of value
+  $\azero$:
+  \begin{axdef}
+    \zeropol : POLYNOMIAL
+    \where
+    \ran \zeropol = \{~\azero~\}
+  \end{axdef}
+\end{zdef}
+
+\begin{zdef}[Degree of a Polynomial]
+  The degree of a non-zero polynomial is the largest coefficient not equal to
+  zero, and equal to $-1$ for the zero polynomial.
+  \label{zdef:degree}
+  \begin{axdef}
+    deg : POLYNOMIAL \fun \nat
+    \where
+    deg~\zeropol = -1 \\
+    \forall p: POLYNOMIAL | p \neq \zeropol @ deg~p = max~(\dom (p \nrres
+  \{~\azero~\}))\\
+  \end{axdef}
+\end{zdef}
+
+\begin{lemma}[Alternative Description of Degree]
+  \label{lemma:alternative-degree}
+  \begin{zed}
+    \forall p: POLYNOMIAL; n: \nat @ deg~p = n \iff p(n) \neq \azero \land
+    (\forall i : \nat | i > n @ p(i) = \azero)
+  \end{zed}
+\end{lemma}
+
+\begin{proof}[Proof of lemma \ref{lemma:alternative-degree}]
+  to  be completed
+  
+\end{proof}
+\section{Addition and Multiplication of Polynomials}
+\label{sec:addition-multiplication}
+There are two operations on the set of polynomials, the addition and
+the multiplication of polynomials.
+\newcommand{\polyplus}{+}
+\begin{zdef}[Addition of Polynomials]
+  \label{zdef:polynomial-addition}
+%%inop \polyplus 3 
+  \begin{axdef}
+    \_ \polyplus \_ : POLYNOMIAL \cross POLYNOMIAL \fun POLYNOMIAL\\
+    \where
+    \forall p, q : POLYNOMIAL @ p \polyplus q = (\lambda i: \nat @ p~i
+    \aplus q~i)
+  \end{axdef}
+\end{zdef}
+
+\begin{prop}[Zero Polynomial is neutral Element]
+  \label{prop:zero-polynomial-neutral-element}
+  The zero polynomial $\zeropol$ is the neutral element of the
+  polynomial addition:
+  \begin{zed}
+    \forall p: POLYNOMIAL @ p \polyplus \zeropol = \zeropol \polyplus
+    p = p
+  \end{zed}
+\end{prop}
+
+\newcommand{\polymult}{*}
+\begin{zdef}[Multiplication of Polynomials]
+  \label{zdef:polynomial-multiplication}
+%%inop \polymult 4 
+  \begin{axdef}
+    \_ \polymult \_ : POLYNOMIAL \cross POLYNOMIAL \fun POLYNOMIAL\\
+    \where
+    \forall p, q : POLYNOMIAL @ p \polymult q = (\lambda i: \nat @
+    \finsum(0,i,(\lambda j: \nat @ p(j) \amult q(i-j))))
+  \end{axdef}
+\end{zdef}
+
+\begin{zdef}[Special binomial]
+  \label{zdef:special-binnomial}
+  $P$ is a constructor to produce the polynomial $x^n - r^n$ for a
+  given $r \in \real$ and $n \in \nat_1$.
+  \begin{zed}
+    P == (\lambda n: \nat_1; r: \real @ (\zeropol \oplus \{~0 \mapsto
+    r \apwr n~\}) \oplus \{~n \mapsto \aone ~\})
+  \end{zed}
+\end{zdef}
+
+\begin{prop}[Factorization of special binnomial]
+  \label{prop:factorization-binomial}
+  For a given $r \in \real$ and $n \in \nat_1$ there is a polynomial
+  $p$ with $(x^n-r^n) = p \polymult (x - r)$.
+  \begin{zed}
+    \forall n: \nat_1; r: \real @ \exists p : POLYNOMIAL @ P(n,r) = p
+    \polymult P(1,r)
+  \end{zed}
+\end{prop}
+
+\begin{proof}[Proof of proposition \ref{prop:factorization-binomial}]
+  to be completed
+\end{proof}
+
+\section{Evaluation of Polynomials}
+\label{sec:evaluation}
+
+For the evaluation of polynomials we use the Horner schema. As a
+preparation we define the left shifting of polynomials.
+ 
+\begin{zdef}[Left-Shift of a Polynomial]
+  \label{zdef:left-shift}
+  \begin{axdef}
+    lshift: POLYNOMIAL \fun POLYNOMIAL \\
+    \where
+    \forall p : POLYNOMIAL @ (\forall i: \nat @ (lshift~p)(i)=p(i+1))
+  \end{axdef}
+\end{zdef}
+
+\begin{prop}[Left-shifting the zero Polynomial]
+  \label{prop:left-shift-zero-polynomial}
+  \begin{zed}
+    lshift~\zeropol = \zeropol
+  \end{zed}
+\end{prop}
+
+\begin{proof}[Proof of proposition
+  \ref{prop:left-shift-zero-polynomial}]
+  \begin{argue}
+    \forall i : \nat @ (lshift~\zeropol)(i) = \zeropol(i+1) = \azero &
+    def. of zero polynomial  \ref{zdef:zero-polynomial} and
+    lshift \ref{zdef:left-shift}\\
+    \vdash lshift~\zeropol = \zeropol \\
+  \end{argue}
+  
+\end{proof}
+
+\begin{lemma}[Degree of left-shifted Polynomial]
+  \label{lemma:degree-left-shift}
+  Left shifting a non-zero polynomial reduces its degree by one.
+  \begin{zed}
+    \forall p: POLYNOMIAL | p \neq \zeropol @ deg (lshift~p) = deg~p - 1
+  \end{zed}
+\end{lemma}
+
+\begin{proof}[Proof of Lemma \ref{lemma:degree-left-shift}]
+  It is necessary to distinguish two cases: $deg~p = 0$ and $deg~p >
+  0$. Starting with  $deg~p = 0$:
+  \begin{argue}
+    p : POLYNOMIAL | deg~p = 0 @ p(0) \neq \azero \land
+    (\forall i: \nat | i > 0 @ p(i) = \azero)\\
+    \vdash (lshift~p) = \zeropol \\
+    \vdash deg(lshift~p) = deg(\zeropol) = -1 = deg~p - 1
+  \end{argue}
+  Now for the case $deg~p > 0$:
+  \begin{argue}
+    p : POLYNOMIAL | deg~p > 0 @ p(deg~p) \neq \azero \land
+    (\forall i: \nat | i > deg~p @ p(i) = \azero)\\
+    \vdash (lshift~p)((deg~p)-1) = p(deg~p) \neq \azero \\
+    \t1 \land (\forall i: \nat | i > ((deg~p)-1) @ (lshift~p)(i) =
+    p(i+1) = \azero)\\
+    \vdash deg(lshift~p) = deg~p - 1
+  \end{argue}
+\end{proof}
+
+\begin{zdef}[Evaluation of Polynomials]
+  \label{zdef:evaluation}
+  The evaluation of a polynomial $p$ yields a function from $\real$ to
+  $\real$:
+  \begin{axdef}
+    eval: POLYNOMIAL \fun (\real \fun \real)\\
+    \where
+    eval(\zeropol) = (\lambda v: \real @ \azero)\\
+    \forall p: POLYNOMIAL | p \neq \zeropol @ eval(p) = (\lambda v:
+    \real @ p(0) \aplus v \amult ((eval(lshift~p))(v)))
+  \end{axdef}
+\end{zdef}
+
+
+\begin{prop}[Evaluation of Polynomials]
+  \label{prop:evalutation}
+  \begin{zed}
+    \forall p: POLYNOMIAL; v: \real | p \neq \zeropol @ (eval~p)(v) = \\
+    \t1 \finsum(0,deg~p,(\lambda i: \nat @ (p~i)\amult(v \apwr i)))
+  \end{zed}
+\end{prop}
+
+\begin{proof}[Proof of proposition \ref{prop:evalutation}]
+  Induction over $deg~p$.
+  \begin{argue}
+    $deg~p = \azero$\quad \vdash (p~0 \neq \azero) \land (\forall i:
+    \nat_1 @ p~i = \azero)\\
+    \t1 \vdash lshift~p = \zeropol\\
+    \t1 \vdash eval(lshift~p) = eval(\zeropol) = (\lambda v: \real @
+    \azero)\\
+    \t1 \vdash eval(p) = (\lambda v: \real @ p(0) \aplus v \amult
+    \azero) = (\lambda v: \real @ p(0))\\
+    \t2 = \finsum(0,0,(\lambda i: \nat @ (p~i)\amult(v \apwr i)))
+  \end{argue}
+
+  We now assume that the proposition is correct for all polynomials of
+  degree $n$ and consider polynomial $p$ of degree $n+1$.
+
+  \begin{argue}
+    \forall p: POLYNOMIAL | deg~p = n+1\\
+    \vdash eval(p)(v) = p(0) \aplus v \amult (eval(lshift~p))(v) &
+    Def. \ref{zdef:left-shift}\\
+    \t1 = p(0) \aplus v \amult \finsum(0,deg(lshift~p),(\lambda i:
+    \nat @ ((lshift~p)~i)\amult(v \apwr i))) & Lemma
+    \ref{lemma:degree-left-shift} \\ & and induction\\
+    \t1 = p(0) \aplus \finsum(0,deg(lshift~p),(\lambda i:
+    \nat @ ((lshift~p)~i)\amult(v \apwr (i+1))))\\
+    \t1 = p(0) \aplus \finsum(1,deg(lshift~p)+1,(\lambda i:
+    \nat_1 @ ((lshift~p)~(i+1))\amult(v \apwr i)))\\
+    \t1 = p(0) \aplus \finsum(1,deg~p,(\lambda i:
+    \nat_1 @ p(i)\amult(v \apwr i)))\\
+    \t1 = \finsum(0,deg~p,(\lambda i: \nat @ p(i)\amult(v \apwr i)))\\
+  \end{argue}
+\end{proof}
+
+\section{Roots of a Polynomial}
+\label{sec:roots}
+
+
+\begin{zdef}[Roots of a Polynomial]
+  \label{zdef:roots}
+  \begin{axdef}
+    roots : POLYNOMIAL \fun \power \real\\
+    \where
+    roots~\zeropol = \real\\
+    \forall p : POLYNOMIAL | p \neq \zeropol @ roots~p = \{~r: \real |
+    (eval(p))(r) = \azero~\}
+  \end{axdef}
+\end{zdef}
+
+\begin{prop}[Factor theorem]
+  \label{prop:factor-theorem}
+  The roots $r \in \real$ of a polynomial $p$ can be factored out: $p
+  = pf \polymult (x-r)$ with a polynomial $pf$.
+  \begin{zed}
+    \forall p: POLYNOMIAL; r: \real | r \in roots~p @ \exists pf: POLYNOMIAL @ p =
+    pf \polymult P(1,r)
+  \end{zed}
+\end{prop}
+\begin{proof}[Proof of factor theorem \ref{prop:factor-theorem}]
+  to be completed
+\end{proof}
+% 
+% bibliography
+\printbibliography{}
+
+%\todos
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

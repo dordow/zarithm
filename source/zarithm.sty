@@ -1,0 +1,66 @@
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{zarithm}[2023/02/26 Arithmetic in ZRM Z]
+
+%\RequirePackage{zed-csp}
+%\RequirePackage{amssymb}
+
+%% 'sans serif' option
+% \DeclareOption{sans}{
+%   \renewcommand{\familydefault}{\sfdefault}
+% }
+
+% Default option setting
+% \ExecuteOptions{roman} 
+
+%\ProcessOptions\relax
+
+%% Traditional LaTeX or TeX follows...
+% \mathbb cannot be used because amssymb or amsmath clashes with zed-csp
+\newcommand{\arithmos}{{\bbold A}}
+\newcommand{\realplus}{{\bbold R}_{+}}
+\newcommand{\realminus}{{\bbold R}_{-}}
+\newcommand{\ratplus}{{\bbold Q}_{+}}
+\newcommand{\ratminus}{{\bbold Q}_{-}}
+
+\newcommand{\azero}{0}
+\newcommand{\aone}{1.0}
+\newcommand{\atwo}{2.0}
+\newcommand{\aten}{10.0}
+\newcommand{\aplus}{+}
+\newcommand{\azplus}{+}
+\newcommand{\aplusz}{+}
+\newcommand{\amult}{*}
+\newcommand{\azmult}{*}
+\newcommand{\amultz}{*}
+\newcommand{\aminus}{-}
+\newcommand{\azminus}{-}
+\newcommand{\aminusz}{-}
+\newcommand{\adiv}{/}
+\newcommand{\azdiv}{/}
+\newcommand{\adivz}{/}
+\newcommand{\aneg}{-}
+\newcommand{\ainv}{^{-1}}
+\newcommand{\apwr}{{*}{*}}
+\newcommand{\alt}{<}
+\newcommand{\aaltz}{<}
+\newcommand{\azlta}{<}
+\newcommand{\aleq}{\leq}
+\newcommand{\azleqa}{\leq}
+\newcommand{\aaleqz}{\leq}
+\newcommand{\agt}{>}
+\newcommand{\aagtz}{>}
+\newcommand{\azgta}{>}
+\newcommand{\ageq}{\geq}
+\newcommand{\aageqz}{\geq}
+\newcommand{\azgeqa}{\geq}
+\newcommand{\aaeqz}{=}
+\newcommand{\azeqa}{=}
+% \newcommand{\alabs}{\mid}
+% \newcommand{\arabs}{\mid}
+\newcommand{\findistsum}{\sum}
+\newcommand{\findistprod}{\prod}
+\newcommand{\realmax}{max}
+\newcommand{\realmin}{min}
+
+
+\endinput

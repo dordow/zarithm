@@ -1,0 +1,545 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+\usepackage{zed-csp} % must be included after zarithm
+\usepackage{zarithm}
+\usepackage[mark]{gitinfo2}
+\newcommand{\remark}[1]{ \vspace{1em}\textbf{\underline{#1}}\vspace{1em} }
+%\newcommand{\comment}[1]{ \textbf{\underline{#1}} }
+
+\begin{document}
+
+%opening
+\title{Arithmetic Definitions in  Z to be used with Fuzz}
+
+\author{Frank Dordowsky}
+
+% make the title area
+\maketitle
+
+\begin{abstract}
+The intention of this \LaTeX\ file is to extend the mathematical
+tool-kit of the Z reference manual to include rational and real
+numbers. 
+\end{abstract}
+
+%\tableofcontents
+%\newpage
+
+\section{Introduction}
+\label{sec:intro}
+Rational and real numbers are often used in the specification of
+embedded systems to represent environmental variables such as
+distances, termperatures, voltage levels etc. The mathematical toolkit
+of the Z reference manual (ZRM \cite{Spivey1998}) does not contain
+rational and real numbers, whereas the number toolkit of the ISO Z
+standard does. However, moving to standard (ISO) Z \cite{ISO13568} is
+not always the favourite option, especially if a large amount of Z
+specifications in ZRM style is available. Moreover, most Z textbooks
+have been written prior to ISO Z. For those who wish to stick with
+ZRM, this set of two files (\texttt{zarithm.sty} and
+\texttt{zarithm.tex}, this file) are intended to provide a solution.
+
+The file \texttt{zarithm.sty} is only used for typesetting, whereas
+\texttt{zarithm.tex} includes the Z definitions of the types for
+rational and real numbers, their basic operations and numerical
+comparisons. The Z definitions are sufficient for type setting, not
+for automated proof. If the user intends to use automated proof, there
+is probably no better way than to transit to standard Z.
+
+The ZRM comes along with the tool \texttt{fuzz}, a typechecker. The
+approach described here makes use of the fact that fuzz accepts more
+than one \LaTeX file and remembers the Z definitions of the files
+provided first.
+
+\section{Arithmos $\arithmos$}
+\label{sec:arithmos}
+
+$\arithmos$, which can be pronounced “arithmos”, is the encompassing
+set of numbers whose whole extent is deliberately left
+unspecified. This definition has been adopted from Valentine
+\cite{Valentine2012}.
+
+\begin{zed}
+  [\arithmos] 
+\end{zed}
+
+$\arithmos$ is a field with respect to two operations $\aplus$ and
+$\amult$, and neutral elements $\azero$ and $\aone$. Note that these
+are not identical to the elements $0$ and $1$ defined in $\num$.
+
+The folllowing axiomatic definition introduces addition, subtraction,
+and negation, together with some important constants.
+%
+%%inop \aplus 3
+%%inop \aminus 3
+\begin{axdef}
+  \_ \aplus \_ : \arithmos \cross \arithmos \fun \arithmos\\
+  \_ \aminus \_ : \arithmos \cross \arithmos \fun \arithmos\\
+  \aneg : \arithmos \fun \arithmos\\
+  \azero : \arithmos\\
+  \aone : \arithmos\\
+  \atwo : \arithmos\\
+  \aten : \arithmos\\
+  \where
+  \forall x : \arithmos @ x \aplus \azero = \azero \aplus x = x \\
+  \forall x : \arithmos @ x \aplus (\aneg x) = \azero \\
+  \forall x : \arithmos @ \aneg (\aneg x) = x \\
+  \forall x,y: \arithmos @ x \aplus y = y \aplus x \\
+  \forall x,y,z: \arithmos @ ( x \aplus y ) \aplus z = x \aplus (y
+  \aplus z) \\
+  \forall x,y : \arithmos @ x \aminus y = x \aplus (\aneg y)\\
+  \atwo = \aone \aplus \aone \\
+  \aten = \atwo \aplus \atwo \aplus \atwo \aplus \atwo \aplus \atwo \\
+\end{axdef}
+% 
+$\arithmos_1$ is the set of non-zero numbers:
+%
+\begin{zed}
+  \arithmos_1 == \arithmos \setminus \{ \azero \}
+\end{zed}
+%
+The next axiomatic definition introduces multiplication, division and
+inversion. 
+%
+%%inop \amult 4
+%%inop \adiv 4
+%%postop \ainv
+\begin{axdef}
+  \_ \amult \_ : \arithmos \cross \arithmos \fun \arithmos\\
+  \_ \adiv \_ : \arithmos \cross \arithmos_1 \fun \arithmos\\
+  \_ \ainv : \arithmos_1 \fun \arithmos_1\\
+  \where
+  \forall x : \arithmos @ x \amult \aone = \aone \amult x = x \\
+  \forall x : \arithmos_1 @ x \amult (x \ainv) = \aone \\
+  \forall x : \arithmos_1 @ (x \ainv)\ainv = x \\
+  \forall x,y: \arithmos @ x \amult y = y \amult x \\
+  \forall x,y,z: \arithmos @ ( x \amult y ) \amult z = x \amult (y
+  \amult z) \\
+  \forall x: \arithmos; y : \arithmos_1 @ x \adiv y = x \amult (y
+  \ainv)\\
+  \forall x: \arithmos @ x \amult \azero = \azero \amult x =
+  \azero\\
+  \forall x, y, z: \arithmos @ x \amult ( y \aplus z ) = x \amult y
+  \aplus x \amult z \\
+\end{axdef}
+%
+\section{Real Numbers $\real$}
+\label{sec:real-numbers}
+The set of real numbers $\real$ is a subset of $\arithmos$, which
+contains the constants defined in section \ref{sec:arithmos}.
+%
+\begin{axdef}
+  \real : \power \arithmos\\
+  \where
+  \azero \in \real\\
+  \aone \in \real\\
+  \atwo \in \real\\
+  \aten \in \real\\
+  \ran ( (\real \cross \real) \dres (\_ \aplus \_) ) \subset \real\\
+  \ran ( (\real \cross \real) \dres (\_ \amult \_) ) \subset \real\\
+  \ran (\real \dres (\aneg ))  \subset \real\\
+  \ran (\real \dres (\_ \ainv ))  \subset \real\\
+\end{axdef}
+
+The real numbers are closed with respect to addition, multiplication,
+negation and inversion.
+
+For real numbers, there is a relation ``$<$'':
+%
+%%inrel \alt
+\begin{axdef}
+  \_ \alt \_ : \real \rel \real\\
+  \where
+  \forall x : \real @ \lnot x \alt x\\
+  \forall x, y: \real @ x \alt y \lor x = y \lor y \alt x\\
+  \forall x, y, z: \real | x \alt y \land y \alt z @ x \alt z \\
+  \azero \alt \aone\\
+\end{axdef}
+%
+The definition of the other relations $\aleq$, $\agt$ and $\ageq$ can
+be traced back to this relation:
+%
+%%inrel \aleq
+%%inrel \agt
+%%inrel \ageq
+\begin{zed}
+  (\_ \aleq \_) == (\_ \alt \_ ) \cup \id \real \\
+  (\_ \agt \_) == (\_ \alt \_ ) \inv \\
+  (\_ \ageq \_) == (\_ \agt \_ ) \cup \id \real \\
+\end{zed}
+%
+There are shortcuts for positive and negative real numbers:
+%
+\begin{zed}
+  \realplus == \{~r :\real | r \agt \azero~\}\\
+  \realminus == \real \setminus ( \realplus \cup \{~\azero~\})
+\end{zed}
+%
+\section{Rational Numbers $\rat$}
+\label{sec:rational-numbers}
+The set of rational numbers $\rat$ is a subset $\real$.
+%
+\begin{axdef}
+  \rat : \power \real
+  \where
+  \azero \in \rat\\
+  \aone \in \rat\\
+  \atwo \in \rat\\
+  \aten \in \rat\\
+  \ran ( (\rat \cross \rat) \dres (\_ \aplus \_) ) \subset \rat\\
+  \ran ( (\rat \cross \rat) \dres (\_ \amult \_) ) \subset \rat\\
+  \ran (\rat \dres (\aneg ))  \subset \rat\\
+  \ran (\rat \dres (\_ \ainv ))  \subset \rat\\
+\end{axdef}
+The constants defined in section \ref{sec:arithmos} are also members
+of $\rat$.
+
+There are shortcuts for the positive, negative and non-zero rational numbers:
+\begin{zed}
+  \ratplus == \{~q :\rat | q \agt \azero~\}\\
+  \ratminus == \rat \setminus ( \ratplus \cup \{~\azero~\}) \\
+  \rat_1 == \ratplus \cup \ratminus \\
+\end{zed}
+%
+\section{Integers and Rational Numbers}
+\label{sec:integers-and-rationals}
+Unfortunately it is not possible to include the integer numbers into
+$\arithmos$, one can only embed them:
+
+\begin{axdef}
+  numembd : \num \inj \rat \\
+  \where
+  numembd~0 = \azero \\
+  \forall n : \nat @ numembd (succ~n) = (numembd~n) \aplus \aone \\
+  \forall z : \num | z < 0 @ numembd~z = \aneg(numembd(-z)) \\
+\end{axdef}
+
+The following laws can be easily derived from the definition:
+\begin{zed}
+  numembd~1 = \aone \\
+  numembd~2 = \atwo \\
+  numembd~10 = \aten \\
+  \forall i, j : \num @ numembd (i+j) = numembd~i \aplus numembd~j \\
+  \forall i, j : \num @ numembd (i-j) = numembd~i \aminus numembd~j \\
+  \forall i, j : \num @ numembd (i*j) = numembd~i \amult numembd~j \\
+  \forall i, j : \num | i < j @ numembd~i \alt numembd~j \\
+\end{zed}
+
+Mixing integers with real and rational numbers in arithmetic
+operations would require to use the embedding which would procude
+unweildy and clumsy expressions. Therefore, shortcuts for mixed
+operations are introduced.
+%
+%%inop \azplus 3
+%%inop \aplusz 3
+%%inop \azminus 3
+%%inop \aminusz 3
+%%inop \azmult 4
+%%inop \amultz 4
+%%inop \azdiv 4
+%%inop \adivz 4
+\begin{axdef}
+  \_ \azplus \_ : \num \cross \arithmos \fun \arithmos\\
+  \_ \aplusz \_ : \arithmos \cross \num \fun \arithmos\\
+  \_ \azmult \_ : \num \cross \arithmos \fun \arithmos\\
+  \_ \amultz \_ : \arithmos \cross \num \fun \arithmos\\
+  \_ \azminus \_ : \num \cross \arithmos \fun \arithmos\\
+  \_ \aminusz \_ : \arithmos \cross \num \fun \arithmos\\
+  \_ \azdiv \_ : \num \cross \arithmos_1 \fun \arithmos\\
+  \_ \adivz \_ : \arithmos \cross (\num \setminus \{~0~\}) \fun \arithmos\\
+  \where
+  \forall z: \num; x : \arithmos @ z \azplus x = numembd(z) \aplus x =
+  x \aplus numembd(z) = x \aplusz z\\
+  \forall z: \num; x : \arithmos @ z \azmult x = numembd(z) \amult x =
+  x \amult numembd(z) = x \amultz z\\
+  \forall z: \num; x : \arithmos @ z \azminus x = numembd(z) \aminus x =
+  x \aminus numembd(z) = x \aminusz z\\
+  \forall z: \num ; x :\arithmos_1 @ z \azdiv x = numembd(z) \adiv x\\
+    \forall z: \num ; x :\arithmos | z \neq 0 @ x \adivz z = x \adiv numembd(z)\\
+\end{axdef}
+
+These operations allow a simple formulation of equations such as the
+following:
+
+\begin{zed}
+ 5 \azmult \atwo = \aten \amultz 1 = \aten
+\end{zed}
+%
+Similarily, we need to mix integers and rationals or reals in
+relations. Especially there is a need to define equality.
+
+%%inrel \aaeqz
+%%inrel \azeqa
+%%inrel \aaltz
+%%inrel \azlta
+%%inrel \azleqa
+%%inrel \aaleqz
+%%inrel \aagtz
+%%inrel \azgta
+%%inrel \aageqz
+%%inrel \azgeqa
+\begin{zed}
+  (\_ \aaeqz \_) == \{~x:\real;z:\num | z \azminus x = \azero @ x
+  \mapsto z~\}\\
+  (\_ \azeqa \_) == \{~x:\real;z:\num | x \aminusz z = \azero @ z
+  \mapsto x~\}\\
+  (\_ \aaltz \_) == \{~x:\real;z:\num | z \azminus x \agt \azero @ x
+  \mapsto z~\}\\
+    (\_ \azlta \_) == \{~x:\real;z:\num | x \aminusz z \agt \azero @ z
+  \mapsto x~\}\\
+  (\_ \azleqa \_) == (\_ \azeqa \_) \cup (\_ \azlta \_)\\
+  (\_ \aaleqz \_) == (\_ \aaeqz \_) \cup (\_ \aaltz \_)\\
+  (\_ \aagtz \_) == \{~x:\real;z:\num | x \aminusz z \agt \azero @ x
+  \mapsto z~\}\\
+  (\_ \azgta \_) == \{~x:\real;z:\num | z \azminus x \agt \azero @ z
+  \mapsto x~\}\\
+  (\_ \aageqz \_) == (\_ \aaeqz \_) \cup (\_ \aagtz \_) \\
+  (\_ \azgeqa \_) == (\_ \azeqa \_) \cup (\_ \azgta \_) \\
+\end{zed}
+Note that the definitions that look identical are of different type,
+either subset of $\num \cross \real$ or $\real \cross \num$.
+
+With these definitions it is possible to formulate equations such as
+the following in a natural way:
+\begin{zed}
+  5 \azlta \aten \aaeqz 10
+\end{zed}
+
+\section{Special Functions}
+\label{sec:special-functions}
+
+\subsection{Absolute Value}
+\label{sec:abs}
+
+\begin{axdef}
+  abs: \arithmos \pfun \realplus \cup \{~\azero~\}\\
+  \where
+  abs(\azero) = \azero\\
+  abs(\aone) = \aone\\
+  \forall x, y : \dom abs @ abs(x \amult y) = abs(x) \amult abs(y)\\
+  \forall x, y : \dom abs @ abs(x \aplus y) \aleq abs(x) \aplus
+  abs(y)\\
+  \real \dres abs = \id \real \oplus (\lambda x: \realminus @ \aneg x)\\
+\end{axdef}
+
+\subsection{Power}
+\label{sec:power}
+
+%%inop \apwr 4
+\begin{axdef}
+  \_ \apwr \_ : \arithmos \cross \num \pfun \arithmos \\
+  \where
+  \forall n: \nat @ \azero \apwr n = \azero\\
+  \forall x: \arithmos @ x \apwr 0 = \aone\\
+  \forall x: \arithmos; z : \num @ x \apwr (z+1) = x \amult (x \apwr z)\\
+\end{axdef}
+
+\subsection{Square Root}
+\label{sec:square-root}
+The square root is a partial function on $\arithmos$.
+\begin{axdef}
+  sqrt : \arithmos \pfun \arithmos
+  \where
+  \forall x : \dom sqrt @ sqrt(x) \amult sqrt(x) = x
+\end{axdef}
+
+The square root function has the following properties, derived from
+its definition:
+\begin{zed}
+  sqrt(\azero) = \azero\\
+  sqrt(\aone) = \aone\\
+  \realplus \cup \{~\azero~\} \subseteq \dom sqrt\\
+  \dom (sqrt \rres \real) = \realplus \cup \{~\azero~\}\\
+  \ran (\real \dres sqrt) = \realplus \cup \{~\azero~\}\\
+\end{zed}
+
+\subsection{Finite Distributed Sum}
+\label{sec:fin-distr-sum}
+The finite distributed sum of a finite indexed set of elements of
+$\arithmos$ is defined as follows:
+
+\begin{gendef}[I]
+    \findistsum : (I \ffun \arithmos) \fun \arithmos
+    \where
+    \findistsum~\emptyset = \azero \\
+    \forall f: I \ffun \arithmos | f \neq \emptyset @ \\
+    \t1 (\exists i: \dom f @ \findistsum~f = (f~i) \aplus
+    \findistsum(\{~i~\} \ndres f))
+\end{gendef}
+The definition is valid irrespective of the index $i$ due to
+commutativity and associativity of the addition in $\arithmos$. 
+
+\subsection{Finite Distributed Product}
+\label{sec:fin-distr-product}
+Similar to the finite distributed sum there is a finite distributed
+product of a finite indexed set of elements of
+$\arithmos$ is defined as follows:
+
+\begin{gendef}[I]
+    \findistprod : (I \ffun \arithmos) \fun \arithmos
+    \where
+    \findistprod~\emptyset = \aone \\
+    \forall f: I \ffun \arithmos | f \neq \emptyset @ \\
+    \t1 (\exists i: \dom f @ \findistprod~f = (f~i) \amult
+    \findistprod(\{~i~\} \ndres f))
+\end{gendef}
+The definition is valid irrespective of the index $i$ due to
+commutativity and associativity of the multiplication in $\arithmos$.
+
+\subsection{Maximum of finite Set of real Numbers}
+\label{sec:max-real}
+For every non-empty finite set of real numbers there is a maximum:
+\begin{axdef}
+  \realmax : \finset_1 \real \fun \real
+  \where
+  \forall S: \finset_1 \real @ ( \realmax(S) \in S ) \land (\forall x : S @ x \aleq \realmax(S))
+\end{axdef}
+For infinite sets the maximum may not exist, but for finite sets it is
+unique and the function is well-defined.
+
+\subsection{Minimum of finite Set of real Numbers}
+\label{sec:min-real}
+There is a similar definition for the minimum of a finite set of real
+numbers: 
+\begin{axdef}
+  \realmin : \finset_1 \real \fun \real
+  \where
+  \forall S: \finset_1 \real @ ( \realmin(S) \in S ) \land (\forall x : S @ x \ageq \realmin(S))
+\end{axdef}
+
+\section{\LaTeX{} Commands}
+\label{sec:latex-commands}
+This section summarizes the \LaTeX{} commands for typesetting the
+number sets defined in this paper (Table~\ref{tab:latex-number-sets}),
+the numerical constants (Table \ref{tab:latex-constants}), operations
+(Table \ref{tab:latex-unary-operators} and
+\ref{tab:latex-binary-operators}), relations (Table
+\ref{tab:latex-relations}) and special functions )Table
+\ref{tab:latex-special-functions}).
+
+The \LaTeX{} commands listed here are defined in the style file
+\verb|zarithm.sty|.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{llp{1cm}ll}
+    $\arithmos$    & \verb|\arithmos| && $\rat$ & \verb|\rat| \\
+    $\arithmos_1$  & \verb|\arithmos_1| && $\rat_1$ & \verb|\rat_1| \\
+    $\real$        & \verb|\real| && $\ratplus$ & \verb|\ratplus| \\ 
+    $\realplus$    & \verb|\realplus| && $\ratminus$ & \verb|\ratminus| \\
+    $\realminus$   & \verb|\realminus| && & \\
+  \end{tabular}
+  \caption{Commands for Number Sets}
+  \label{tab:latex-number-sets}
+\end{table}
+%
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{llp{1cm}ll}
+    $0$    & \verb|\azero| && $2.0$  & \verb|\atwo| \\
+    $1.0$  & \verb|\aone| && $10.0$ & \verb|\aten| \\
+  \end{tabular}
+  \caption{Commands for $\arithmos$ Constants}
+  \label{tab:latex-constants}
+\end{table}
+%
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{ll}
+    $x\ainv$    & \verb|x\ainv| \\
+    $\aneg x$    & \verb|\aneg x| \\
+  \end{tabular}
+  \caption{Commands for unary Operators}
+  \label{tab:latex-unary-operators}
+\end{table}
+%
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{llll}
+    Operator & Left & Right & Command \\
+    \hline \\
+    $\aplus$ & $\arithmos, \real, \rat$ & $\arithmos, \real, \rat$ & \verb|\aplus| \\
+    $\aplusz$ & $\num$ & $\arithmos, \real, \rat$ & \verb|\azplus| \\
+    $\azplus$ & $\arithmos, \real, \rat$ & $\num$ & \verb|\aplusz| \\
+    $\aminus$ & $\arithmos, \real, \rat$ & $\arithmos, \real, \rat$ & \verb|\aminus| \\
+    $\aminusz$ & $\num$ & $\arithmos, \real, \rat$ & \verb|\azminus| \\
+    $\azminus$ & $\arithmos, \real, \rat$ & $\num$ & \verb|\aminusz| \\
+    $\amult$ & $\arithmos, \real, \rat$ & $\arithmos, \real, \rat$ & \verb|\amult| \\
+    $\amultz$ & $\num$ & $\arithmos, \real, \rat$ & \verb|\azmult| \\
+    $\azmult$ & $\arithmos, \real, \rat$ & $\num$ & \verb|\amultz| \\
+    $\adiv$ & $\arithmos, \real, \rat$ & $\arithmos_1, \real_1, \rat_1$ & \verb|\adiv| \\
+    $\adivz$ & $\num$ & $\arithmos_1, \real_1, \rat_1$ & \verb|\azdiv| \\
+    $\azdiv$ & $\arithmos, \real, \rat$ & $\num \setminus \{0\}$ & \verb|\adivz| \\
+    \hline
+  \end{tabular}
+  \caption{Commands for binary Operators}
+  \label{tab:latex-binary-operators}
+\end{table}
+%
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{llll}
+    Relation & Left & Right & Command \\
+    \hline \\
+    $=$ & $\arithmos, \real, \rat$ & $\arithmos, \real, \rat$ & \verb|=| \\
+    $\aaeqz$ & $\arithmos, \real, \rat$ & $\num$ & \verb|\aaeqz| \\
+    $\azeqa$ & $\num$ & $\arithmos, \real, \rat$ & \verb|\azeqa| \\
+    $\alt$ & $\real, \rat$ & $\real, \rat$ & \verb|\alt| \\
+    $\aaltz$ & $\real, \rat$ & $\num$ & \verb|\aaltz| \\
+    $\azlta$ & $\num$ & $\real, \rat$ & \verb|\azlta| \\
+    $\aleq$ & $\real, \rat$ & $\real, \rat$ & \verb|\aleq| \\
+    $\aaleqz$ & $\real, \rat$ & $\num$ & \verb|\aaleqz| \\
+    $\azleqa$ & $\num$ & $\real, \rat$ & \verb|\azleqa| \\
+    $\agt$ & $\real, \rat$ & $\real, \rat$ & \verb|\agt| \\
+    $\aagtz$ & $\real, \rat$ & $\num$ & \verb|\aagtz| \\
+    $\azgta$ & $\num$ & $\real, \rat$ & \verb|\azgta| \\
+    $\ageq$ & $\real, \rat$ & $\real, \rat$ & \verb|\ageq| \\
+    $\aageqz$ & $\real, \rat$ & $\num$ & \verb|\ageq| \\
+    $\azgeqa$ & $\num$ & $\real, \rat$ & \verb|\ageq| \\
+    \hline
+  \end{tabular}
+  \caption{Commands for Relations}
+  \label{tab:latex-relations}
+\end{table}
+%
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{ll}
+    $abs(x)$    & \verb|abs(x)| \\
+    $x \apwr n$    & \verb|x \apwr n| \\
+    $sqrt(x)$    & \verb|sqrt(x)| \\
+    Finite distributes sum & \verb|\findistsum| \\
+    Finite distributes product & \verb|\findistprod| \\
+    $\realmax$ & \verb|\realmax| \\
+    $\realmin$ & \verb|\realmin| \\
+  \end{tabular}
+  \caption{Commands for special Functions}
+  \label{tab:latex-special-functions}
+\end{table}
+% 
+% bibliography
+\begin{thebibliography}{99}
+\bibitem{Valentine2012}
+	Sam Valentine,
+  	\textit{Definitions of Numbers in Z},
+    2012
+  \bibitem{Spivey1998}
+    J. M. Spivey,
+    \textit{The Z Notation: A Reference Manual},
+    Prentice Hall International (UK) Ltd,
+    1998,
+    2nd edition
+  \bibitem{ISO13568}
+    ISO/IEC 13568:2002(E),
+    \textit{Information technology -- Z formal specification notation -- Syntax, type system and semantics},
+    2002
+\end{thebibliography}
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
