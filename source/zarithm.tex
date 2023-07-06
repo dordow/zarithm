@@ -308,22 +308,71 @@ the following in a natural way:
   5 \azlta \aten \aaeqz 10
 \end{zed}
 
+\section{Complex Numbers}
+\label{sec:complex-numbers}
+The set of complex numbers $\complex$ is a subset of $\arithmos$,
+which contains the real numbers defined in section
+\ref{sec:real-numbers}.
+%
+\begin{axdef}
+  \complex : \power \arithmos\\
+  \where
+  \real \subset \complex \\
+  \ran ( (\complex \cross \complex) \dres (\_ \aplus \_) ) \subset \complex\\
+  \ran ( (\complex \cross \complex) \dres (\_ \amult \_) ) \subset \complex\\
+  \ran (\complex \dres (\aneg ))  \subset \complex\\
+  \ran (\complex \dres (\_ \ainv ))  \subset \complex\\
+\end{axdef}
+
+The complex numbers are closed with respect to addition,
+multiplication, negation and inversion.
+
+There is a special complex constant $\ai$:
+%
+\begin{axdef}
+  \ai : \complex
+  \where
+  \ai \amult \ai = \aneg \aone
+\end{axdef}
+
+Complex numbers have a real and an imaginary part:
+%
+\begin{axdef}
+  \Re, \Im : \complex \fun \real
+  \where
+  \Re(\azero) = \Im(\azero) = \azero \\
+  \Re(\aone) = \aone \land \Im(\aone) = \azero \\
+  \Re(\ai) = \azero \land \Im(\ai) = \aone \\
+  \forall z_1, z_2: \complex @ ( \Re(z_1) = \Re(z_2) \land \Im(z_1) =
+  \Im(z_2) ) \iff z_1 = z_2 \\
+  \forall z_1, z_2: \complex @ \Re(z_1 \aplus z_2 ) = \Re(z_1) \aplus
+  \Re(z_2) \\
+  \forall z_1, z_2: \complex @ \Im(z_1 \aplus z_2 ) = \Im(z_1) \aplus
+  \Im(z_2) \\
+  \forall z_1, z_2: \complex @ \Re(z_1 \amult z_2 ) = \Re(z_1) \amult
+  \Re(z_2) \aminus  \Im(z_2) \amult \Im(z_2) \\
+  \forall z_1, z_2: \complex @ \Im(z_1 \amult z_2 ) = \Re(z_1) \amult
+  \Im(z_2) \aplus  \Im(z_1) \amult \Re(z_2) \\
+  \real = \dom (\Im \rres \{~\azero~\}) \\
+\end{axdef}
+%
+From these rules one can deduce
+\begin{zed}
+  \forall z : \complex @ z = \Re(z) \aplus \ai \amult \Im(z)
+\end{zed}
+%
+In $\complex$ there is a \emph{conjugate}:
+% \begin{axdef}
+%   \aconj : \complex \fun \comples
+%   \where
+  
+% \end{axdef}
+\begin{zed}
+  \aconj == (\lambda z: \complex @ \Re(z) \aminus \ai \amult \Im(z)) 
+\end{zed}
+%
 \section{Special Functions}
 \label{sec:special-functions}
-
-\subsection{Absolute Value}
-\label{sec:abs}
-
-\begin{axdef}
-  abs: \arithmos \pfun \realplus \cup \{~\azero~\}\\
-  \where
-  abs(\azero) = \azero\\
-  abs(\aone) = \aone\\
-  \forall x, y : \dom abs @ abs(x \amult y) = abs(x) \amult abs(y)\\
-  \forall x, y : \dom abs @ abs(x \aplus y) \aleq abs(x) \aplus
-  abs(y)\\
-  \real \dres abs = \id \real \oplus (\lambda x: \realminus @ \aneg x)\\
-\end{axdef}
 
 \subsection{Power}
 \label{sec:power}
@@ -355,6 +404,23 @@ its definition:
   \dom (sqrt \rres \real) = \realplus \cup \{~\azero~\}\\
   \ran (\real \dres sqrt) = \realplus \cup \{~\azero~\}\\
 \end{zed}
+
+\subsection{Absolute Value}
+\label{sec:abs}
+
+\begin{axdef}
+  abs: \arithmos \pfun \realplus \cup \{~\azero~\}\\
+  \where
+  abs(\azero) = \azero\\
+  abs(\aone) = \aone\\
+  \forall x, y : \dom abs @ abs(x \amult y) = abs(x) \amult abs(y)\\
+  \forall x, y : \dom abs @ abs(x \aplus y) \aleq abs(x) \aplus
+  abs(y)\\
+  \real \dres abs = \id \real \oplus (\lambda x: \realminus @ \aneg
+  x)\\
+  \complex \dres abs = (\lambda z: \complex @ sqrt(\Re(z) \apwr 2
+  \aplus \Im(z) \apwr 2))
+\end{axdef}
 
 \subsection{Finite Distributed Sum}
 \label{sec:fin-distr-sum}
