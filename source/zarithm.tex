@@ -327,12 +327,12 @@ which contains the real numbers defined in section
 The complex numbers are closed with respect to addition,
 multiplication, negation and inversion.
 
-There is a special complex constant $\ai$:
+There is a special complex constant $\iu$:
 %
 \begin{axdef}
-  \ai : \complex
+  \iu : \complex
   \where
-  \ai \amult \ai = \aneg \aone
+  \iu \amult \iu = \aneg \aone
 \end{axdef}
 
 Complex numbers have a real and an imaginary part:
@@ -342,7 +342,7 @@ Complex numbers have a real and an imaginary part:
   \where
   \Re(\azero) = \Im(\azero) = \azero \\
   \Re(\aone) = \aone \land \Im(\aone) = \azero \\
-  \Re(\ai) = \azero \land \Im(\ai) = \aone \\
+  \Re(\iu) = \azero \land \Im(\iu) = \aone \\
   \forall z_1, z_2: \complex @ ( \Re(z_1) = \Re(z_2) \land \Im(z_1) =
   \Im(z_2) ) \iff z_1 = z_2 \\
   \forall z_1, z_2: \complex @ \Re(z_1 \aplus z_2 ) = \Re(z_1) \aplus
@@ -358,7 +358,7 @@ Complex numbers have a real and an imaginary part:
 %
 From these rules one can deduce
 \begin{zed}
-  \forall z : \complex @ z = \Re(z) \aplus \ai \amult \Im(z)
+  \forall z : \complex @ z = \Re(z) \aplus \iu \amult \Im(z)
 \end{zed}
 %
 In $\complex$ there is a \emph{conjugate}:
@@ -368,7 +368,7 @@ In $\complex$ there is a \emph{conjugate}:
   
 % \end{axdef}
 \begin{zed}
-  \aconj == (\lambda z: \complex @ \Re(z) \aminus \ai \amult \Im(z)) 
+  \aconj == (\lambda z: \complex @ \Re(z) \aminus \iu \amult \Im(z)) 
 \end{zed}
 %
 \section{Special Functions}
@@ -491,12 +491,11 @@ The \LaTeX{} commands listed here are defined in the style file
 
 \begin{table}[htbp]
   \centering
-  \begin{tabular}{llp{1cm}ll}
-    $\arithmos$    & \verb|\arithmos| && $\rat$ & \verb|\rat| \\
-    $\arithmos_1$  & \verb|\arithmos_1| && $\rat_1$ & \verb|\rat_1| \\
-    $\real$        & \verb|\real| && $\ratplus$ & \verb|\ratplus| \\ 
-    $\realplus$    & \verb|\realplus| && $\ratminus$ & \verb|\ratminus| \\
-    $\realminus$   & \verb|\realminus| && & \\
+  \begin{tabular}{llp{1cm}llp{1cm}ll}
+    $\arithmos$    & \verb|\arithmos| && $\real$ & \verb|\real|&& $\rat$ & \verb|\rat| \\
+    $\arithmos_1$  & \verb|\arithmos_1| && $\realplus$ & \verb|\realplus| && $\rat_1$ & \verb|\rat_1| \\
+    $\complex$ & \verb|\complex| && $\realminus$ & \verb|\realminus| && $\ratplus$ & \verb|\ratplus| \\ 
+    $\complex_1$ & \verb|\complex_1| &&  & && $\ratminus$ & \verb|\ratminus| \\
   \end{tabular}
   \caption{Commands for Number Sets}
   \label{tab:latex-number-sets}
@@ -504,9 +503,9 @@ The \LaTeX{} commands listed here are defined in the style file
 %
 \begin{table}[htbp]
   \centering
-  \begin{tabular}{llp{1cm}ll}
-    $0$    & \verb|\azero| && $2.0$  & \verb|\atwo| \\
-    $1.0$  & \verb|\aone| && $10.0$ & \verb|\aten| \\
+  \begin{tabular}{llp{1cm}llp{1cm}ll}
+    $0$    & \verb|\azero| && $2.0$  & \verb|\atwo| && $\iu$  & \verb|\iu| \\
+    $1.0$  & \verb|\aone| && $10.0$ & \verb|\aten| && & \\
   \end{tabular}
   \caption{Commands for $\arithmos$ Constants}
   \label{tab:latex-constants}
@@ -527,18 +526,19 @@ The \LaTeX{} commands listed here are defined in the style file
   \begin{tabular}{llll}
     Operator & Left & Right & Command \\
     \hline \\
-    $\aplus$ & $\arithmos, \real, \rat$ & $\arithmos, \real, \rat$ & \verb|\aplus| \\
-    $\aplusz$ & $\num$ & $\arithmos, \real, \rat$ & \verb|\azplus| \\
-    $\azplus$ & $\arithmos, \real, \rat$ & $\num$ & \verb|\aplusz| \\
-    $\aminus$ & $\arithmos, \real, \rat$ & $\arithmos, \real, \rat$ & \verb|\aminus| \\
-    $\aminusz$ & $\num$ & $\arithmos, \real, \rat$ & \verb|\azminus| \\
-    $\azminus$ & $\arithmos, \real, \rat$ & $\num$ & \verb|\aminusz| \\
-    $\amult$ & $\arithmos, \real, \rat$ & $\arithmos, \real, \rat$ & \verb|\amult| \\
-    $\amultz$ & $\num$ & $\arithmos, \real, \rat$ & \verb|\azmult| \\
-    $\azmult$ & $\arithmos, \real, \rat$ & $\num$ & \verb|\amultz| \\
-    $\adiv$ & $\arithmos, \real, \rat$ & $\arithmos_1, \real_1, \rat_1$ & \verb|\adiv| \\
-    $\adivz$ & $\num$ & $\arithmos_1, \real_1, \rat_1$ & \verb|\azdiv| \\
-    $\azdiv$ & $\arithmos, \real, \rat$ & $\num \setminus \{0\}$ & \verb|\adivz| \\
+    $\aplus$ & $\arithmos, \complex, \real, \rat$ & $\arithmos,
+                                                    \complex, \real, \rat$ & \verb|\aplus| \\
+    $\aplusz$ & $\num$ & $\arithmos, \complex, \real, \rat$ & \verb|\azplus| \\
+    $\azplus$ & $\arithmos, \complex, \real, \rat$ & $\num$ & \verb|\aplusz| \\
+    $\aminus$ & $\arithmos, \complex, \real, \rat$ & $\arithmos, \complex, \real, \rat$ & \verb|\aminus| \\
+    $\aminusz$ & $\num$ & $\arithmos, \complex, \real, \rat$ & \verb|\azminus| \\
+    $\azminus$ & $\arithmos, \complex, \real, \rat$ & $\num$ & \verb|\aminusz| \\
+    $\amult$ & $\arithmos, \complex, \real, \rat$ & $\arithmos, \complex, \real, \rat$ & \verb|\amult| \\
+    $\amultz$ & $\num$ & $\arithmos, \complex, \real, \rat$ & \verb|\azmult| \\
+    $\azmult$ & $\arithmos, \complex, \real, \rat$ & $\num$ & \verb|\amultz| \\
+    $\adiv$ & $\arithmos, \complex, \real, \rat$ & $\arithmos_1, \complex_1, \real_1, \rat_1$ & \verb|\adiv| \\
+    $\adivz$ & $\num$ & $\arithmos_1, \complex_1, \real_1, \rat_1$ & \verb|\azdiv| \\
+    $\azdiv$ & $\arithmos, \complex, \real, \rat$ & $\num \setminus \{0\}$ & \verb|\adivz| \\
     \hline
   \end{tabular}
   \caption{Commands for binary Operators}
@@ -550,9 +550,9 @@ The \LaTeX{} commands listed here are defined in the style file
   \begin{tabular}{llll}
     Relation & Left & Right & Command \\
     \hline \\
-    $=$ & $\arithmos, \real, \rat$ & $\arithmos, \real, \rat$ & \verb|=| \\
-    $\aaeqz$ & $\arithmos, \real, \rat$ & $\num$ & \verb|\aaeqz| \\
-    $\azeqa$ & $\num$ & $\arithmos, \real, \rat$ & \verb|\azeqa| \\
+    $=$ & $\arithmos, \complex, \real, \rat$ & $\arithmos, \complex, \real, \rat$ & \verb|=| \\
+    $\aaeqz$ & $\arithmos, \complex, \real, \rat$ & $\num$ & \verb|\aaeqz| \\
+    $\azeqa$ & $\num$ & $\arithmos, \complex, \real, \rat$ & \verb|\azeqa| \\
     $\alt$ & $\real, \rat$ & $\real, \rat$ & \verb|\alt| \\
     $\aaltz$ & $\real, \rat$ & $\num$ & \verb|\aaltz| \\
     $\azlta$ & $\num$ & $\real, \rat$ & \verb|\azlta| \\
@@ -577,6 +577,7 @@ The \LaTeX{} commands listed here are defined in the style file
     $abs(x)$    & \verb|abs(x)| \\
     $x \apwr n$    & \verb|x \apwr n| \\
     $sqrt(x)$    & \verb|sqrt(x)| \\
+    $conj(z)$    & \verb|conj(z)|\\
     Finite distributes sum & \verb|\findistsum| \\
     Finite distributes product & \verb|\findistprod| \\
     $\realmax$ & \verb|\realmax| \\
