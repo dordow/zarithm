@@ -70,7 +70,7 @@ $\arithmos$ is a field with respect to two operations $\aplus$ and
 $\amult$, and neutral elements $\azero$ and $\aone$. Note that these
 are not identical to the elements $0$ and $1$ defined in $\num$.
 
-The folllowing axiomatic definition introduces addition, subtraction,
+The following axiomatic definition introduces addition, subtraction,
 and negation, together with some important constants.
 %
 %%inop \aplus 3
@@ -175,7 +175,8 @@ There are shortcuts for positive and negative real numbers:
 %
 \begin{zed}
   \realplus == \{~r :\real | r \agt \azero~\}\\
-  \realminus == \real \setminus ( \realplus \cup \{~\azero~\})
+  \realminus == \real \setminus ( \realplus \cup \{~\azero~\})\\
+  \real_1 == \realplus \cup \realminus \\
 \end{zed}
 %
 \section{Rational Numbers $\rat$}
@@ -229,7 +230,7 @@ The following laws can be easily derived from the definition:
 \end{zed}
 
 Mixing integers with real and rational numbers in arithmetic
-operations would require to use the embedding which would procude
+operations would require to use the embedding which would produce
 unweildy and clumsy expressions. Therefore, shortcuts for mixed
 operations are introduced.
 %
@@ -371,6 +372,12 @@ In $\complex$ there is a \emph{conjugate}:
   \aconj == (\lambda z: \complex @ \Re(z) \aminus \iu \amult \Im(z)) 
 \end{zed}
 %
+From this definition it follows that
+\begin{zed}
+  % \real = \{~z : \complex @ \aconj~z = z~\}
+  \forall z : \complex @ z \in \real \iff \aconj~z = z 
+\end{zed}
+%
 \section{Special Functions}
 \label{sec:special-functions}
 
@@ -419,7 +426,8 @@ its definition:
   \real \dres abs = \id \real \oplus (\lambda x: \realminus @ \aneg
   x)\\
   \complex \dres abs = (\lambda z: \complex @ sqrt(\Re(z) \apwr 2
-  \aplus \Im(z) \apwr 2))
+  \aplus \Im(z) \apwr 2))\\
+  \forall z: \complex @ z \apwr 2 = z \amult \aconj(z)\\
 \end{axdef}
 
 \subsection{Finite Distributed Sum}
@@ -563,8 +571,8 @@ The \LaTeX{} commands listed here are defined in the style file
     $\aagtz$ & $\real, \rat$ & $\num$ & \verb|\aagtz| \\
     $\azgta$ & $\num$ & $\real, \rat$ & \verb|\azgta| \\
     $\ageq$ & $\real, \rat$ & $\real, \rat$ & \verb|\ageq| \\
-    $\aageqz$ & $\real, \rat$ & $\num$ & \verb|\ageq| \\
-    $\azgeqa$ & $\num$ & $\real, \rat$ & \verb|\ageq| \\
+    $\aageqz$ & $\real, \rat$ & $\num$ & \verb|\aageqz| \\
+    $\azgeqa$ & $\num$ & $\real, \rat$ & \verb|\azgeqa| \\
     \hline
   \end{tabular}
   \caption{Commands for Relations}
@@ -577,7 +585,7 @@ The \LaTeX{} commands listed here are defined in the style file
     $abs(x)$    & \verb|abs(x)| \\
     $x \apwr n$    & \verb|x \apwr n| \\
     $sqrt(x)$    & \verb|sqrt(x)| \\
-    $conj(z)$    & \verb|conj(z)|\\
+    $\aconj(z)$    & \verb|\aconj(z)|\\
     Finite distributes sum & \verb|\findistsum| \\
     Finite distributes product & \verb|\findistprod| \\
     $\realmax$ & \verb|\realmax| \\
