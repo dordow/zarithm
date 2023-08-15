@@ -13,6 +13,7 @@
 \usepackage{gensymb}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{amsmath}
 \usepackage{../source/zarithm}
 
 \usepackage[mark]{gitinfo2}
@@ -136,8 +137,34 @@ Now the central definition of the paper, the set of polynomials:
 
 \begin{proof}[Proof of lemma \ref{lemma:alternative-degree}]
   to  be completed
-  
 \end{proof}
+%
+Real and complex polynomials are those with coefficients in either
+$\real$ or $\complex$ respectively:
+\begin{zdef}[Complex Polynomials]
+  \label{zdef:complex-polynomials}
+  \emph{Complex polynomials} are polynomials where all coefficients
+  are complex numbers:
+  \begin{zed}
+    ComplexPolynomial == \{~p: POLYNOMIAL | \ran~p \subseteq \complex~\}
+  \end{zed}
+\end{zdef}
+%
+The definition of real polynomials is based on that for complex
+polynomials so that they form a subset relation.
+\begin{zdef}[Real Polynomials]
+  \label{zdef:real-polynomials}
+  Real polynomials are polynomials where all coefficients are real numbers:
+  \begin{zed}
+    RealPolynomial == \{~p: ComplexPolynomial | \ran~p \subseteq \real~\}
+  \end{zed}
+\end{zdef}
+%
+With these definitions there is
+\begin{zed}
+  RealPolynomial \subseteq ComplexPolynomial \subseteq POLYNOMIAL
+\end{zed}
+%
 \section{Addition and Multiplication of Polynomials}
 \label{sec:addition-multiplication}
 There are two operations on the set of polynomials, the addition and
@@ -163,7 +190,28 @@ the multiplication of polynomials.
     p = p
   \end{zed}
 \end{prop}
-
+%
+\begin{prop}[Additition and Multiplication of Real and Complex
+  Polynomials are closed]
+  \label{prop:closure-of-real-complex-addition-multiplication}
+  Addition and Multiplication of real or complex polynomials result in
+  real or complex polynomials respectively:
+  \begin{zed}
+    \ran ((RealPolynomial \cross RealPolynomial) \dres (\_ \polyplus
+    \_ )) \subseteq RealPolynomial\\
+    \ran ((ComplexPolynomial \cross ComplexPolynomial) \dres (\_ \polyplus
+    \_ )) \subseteq ComplexPolynomial\\
+  \end{zed}
+\end{prop}
+\begin{proof}[Proof of proposition
+  \ref{prop:closure-of-real-complex-addition-multiplication}]
+  The coefficients of the resulting polynomial of an addition or
+  multiplication of two polynomials $p_1$ and $p_2$ are computed by addition and
+  multiplication of the coefficients of $p_1$ and $p_2$. If all these
+  coefficients are either real or complex, then are the sum or product
+  of them, and so are the coefficients of the resulting polynomial.
+\end{proof}
+% 
 \newcommand{\polymult}{*}
 \begin{zdef}[Multiplication of Polynomials]
   \label{zdef:polynomial-multiplication}
@@ -281,8 +329,14 @@ preparation we define the left shifting of polynomials.
     \forall p: POLYNOMIAL; v: \arithmos | p \neq \zeropol @ (eval~p)(v) = \\
     \t1 \finsum(0,deg~p,(\lambda i: \nat @ (p~i)\amult(v \apwr i)))
   \end{zed}
+ Note: in normal math notation this is simply
+ \begin{equation*}
+   \label{eq:math-notation-polynomial-evaluation}
+   eval(p)(v) = \sum_{i=0}^n a_iv^i \text{ with } n = deg(p) \text{ and
+   } a_i = p(i)
+ \end{equation*}
 \end{prop}
-
+%
 \begin{proof}[Proof of proposition \ref{prop:evalutation}]
   Induction over $deg~p$.
   \begin{argue}
@@ -315,7 +369,23 @@ preparation we define the left shifting of polynomials.
     \t1 = \finsum(0,deg~p,(\lambda i: \nat @ p(i)\amult(v \apwr i)))\\
   \end{argue}
 \end{proof}
+%
+\begin{prop}[Evaluation of Real or Complex Polynomial yields Real or Complex Results]
+  \label{prop:evaluation-real-complex-polynomial}
+  The evaluation of a real value of a real polynomial yields a real
+  result. The same applies to complex values and complex polynomials.
+  \begin{zed}
+%    \ran(\real \dres (RealPolynomial \dres eval)) \subseteq \real
+    \forall p: RealPolynomial; r: \real @ (eval~p)(r) \in \real\\
+    \forall p: ComplexPolynomial; c: \complex @ (eval~p)(c) \in \complex\\
+  \end{zed}
+\end{prop}
+\begin{proof}[Proof of proposition \ref{prop:evaluation-real-complex-polynomial}]
+  This is a corrolary of proposition \ref{prop:evalutation} since all
+  terms are either real or complex.
+\end{proof}
 
+%
 \section{Roots of a Polynomial}
 \label{sec:roots}
 
