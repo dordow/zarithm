@@ -66,7 +66,8 @@ The arithmetics of polynomials is used as a test bed for the
 arithmetics in Z, type checked with \texttt{fuzz}.
 
 As a prepararation, the generic finite distributed sum in
-\texttt{zarithm.tex} is refined to the \emph{finite sum of reals}:
+\texttt{zarithm.tex} is refined to the \emph{finite sum of elements of
+Arithmos}:
 \newcommand{\finsum}{\sum}
 \begin{zdef}[Finite Sum]
   \label{zdef:finite-sum}
@@ -78,7 +79,11 @@ As a prepararation, the generic finite distributed sum in
     \finsum(k,l,f) = \findistsum((k \upto l) \dres f)
   \end{axdef}
 \end{zdef}
-
+%
+A note on proofs: Proofs sometimes use the \texttt{argue} environment,
+which is not type checked by \texttt{fuzz} according to the
+\texttt{fuzz} manual \cite{Spivey2000}.
+%
 \section{Polynomials}
 \label{sec:polynomials}
 Now the central definition of the paper, the set of polynomials:
@@ -101,7 +106,12 @@ Now the central definition of the paper, the set of polynomials:
     coefficient == (\lambda p: POLYNOMIAL; i: \nat @ p(i))
   \end{zed}
 \end{zdef}
-
+%
+With this definition it is
+\begin{zed}
+  coefficient \in POLYNOMIAL \cross \nat \fun \arithmos
+\end{zed}
+%
 \newcommand{\zeropol}{\mathbf{0}}
 \begin{zdef}[Zero Polynomial]
   \label{zdef:zero-polynomial}
@@ -190,27 +200,6 @@ the multiplication of polynomials.
     p = p
   \end{zed}
 \end{prop}
-%
-\begin{prop}[Additition and Multiplication of Real and Complex
-  Polynomials are closed]
-  \label{prop:closure-of-real-complex-addition-multiplication}
-  Addition and Multiplication of real or complex polynomials result in
-  real or complex polynomials respectively:
-  \begin{zed}
-    \ran ((RealPolynomial \cross RealPolynomial) \dres (\_ \polyplus
-    \_ )) \subseteq RealPolynomial\\
-    \ran ((ComplexPolynomial \cross ComplexPolynomial) \dres (\_ \polyplus
-    \_ )) \subseteq ComplexPolynomial\\
-  \end{zed}
-\end{prop}
-\begin{proof}[Proof of proposition
-  \ref{prop:closure-of-real-complex-addition-multiplication}]
-  The coefficients of the resulting polynomial of an addition or
-  multiplication of two polynomials $p_1$ and $p_2$ are computed by addition and
-  multiplication of the coefficients of $p_1$ and $p_2$. If all these
-  coefficients are either real or complex, then are the sum or product
-  of them, and so are the coefficients of the resulting polynomial.
-\end{proof}
 % 
 \newcommand{\polymult}{*}
 \begin{zdef}[Multiplication of Polynomials]
@@ -223,7 +212,33 @@ the multiplication of polynomials.
     \finsum(0,i,(\lambda j: \nat @ p(j) \amult q(i-j))))
   \end{axdef}
 \end{zdef}
-
+%
+%
+\begin{prop}[Additition and Multiplication of Real and Complex
+  Polynomials are closed]
+  \label{prop:closure-of-real-complex-addition-multiplication}
+  Addition and Multiplication of real or complex polynomials result in
+  real or complex polynomials respectively:
+  \begin{zed}
+    \ran ((RealPolynomial \cross RealPolynomial) \dres (\_ \polyplus
+    \_ )) \subseteq RealPolynomial\\
+    \ran ((ComplexPolynomial \cross ComplexPolynomial) \dres (\_ \polyplus
+    \_ )) \subseteq ComplexPolynomial\\
+    \ran ((RealPolynomial \cross RealPolynomial) \dres (\_ \polymult
+    \_ )) \subseteq RealPolynomial\\
+    \ran ((ComplexPolynomial \cross ComplexPolynomial) \dres (\_ \polymult
+    \_ )) \subseteq ComplexPolynomial\\
+  \end{zed}
+\end{prop}
+\begin{proof}[Proof of proposition
+  \ref{prop:closure-of-real-complex-addition-multiplication}]
+  The coefficients of the resulting polynomial of an addition or
+  multiplication of two polynomials $p_1$ and $p_2$ are computed by addition and
+  multiplication of the coefficients of $p_1$ and $p_2$. If all these
+  coefficients are either real or complex, then are the sum or product
+  of them, and so are the coefficients of the resulting polynomial.
+\end{proof}
+%
 \begin{zdef}[Special binomial]
   \label{zdef:special-binnomial}
   $P$ is a constructor to produce the polynomial $x^n - r^n$ for a
@@ -413,7 +428,16 @@ preparation we define the left shifting of polynomials.
 \begin{proof}[Proof of factor theorem \ref{prop:factor-theorem}]
   to be completed
 \end{proof}
-% 
+%
+\begin{prop}[Fundamental Theorem of Algebra]
+  Every non-constant complex polynomial has a root that is a complex
+  number.
+  \begin{zed}
+    \forall p : ComplexPolynomial | deg~p > 0 @ roots~p \cap \complex
+    \neq \emptyset
+  \end{zed}
+\end{prop}
+%
 % bibliography
 \printbibliography{}
 
