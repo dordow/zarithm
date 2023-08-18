@@ -20,9 +20,9 @@
 \maketitle
 
 \begin{abstract}
-The intention of this \LaTeX\ file is to extend the mathematical
-tool-kit of the Z reference manual to include rational and real
-numbers. 
+  The intention of this \LaTeX\ file is to extend the mathematical
+  tool-kit of the Z reference manual to include rational, real and
+  complex numbers.
 \end{abstract}
 
 %\tableofcontents
@@ -38,22 +38,33 @@ rational and real numbers, whereas the number toolkit of the ISO Z
 standard does. However, moving to standard (ISO) Z \cite{ISO13568} is
 not always the favourite option, especially if a large amount of Z
 specifications in ZRM style is available. Moreover, most Z textbooks
-have been written prior to ISO Z. For those who wish to stick with
-ZRM, this set of two files (\texttt{zarithm.sty} and
+have been written prior to standard Z. For those who wish to stick
+with ZRM, this set of two files (\texttt{zarithm.sty} and
 \texttt{zarithm.tex}, this file) are intended to provide a solution.
 
 The file \texttt{zarithm.sty} is only used for typesetting, whereas
 \texttt{zarithm.tex} includes the Z definitions of the types for
-rational and real numbers, their basic operations and numerical
-comparisons. The Z definitions are sufficient for type setting, not
-for automated proof. If the user intends to use automated proof, there
-is probably no better way than to transit to standard Z.
+rational, real and complex numbers, their basic operations and
+numerical comparisons. The Z definitions are sufficient for type
+setting, not for automated proof. If the user intends to use automated
+proof, there is probably no better way than to transit to standard Z.
 
 The ZRM comes along with the tool \texttt{fuzz}, a typechecker. The
 approach described here makes use of the fact that fuzz accepts more
 than one \LaTeX file and remembers the Z definitions of the files
 provided first.
 
+The document is structured as follows: the next section
+\ref{sec:arithmos} defines an artifical set of numbers named
+Arithmos. Section \ref{sec:real-numbers} introduces real numbers,
+section \ref{sec:rational-numbers} rational numbers, and section
+\ref{sec:complex-numbers} complex numbers. Section
+\ref{sec:integers-and-rationals} discusses the relation between
+integers and rational numbers. Section \ref{sec:special-functions}
+introduces a couple of functions that are often used, and section
+\ref{sec:latex-commands} lists the \LaTeX{} commands that are used for
+type setting number sets, operations and relations.
+%
 \section{Arithmos $\arithmos$}
 \label{sec:arithmos}
 
@@ -309,7 +320,7 @@ the following in a natural way:
   5 \azlta \aten \aaeqz 10
 \end{zed}
 
-\section{Complex Numbers}
+\section{Complex Numbers $\complex$}
 \label{sec:complex-numbers}
 The set of complex numbers $\complex$ is a subset of $\arithmos$,
 which contains the real numbers defined in section
@@ -351,7 +362,7 @@ Complex numbers have a real and an imaginary part:
   \forall z_1, z_2: \complex @ \Im(z_1 \aplus z_2 ) = \Im(z_1) \aplus
   \Im(z_2) \\
   \forall z_1, z_2: \complex @ \Re(z_1 \amult z_2 ) = \Re(z_1) \amult
-  \Re(z_2) \aminus  \Im(z_2) \amult \Im(z_2) \\
+  \Re(z_2) \aminus  \Im(z_1) \amult \Im(z_2) \\
   \forall z_1, z_2: \complex @ \Im(z_1 \amult z_2 ) = \Re(z_1) \amult
   \Im(z_2) \aplus  \Im(z_1) \amult \Re(z_2) \\
   \real = \dom (\Im \rres \{~\azero~\}) \\
@@ -375,7 +386,11 @@ In $\complex$ there is a \emph{conjugate}:
 From this definition it follows that
 \begin{zed}
   % \real = \{~z : \complex @ \aconj~z = z~\}
-  \forall z : \complex @ z \in \real \iff \aconj~z = z 
+  \forall z : \complex @ z \in \real \iff \aconj~z = z \\
+  \forall z: \complex @  \aconj(\aconj~z) = z \\
+  \forall z_1, z_2 : \complex @ \aconj(z_1 \aplus z_2 ) = \aconj~z_1 \aplus \aconj~z_2\\
+  \forall z_1, z_2 : \complex @ \aconj(z_1 \aminus z_2 ) = \aconj~z_1 \aminus \aconj~z_2\\
+  \forall z_1, z_2 : \complex @ \aconj(z_1 \amult z_2 ) = \aconj~z_1 \amult \aconj~z_2\\
 \end{zed}
 %
 \section{Special Functions}
@@ -427,7 +442,7 @@ its definition:
   x)\\
   \complex \dres abs = (\lambda z: \complex @ sqrt(\Re(z) \apwr 2
   \aplus \Im(z) \apwr 2))\\
-  \forall z: \complex @ z \apwr 2 = z \amult \aconj(z)\\
+  \forall z: \complex @ (abs(z)) \apwr 2 = z \amult \aconj(z)\\
 \end{axdef}
 
 \subsection{Finite Distributed Sum}
@@ -489,9 +504,9 @@ numbers:
 This section summarizes the \LaTeX{} commands for typesetting the
 number sets defined in this paper (Table~\ref{tab:latex-number-sets}),
 the numerical constants (Table \ref{tab:latex-constants}), operations
-(Table \ref{tab:latex-unary-operators} and
+(Table \ref{tab:latex-unary-operators}) and
 \ref{tab:latex-binary-operators}), relations (Table
-\ref{tab:latex-relations}) and special functions )Table
+\ref{tab:latex-relations}) and special functions (Table
 \ref{tab:latex-special-functions}).
 
 The \LaTeX{} commands listed here are defined in the style file
@@ -501,9 +516,9 @@ The \LaTeX{} commands listed here are defined in the style file
   \centering
   \begin{tabular}{llp{1cm}llp{1cm}ll}
     $\arithmos$    & \verb|\arithmos| && $\real$ & \verb|\real|&& $\rat$ & \verb|\rat| \\
-    $\arithmos_1$  & \verb|\arithmos_1| && $\realplus$ & \verb|\realplus| && $\rat_1$ & \verb|\rat_1| \\
-    $\complex$ & \verb|\complex| && $\realminus$ & \verb|\realminus| && $\ratplus$ & \verb|\ratplus| \\ 
-    $\complex_1$ & \verb|\complex_1| &&  & && $\ratminus$ & \verb|\ratminus| \\
+    $\arithmos_1$  & \verb|\arithmos_1| && $\real_1$ & \verb|\real_1| && $\rat_1$ & \verb|\rat_1| \\
+    $\complex$ & \verb|\complex| &&  $\realplus$ & \verb|\realplus| && $\ratplus$ & \verb|\ratplus| \\ 
+    $\complex_1$ & \verb|\complex_1| && $\realminus$ & \verb|\realminus| && $\ratminus$ & \verb|\ratminus| \\
   \end{tabular}
   \caption{Commands for Number Sets}
   \label{tab:latex-number-sets}
