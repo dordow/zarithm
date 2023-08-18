@@ -216,6 +216,79 @@ There are shortcuts for the positive, negative and non-zero rational numbers:
   \rat_1 == \ratplus \cup \ratminus \\
 \end{zed}
 %
+\section{Complex Numbers $\complex$}
+\label{sec:complex-numbers}
+The set of complex numbers $\complex$ is a subset of $\arithmos$,
+which contains the real numbers defined in section
+\ref{sec:real-numbers}.
+%
+\begin{axdef}
+  \complex : \power \arithmos\\
+  \where
+  \real \subset \complex \\
+  \ran ( (\complex \cross \complex) \dres (\_ \aplus \_) ) \subset \complex\\
+  \ran ( (\complex \cross \complex) \dres (\_ \amult \_) ) \subset \complex\\
+  \ran (\complex \dres (\aneg ))  \subset \complex\\
+  \ran (\complex \dres (\_ \ainv ))  \subset \complex\\
+\end{axdef}
+
+The complex numbers are closed with respect to addition,
+multiplication, negation and inversion.
+
+There is a special complex constant $\iu$:
+%
+\begin{axdef}
+  \iu : \complex
+  \where
+  \iu \amult \iu = \aneg \aone
+\end{axdef}
+
+Complex numbers have a real and an imaginary part:
+%
+\begin{axdef}
+  \Re, \Im : \complex \fun \real
+  \where
+  \Re(\azero) = \Im(\azero) = \azero \\
+  \Re(\aone) = \aone \land \Im(\aone) = \azero \\
+  \Re(\iu) = \azero \land \Im(\iu) = \aone \\
+  \forall z_1, z_2: \complex @ ( \Re(z_1) = \Re(z_2) \land \Im(z_1) =
+  \Im(z_2) ) \iff z_1 = z_2 \\
+  \forall z_1, z_2: \complex @ \Re(z_1 \aplus z_2 ) = \Re(z_1) \aplus
+  \Re(z_2) \\
+  \forall z_1, z_2: \complex @ \Im(z_1 \aplus z_2 ) = \Im(z_1) \aplus
+  \Im(z_2) \\
+  \forall z_1, z_2: \complex @ \Re(z_1 \amult z_2 ) = \Re(z_1) \amult
+  \Re(z_2) \aminus  \Im(z_1) \amult \Im(z_2) \\
+  \forall z_1, z_2: \complex @ \Im(z_1 \amult z_2 ) = \Re(z_1) \amult
+  \Im(z_2) \aplus  \Im(z_1) \amult \Re(z_2) \\
+  \real = \dom (\Im \rres \{~\azero~\}) \\
+\end{axdef}
+%
+From these rules one can deduce
+\begin{zed}
+  \forall z : \complex @ z = \Re(z) \aplus \iu \amult \Im(z)
+\end{zed}
+%
+In $\complex$ there is a \emph{conjugate}:
+% \begin{axdef}
+%   \aconj : \complex \fun \comples
+%   \where
+  
+% \end{axdef}
+\begin{zed}
+  \aconj == (\lambda z: \complex @ \Re(z) \aminus \iu \amult \Im(z)) 
+\end{zed}
+%
+From this definition it follows that
+\begin{zed}
+  % \real = \{~z : \complex @ \aconj~z = z~\}
+  \forall z : \complex @ z \in \real \iff \aconj~z = z \\
+  \forall z: \complex @  \aconj(\aconj~z) = z \\
+  \forall z_1, z_2 : \complex @ \aconj(z_1 \aplus z_2 ) = \aconj~z_1 \aplus \aconj~z_2\\
+  \forall z_1, z_2 : \complex @ \aconj(z_1 \aminus z_2 ) = \aconj~z_1 \aminus \aconj~z_2\\
+  \forall z_1, z_2 : \complex @ \aconj(z_1 \amult z_2 ) = \aconj~z_1 \amult \aconj~z_2\\
+\end{zed}
+%
 \section{Integers and Rational Numbers}
 \label{sec:integers-and-rationals}
 Unfortunately it is not possible to include the integer numbers into
@@ -320,79 +393,6 @@ the following in a natural way:
   5 \azlta \aten \aaeqz 10
 \end{zed}
 
-\section{Complex Numbers $\complex$}
-\label{sec:complex-numbers}
-The set of complex numbers $\complex$ is a subset of $\arithmos$,
-which contains the real numbers defined in section
-\ref{sec:real-numbers}.
-%
-\begin{axdef}
-  \complex : \power \arithmos\\
-  \where
-  \real \subset \complex \\
-  \ran ( (\complex \cross \complex) \dres (\_ \aplus \_) ) \subset \complex\\
-  \ran ( (\complex \cross \complex) \dres (\_ \amult \_) ) \subset \complex\\
-  \ran (\complex \dres (\aneg ))  \subset \complex\\
-  \ran (\complex \dres (\_ \ainv ))  \subset \complex\\
-\end{axdef}
-
-The complex numbers are closed with respect to addition,
-multiplication, negation and inversion.
-
-There is a special complex constant $\iu$:
-%
-\begin{axdef}
-  \iu : \complex
-  \where
-  \iu \amult \iu = \aneg \aone
-\end{axdef}
-
-Complex numbers have a real and an imaginary part:
-%
-\begin{axdef}
-  \Re, \Im : \complex \fun \real
-  \where
-  \Re(\azero) = \Im(\azero) = \azero \\
-  \Re(\aone) = \aone \land \Im(\aone) = \azero \\
-  \Re(\iu) = \azero \land \Im(\iu) = \aone \\
-  \forall z_1, z_2: \complex @ ( \Re(z_1) = \Re(z_2) \land \Im(z_1) =
-  \Im(z_2) ) \iff z_1 = z_2 \\
-  \forall z_1, z_2: \complex @ \Re(z_1 \aplus z_2 ) = \Re(z_1) \aplus
-  \Re(z_2) \\
-  \forall z_1, z_2: \complex @ \Im(z_1 \aplus z_2 ) = \Im(z_1) \aplus
-  \Im(z_2) \\
-  \forall z_1, z_2: \complex @ \Re(z_1 \amult z_2 ) = \Re(z_1) \amult
-  \Re(z_2) \aminus  \Im(z_1) \amult \Im(z_2) \\
-  \forall z_1, z_2: \complex @ \Im(z_1 \amult z_2 ) = \Re(z_1) \amult
-  \Im(z_2) \aplus  \Im(z_1) \amult \Re(z_2) \\
-  \real = \dom (\Im \rres \{~\azero~\}) \\
-\end{axdef}
-%
-From these rules one can deduce
-\begin{zed}
-  \forall z : \complex @ z = \Re(z) \aplus \iu \amult \Im(z)
-\end{zed}
-%
-In $\complex$ there is a \emph{conjugate}:
-% \begin{axdef}
-%   \aconj : \complex \fun \comples
-%   \where
-  
-% \end{axdef}
-\begin{zed}
-  \aconj == (\lambda z: \complex @ \Re(z) \aminus \iu \amult \Im(z)) 
-\end{zed}
-%
-From this definition it follows that
-\begin{zed}
-  % \real = \{~z : \complex @ \aconj~z = z~\}
-  \forall z : \complex @ z \in \real \iff \aconj~z = z \\
-  \forall z: \complex @  \aconj(\aconj~z) = z \\
-  \forall z_1, z_2 : \complex @ \aconj(z_1 \aplus z_2 ) = \aconj~z_1 \aplus \aconj~z_2\\
-  \forall z_1, z_2 : \complex @ \aconj(z_1 \aminus z_2 ) = \aconj~z_1 \aminus \aconj~z_2\\
-  \forall z_1, z_2 : \complex @ \aconj(z_1 \amult z_2 ) = \aconj~z_1 \amult \aconj~z_2\\
-\end{zed}
-%
 \section{Special Functions}
 \label{sec:special-functions}
 
