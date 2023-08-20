@@ -213,7 +213,8 @@ the multiplication of polynomials.
   \end{axdef}
 \end{zdef}
 %
-%
+Todo: Polynomials form a commutative ring!!
+% 
 \begin{prop}[Additition and Multiplication of Real and Complex
   Polynomials are closed]
   \label{prop:closure-of-real-complex-addition-multiplication}
@@ -249,7 +250,7 @@ the multiplication of polynomials.
   \end{zed}
 \end{zdef}
 
-\begin{prop}[Factorization of special binnomial]
+\begin{prop}[Factorization of special binomial]
   \label{prop:factorization-binomial}
   For a given $r \in \arithmos$ and $n \in \nat_1$ there is a polynomial
   $p$ with $(x^n-r^n) = p \polymult (x - r)$.
@@ -260,7 +261,15 @@ the multiplication of polynomials.
 \end{prop}
 
 \begin{proof}[Proof of proposition \ref{prop:factorization-binomial}]
-  to be completed
+  The polynomial $p(x) = \sum_{i=0}^{n-1}r^{n-i-1}X^i$ does the
+  trick. In Z:
+  \begin{zed}
+    \forall n: \nat_1; r: \arithmos @ \\
+    \t1 (\LET p==\zeropol \oplus 
+    (\lambda i : 0 \upto (n-1) @ r\apwr(n-i-1)) @ P(n,r) = p
+    \polymult P(1,r))
+  \end{zed}
+  Formal proof to be completed.
 \end{proof}
 
 \section{Evaluation of Polynomials}
