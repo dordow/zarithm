@@ -20,9 +20,9 @@
 \maketitle
 
 \begin{abstract}
-The intention of this \LaTeX\ file is to extend the mathematical
-tool-kit of the Z reference manual to include rational and real
-numbers. 
+  The intention of this \LaTeX\ file is to extend the mathematical
+  tool-kit of the Z reference manual to include rational, real and
+  complex numbers.
 \end{abstract}
 
 %\tableofcontents
@@ -38,22 +38,33 @@ rational and real numbers, whereas the number toolkit of the ISO Z
 standard does. However, moving to standard (ISO) Z \cite{ISO13568} is
 not always the favourite option, especially if a large amount of Z
 specifications in ZRM style is available. Moreover, most Z textbooks
-have been written prior to ISO Z. For those who wish to stick with
-ZRM, this set of two files (\texttt{zarithm.sty} and
+have been written prior to standard Z. For those who wish to stick
+with ZRM, this set of two files (\texttt{zarithm.sty} and
 \texttt{zarithm.tex}, this file) are intended to provide a solution.
 
 The file \texttt{zarithm.sty} is only used for typesetting, whereas
 \texttt{zarithm.tex} includes the Z definitions of the types for
-rational and real numbers, their basic operations and numerical
-comparisons. The Z definitions are sufficient for type setting, not
-for automated proof. If the user intends to use automated proof, there
-is probably no better way than to transit to standard Z.
+rational, real and complex numbers, their basic operations and
+numerical comparisons. The Z definitions are sufficient for type
+setting, not for automated proof. If the user intends to use automated
+proof, there is probably no better way than to transit to standard Z.
 
 The ZRM comes along with the tool \texttt{fuzz}, a typechecker. The
 approach described here makes use of the fact that fuzz accepts more
 than one \LaTeX file and remembers the Z definitions of the files
 provided first.
 
+The document is structured as follows: the next section
+\ref{sec:arithmos} defines an artifical set of numbers named
+Arithmos. Section \ref{sec:real-numbers} introduces real numbers,
+section \ref{sec:rational-numbers} rational numbers, and section
+\ref{sec:complex-numbers} complex numbers. Section
+\ref{sec:integers-and-rationals} discusses the relation between
+integers and rational numbers. Section \ref{sec:special-functions}
+introduces a couple of functions that are often used, and section
+\ref{sec:latex-commands} lists the \LaTeX{} commands that are used for
+type setting number sets, operations and relations.
+%
 \section{Arithmos $\arithmos$}
 \label{sec:arithmos}
 
@@ -70,7 +81,7 @@ $\arithmos$ is a field with respect to two operations $\aplus$ and
 $\amult$, and neutral elements $\azero$ and $\aone$. Note that these
 are not identical to the elements $0$ and $1$ defined in $\num$.
 
-The folllowing axiomatic definition introduces addition, subtraction,
+The following axiomatic definition introduces addition, subtraction,
 and negation, together with some important constants.
 %
 %%inop \aplus 3
@@ -175,7 +186,8 @@ There are shortcuts for positive and negative real numbers:
 %
 \begin{zed}
   \realplus == \{~r :\real | r \agt \azero~\}\\
-  \realminus == \real \setminus ( \realplus \cup \{~\azero~\})
+  \realminus == \real \setminus ( \realplus \cup \{~\azero~\})\\
+  \real_1 == \realplus \cup \realminus \\
 \end{zed}
 %
 \section{Rational Numbers $\rat$}
@@ -204,6 +216,79 @@ There are shortcuts for the positive, negative and non-zero rational numbers:
   \rat_1 == \ratplus \cup \ratminus \\
 \end{zed}
 %
+\section{Complex Numbers $\complex$}
+\label{sec:complex-numbers}
+The set of complex numbers $\complex$ is a subset of $\arithmos$,
+which contains the real numbers defined in section
+\ref{sec:real-numbers}.
+%
+\begin{axdef}
+  \complex : \power \arithmos\\
+  \where
+  \real \subset \complex \\
+  \ran ( (\complex \cross \complex) \dres (\_ \aplus \_) ) \subset \complex\\
+  \ran ( (\complex \cross \complex) \dres (\_ \amult \_) ) \subset \complex\\
+  \ran (\complex \dres (\aneg ))  \subset \complex\\
+  \ran (\complex \dres (\_ \ainv ))  \subset \complex\\
+\end{axdef}
+
+The complex numbers are closed with respect to addition,
+multiplication, negation and inversion.
+
+There is a special complex constant $\iu$:
+%
+\begin{axdef}
+  \iu : \complex
+  \where
+  \iu \amult \iu = \aneg \aone
+\end{axdef}
+
+Complex numbers have a real and an imaginary part:
+%
+\begin{axdef}
+  \Re, \Im : \complex \fun \real
+  \where
+  \Re(\azero) = \Im(\azero) = \azero \\
+  \Re(\aone) = \aone \land \Im(\aone) = \azero \\
+  \Re(\iu) = \azero \land \Im(\iu) = \aone \\
+  \forall z_1, z_2: \complex @ ( \Re(z_1) = \Re(z_2) \land \Im(z_1) =
+  \Im(z_2) ) \iff z_1 = z_2 \\
+  \forall z_1, z_2: \complex @ \Re(z_1 \aplus z_2 ) = \Re(z_1) \aplus
+  \Re(z_2) \\
+  \forall z_1, z_2: \complex @ \Im(z_1 \aplus z_2 ) = \Im(z_1) \aplus
+  \Im(z_2) \\
+  \forall z_1, z_2: \complex @ \Re(z_1 \amult z_2 ) = \Re(z_1) \amult
+  \Re(z_2) \aminus  \Im(z_1) \amult \Im(z_2) \\
+  \forall z_1, z_2: \complex @ \Im(z_1 \amult z_2 ) = \Re(z_1) \amult
+  \Im(z_2) \aplus  \Im(z_1) \amult \Re(z_2) \\
+  \real = \dom (\Im \rres \{~\azero~\}) \\
+\end{axdef}
+%
+From these rules one can deduce
+\begin{zed}
+  \forall z : \complex @ z = \Re(z) \aplus \iu \amult \Im(z)
+\end{zed}
+%
+In $\complex$ there is a \emph{conjugate}:
+% \begin{axdef}
+%   \aconj : \complex \fun \comples
+%   \where
+  
+% \end{axdef}
+\begin{zed}
+  \aconj == (\lambda z: \complex @ \Re(z) \aminus \iu \amult \Im(z)) 
+\end{zed}
+%
+From this definition it follows that
+\begin{zed}
+  % \real = \{~z : \complex @ \aconj~z = z~\}
+  \forall z : \complex @ z \in \real \iff \aconj~z = z \\
+  \forall z: \complex @  \aconj(\aconj~z) = z \\
+  \forall z_1, z_2 : \complex @ \aconj(z_1 \aplus z_2 ) = \aconj~z_1 \aplus \aconj~z_2\\
+  \forall z_1, z_2 : \complex @ \aconj(z_1 \aminus z_2 ) = \aconj~z_1 \aminus \aconj~z_2\\
+  \forall z_1, z_2 : \complex @ \aconj(z_1 \amult z_2 ) = \aconj~z_1 \amult \aconj~z_2\\
+\end{zed}
+%
 \section{Integers and Rational Numbers}
 \label{sec:integers-and-rationals}
 Unfortunately it is not possible to include the integer numbers into
@@ -229,7 +314,7 @@ The following laws can be easily derived from the definition:
 \end{zed}
 
 Mixing integers with real and rational numbers in arithmetic
-operations would require to use the embedding which would procude
+operations would require to use the embedding which would produce
 unweildy and clumsy expressions. Therefore, shortcuts for mixed
 operations are introduced.
 %
@@ -311,20 +396,6 @@ the following in a natural way:
 \section{Special Functions}
 \label{sec:special-functions}
 
-\subsection{Absolute Value}
-\label{sec:abs}
-
-\begin{axdef}
-  abs: \arithmos \pfun \realplus \cup \{~\azero~\}\\
-  \where
-  abs(\azero) = \azero\\
-  abs(\aone) = \aone\\
-  \forall x, y : \dom abs @ abs(x \amult y) = abs(x) \amult abs(y)\\
-  \forall x, y : \dom abs @ abs(x \aplus y) \aleq abs(x) \aplus
-  abs(y)\\
-  \real \dres abs = \id \real \oplus (\lambda x: \realminus @ \aneg x)\\
-\end{axdef}
-
 \subsection{Power}
 \label{sec:power}
 
@@ -355,6 +426,24 @@ its definition:
   \dom (sqrt \rres \real) = \realplus \cup \{~\azero~\}\\
   \ran (\real \dres sqrt) = \realplus \cup \{~\azero~\}\\
 \end{zed}
+
+\subsection{Absolute Value}
+\label{sec:abs}
+
+\begin{axdef}
+  abs: \arithmos \pfun \realplus \cup \{~\azero~\}\\
+  \where
+  abs(\azero) = \azero\\
+  abs(\aone) = \aone\\
+  \forall x, y : \dom abs @ abs(x \amult y) = abs(x) \amult abs(y)\\
+  \forall x, y : \dom abs @ abs(x \aplus y) \aleq abs(x) \aplus
+  abs(y)\\
+  \real \dres abs = \id \real \oplus (\lambda x: \realminus @ \aneg
+  x)\\
+  \complex \dres abs = (\lambda z: \complex @ sqrt(\Re(z) \apwr 2
+  \aplus \Im(z) \apwr 2))\\
+  \forall z: \complex @ (abs(z)) \apwr 2 = z \amult \aconj(z)\\
+\end{axdef}
 
 \subsection{Finite Distributed Sum}
 \label{sec:fin-distr-sum}
@@ -415,9 +504,9 @@ numbers:
 This section summarizes the \LaTeX{} commands for typesetting the
 number sets defined in this paper (Table~\ref{tab:latex-number-sets}),
 the numerical constants (Table \ref{tab:latex-constants}), operations
-(Table \ref{tab:latex-unary-operators} and
+(Table \ref{tab:latex-unary-operators}) and
 \ref{tab:latex-binary-operators}), relations (Table
-\ref{tab:latex-relations}) and special functions )Table
+\ref{tab:latex-relations}) and special functions (Table
 \ref{tab:latex-special-functions}).
 
 The \LaTeX{} commands listed here are defined in the style file
@@ -425,12 +514,11 @@ The \LaTeX{} commands listed here are defined in the style file
 
 \begin{table}[htbp]
   \centering
-  \begin{tabular}{llp{1cm}ll}
-    $\arithmos$    & \verb|\arithmos| && $\rat$ & \verb|\rat| \\
-    $\arithmos_1$  & \verb|\arithmos_1| && $\rat_1$ & \verb|\rat_1| \\
-    $\real$        & \verb|\real| && $\ratplus$ & \verb|\ratplus| \\ 
-    $\realplus$    & \verb|\realplus| && $\ratminus$ & \verb|\ratminus| \\
-    $\realminus$   & \verb|\realminus| && & \\
+  \begin{tabular}{llp{1cm}llp{1cm}ll}
+    $\arithmos$    & \verb|\arithmos| && $\real$ & \verb|\real|&& $\rat$ & \verb|\rat| \\
+    $\arithmos_1$  & \verb|\arithmos_1| && $\real_1$ & \verb|\real_1| && $\rat_1$ & \verb|\rat_1| \\
+    $\complex$ & \verb|\complex| &&  $\realplus$ & \verb|\realplus| && $\ratplus$ & \verb|\ratplus| \\ 
+    $\complex_1$ & \verb|\complex_1| && $\realminus$ & \verb|\realminus| && $\ratminus$ & \verb|\ratminus| \\
   \end{tabular}
   \caption{Commands for Number Sets}
   \label{tab:latex-number-sets}
@@ -438,9 +526,9 @@ The \LaTeX{} commands listed here are defined in the style file
 %
 \begin{table}[htbp]
   \centering
-  \begin{tabular}{llp{1cm}ll}
-    $0$    & \verb|\azero| && $2.0$  & \verb|\atwo| \\
-    $1.0$  & \verb|\aone| && $10.0$ & \verb|\aten| \\
+  \begin{tabular}{llp{1cm}llp{1cm}ll}
+    $0$    & \verb|\azero| && $2.0$  & \verb|\atwo| && $\iu$  & \verb|\iu| \\
+    $1.0$  & \verb|\aone| && $10.0$ & \verb|\aten| && & \\
   \end{tabular}
   \caption{Commands for $\arithmos$ Constants}
   \label{tab:latex-constants}
@@ -461,18 +549,19 @@ The \LaTeX{} commands listed here are defined in the style file
   \begin{tabular}{llll}
     Operator & Left & Right & Command \\
     \hline \\
-    $\aplus$ & $\arithmos, \real, \rat$ & $\arithmos, \real, \rat$ & \verb|\aplus| \\
-    $\aplusz$ & $\num$ & $\arithmos, \real, \rat$ & \verb|\azplus| \\
-    $\azplus$ & $\arithmos, \real, \rat$ & $\num$ & \verb|\aplusz| \\
-    $\aminus$ & $\arithmos, \real, \rat$ & $\arithmos, \real, \rat$ & \verb|\aminus| \\
-    $\aminusz$ & $\num$ & $\arithmos, \real, \rat$ & \verb|\azminus| \\
-    $\azminus$ & $\arithmos, \real, \rat$ & $\num$ & \verb|\aminusz| \\
-    $\amult$ & $\arithmos, \real, \rat$ & $\arithmos, \real, \rat$ & \verb|\amult| \\
-    $\amultz$ & $\num$ & $\arithmos, \real, \rat$ & \verb|\azmult| \\
-    $\azmult$ & $\arithmos, \real, \rat$ & $\num$ & \verb|\amultz| \\
-    $\adiv$ & $\arithmos, \real, \rat$ & $\arithmos_1, \real_1, \rat_1$ & \verb|\adiv| \\
-    $\adivz$ & $\num$ & $\arithmos_1, \real_1, \rat_1$ & \verb|\azdiv| \\
-    $\azdiv$ & $\arithmos, \real, \rat$ & $\num \setminus \{0\}$ & \verb|\adivz| \\
+    $\aplus$ & $\arithmos, \complex, \real, \rat$ & $\arithmos,
+                                                    \complex, \real, \rat$ & \verb|\aplus| \\
+    $\aplusz$ & $\num$ & $\arithmos, \complex, \real, \rat$ & \verb|\azplus| \\
+    $\azplus$ & $\arithmos, \complex, \real, \rat$ & $\num$ & \verb|\aplusz| \\
+    $\aminus$ & $\arithmos, \complex, \real, \rat$ & $\arithmos, \complex, \real, \rat$ & \verb|\aminus| \\
+    $\aminusz$ & $\num$ & $\arithmos, \complex, \real, \rat$ & \verb|\azminus| \\
+    $\azminus$ & $\arithmos, \complex, \real, \rat$ & $\num$ & \verb|\aminusz| \\
+    $\amult$ & $\arithmos, \complex, \real, \rat$ & $\arithmos, \complex, \real, \rat$ & \verb|\amult| \\
+    $\amultz$ & $\num$ & $\arithmos, \complex, \real, \rat$ & \verb|\azmult| \\
+    $\azmult$ & $\arithmos, \complex, \real, \rat$ & $\num$ & \verb|\amultz| \\
+    $\adiv$ & $\arithmos, \complex, \real, \rat$ & $\arithmos_1, \complex_1, \real_1, \rat_1$ & \verb|\adiv| \\
+    $\adivz$ & $\num$ & $\arithmos_1, \complex_1, \real_1, \rat_1$ & \verb|\azdiv| \\
+    $\azdiv$ & $\arithmos, \complex, \real, \rat$ & $\num \setminus \{0\}$ & \verb|\adivz| \\
     \hline
   \end{tabular}
   \caption{Commands for binary Operators}
@@ -484,9 +573,9 @@ The \LaTeX{} commands listed here are defined in the style file
   \begin{tabular}{llll}
     Relation & Left & Right & Command \\
     \hline \\
-    $=$ & $\arithmos, \real, \rat$ & $\arithmos, \real, \rat$ & \verb|=| \\
-    $\aaeqz$ & $\arithmos, \real, \rat$ & $\num$ & \verb|\aaeqz| \\
-    $\azeqa$ & $\num$ & $\arithmos, \real, \rat$ & \verb|\azeqa| \\
+    $=$ & $\arithmos, \complex, \real, \rat$ & $\arithmos, \complex, \real, \rat$ & \verb|=| \\
+    $\aaeqz$ & $\arithmos, \complex, \real, \rat$ & $\num$ & \verb|\aaeqz| \\
+    $\azeqa$ & $\num$ & $\arithmos, \complex, \real, \rat$ & \verb|\azeqa| \\
     $\alt$ & $\real, \rat$ & $\real, \rat$ & \verb|\alt| \\
     $\aaltz$ & $\real, \rat$ & $\num$ & \verb|\aaltz| \\
     $\azlta$ & $\num$ & $\real, \rat$ & \verb|\azlta| \\
@@ -497,8 +586,8 @@ The \LaTeX{} commands listed here are defined in the style file
     $\aagtz$ & $\real, \rat$ & $\num$ & \verb|\aagtz| \\
     $\azgta$ & $\num$ & $\real, \rat$ & \verb|\azgta| \\
     $\ageq$ & $\real, \rat$ & $\real, \rat$ & \verb|\ageq| \\
-    $\aageqz$ & $\real, \rat$ & $\num$ & \verb|\ageq| \\
-    $\azgeqa$ & $\num$ & $\real, \rat$ & \verb|\ageq| \\
+    $\aageqz$ & $\real, \rat$ & $\num$ & \verb|\aageqz| \\
+    $\azgeqa$ & $\num$ & $\real, \rat$ & \verb|\azgeqa| \\
     \hline
   \end{tabular}
   \caption{Commands for Relations}
@@ -511,6 +600,7 @@ The \LaTeX{} commands listed here are defined in the style file
     $abs(x)$    & \verb|abs(x)| \\
     $x \apwr n$    & \verb|x \apwr n| \\
     $sqrt(x)$    & \verb|sqrt(x)| \\
+    $\aconj(z)$    & \verb|\aconj(z)|\\
     Finite distributes sum & \verb|\findistsum| \\
     Finite distributes product & \verb|\findistprod| \\
     $\realmax$ & \verb|\realmax| \\
