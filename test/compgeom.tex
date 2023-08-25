@@ -1,0 +1,88 @@
+\documentclass[12pt]{scrartcl}
+
+\usepackage[T1]{fontenc}
+\usepackage[ngerman,english]{babel}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{/home/frank/docs/reference/literature.bib}
+\AtEveryBibitem{\clearfield{url}}
+
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{tikz}
+\usepackage{units}
+\usepackage{gensymb}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{../source/zarithm}
+
+\usepackage[mark]{gitinfo2}
+\usepackage[outerbars]{changebar}
+\usepackage[pdf,shell]{dottex}
+
+%\usepackage{hyperref} % should be last but does not work then with zed-csp
+
+%\usepackage{savesym}
+\usepackage{zed-csp}
+\usepackage{../source/zarithm}
+% \savesymbol{because}
+% %\usepackage[nothing]{todo}
+% \usepackage{todo}
+% \restoresymbol{TXF}{because}
+
+
+
+%\nochangebars
+
+\newcommand{\remark}[1]{ \vspace{1em}\textbf{\underline{#1}}\vspace{1em} }
+%\newcommand{\comment}[1]{ \textbf{\underline{#1}} }
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{schemadef}{Schema}[section]
+\newtheorem{genericdef}{Generic Definition}[section]
+\newtheorem{zdef}{Definition}[section]
+
+\begin{document}
+
+% opening
+\title{Computational Geometry}
+\author{Frank Dordowsky}
+
+% make the title area
+\maketitle
+
+\begin{abstract}
+  Jonthan Jacky has devoted a small chapter of his textbook
+  \cite{Jacky1997a} on computational geometry using $\num$ for the
+  coordinates. This is a test paper for the Arithmetics in Z package
+  and style, translating the definitions there into reals.
+\end{abstract}
+
+%\tableofcontents
+%\newpage
+
+\section{Introduction}
+\label{sec:intro}
+Chapter 19 of Jacky's textbook \cite{Jacky1997a} formalizes some basic
+concepts of computational geometry with Z. The  coordinates are
+defined using integer numbers. This paper simply translates the
+definitions using the real numbers defined in the \texttt{zarithm.sty}
+file and the \emph{zarithm.tex} file.
+%
+A note on proofs: Proofs sometimes use the \texttt{argue} environment,
+which is not type checked by \texttt{fuzz} according to the
+\texttt{fuzz} manual \cite{Spivey2000}.
+%
+
+%
+% bibliography
+\printbibliography{}
+
+%\todos
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
