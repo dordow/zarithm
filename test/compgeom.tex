@@ -30,8 +30,6 @@
 % \usepackage{todo}
 % \restoresymbol{TXF}{because}
 
-
-
 %\nochangebars
 
 \newcommand{\remark}[1]{ \vspace{1em}\textbf{\underline{#1}}\vspace{1em} }
@@ -74,6 +72,71 @@ A note on proofs: Proofs sometimes use the \texttt{argue} environment,
 which is not type checked by \texttt{fuzz} according to the
 \texttt{fuzz} manual \cite{Spivey2000}.
 %
+\begin{zed}
+  X == \real; Y == \real \\
+  POINT == X \cross Y \\
+  CONTOUR == \seq POINT \\
+  SEGMENT == POINT \cross POINT \\
+\end{zed}
+%
+\begin{zed}
+  px == first[X,Y]; py == second[X,Y], 
+\end{zed}
+%
+\begin{zed}
+  area2 == (\lambda a, b, c: POINT @ \\
+  \t1 (px~a) \amult (py~b) \aminus (py~a)\amult (px~b) \aplus (py~a)\amult
+  (px~c) \\
+  \t1 \aminus (px~a) \amult (py~c) \aplus (px~b) \amult (py~c) \aminus
+  (px~c) \amult (py~b))
+\end{zed}
+%
+\begin{zed}
+  segments == (\lambda c : CONTOUR @ \{~a, b: POINT | \langle a,
+  b\rangle \inseq c~\})
+\end{zed}
+%
+%%prerel between collinear
+\begin{zed}
+  ( between \_ ) == \{~x,y,z: \real | x \alt y \alt z \lor x \agt y
+  \agt z~\}\\
+  ( collinear \_ ) == \{~a, b, c: POINT | area2(a,b,c) = \azero~\}
+\end{zed}
+%
+% \newcommand{\betwn}{~between}
+% %%inrel \betwn
+% \begin{axdef}%
+%   \_ \betwn \_ : \real \rel (\real \cross \real)\\
+%   \where
+%   \forall x, a, e: \real @ x \betwn (a,e) \iff ( a \alt x \alt e \lor a \agt x \agt e)
+% \end{axdef}
+%
+\begin{axdef}
+  on: POINT \rel SEGMENT \\
+  \where
+  \forall s: SEGMENT; a,c,d: POINT | s = (c,d) @ \\
+  \t1 a \inrel{on} s \iff ( collinear(c,a,d) \\
+  \t2 \land ((px~c \neq px~d \land between(px~c,px~a,px~d)) \\
+  \t2 \lor (py~c \neq py~d \land between(py~c,py~a,py~d))))
+\end{axdef}
+%
+% \begin{axdef}
+%   touches: SEGMENT \rel SEGMENT \\
+%   \where
+  
+% \end{axdef}
+% %
+% \begin{axdef}
+%   touches, crosses, intersects: SEGMENT \rel SEGMENT \\
+%   \where
+  
+% \end{axdef}
+% %
+% \begin{axdef}
+%   touches, crosses, intersects: SEGMENT \rel SEGMENT \\
+%   \where
+  
+% \end{axdef}
 
 %
 % bibliography
