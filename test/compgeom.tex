@@ -128,12 +128,13 @@ which is not type checked by \texttt{fuzz} according to the
   \t1 s_1 \inrel{touches} s_2 \iff a \inrel{on} s_2 \lor b \inrel{on} s_2
 \end{axdef}
 %
-% 
-% \begin{axdef}
-%   touches, crosses, intersects: SEGMENT \rel SEGMENT \\
-%   \where
-  
-% \end{axdef}
+\begin{axdef}
+  crosses: SEGMENT \rel SEGMENT \\
+  \where
+  \forall s_1, s_2 : SEGMENT; a,b,c,d: POINT | s_1 =(a,b) \land
+  s_2=(c,d) @ \\
+  s_2 \inrel{crosses} s_1 \iff area2(a,b,c) \amult area2(a,b,d) \alt \azero
+\end{axdef}
 % %
 % \begin{axdef}
 %   touches, crosses, intersects: SEGMENT \rel SEGMENT \\
