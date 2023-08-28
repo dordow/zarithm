@@ -66,7 +66,7 @@ Chapter 19 of Jacky's textbook \cite{Jacky1997a} formalizes some basic
 concepts of computational geometry with Z. The  coordinates are
 defined using integer numbers. This paper simply translates the
 definitions using the real numbers defined in the \texttt{zarithm.sty}
-file and the \emph{zarithm.tex} file.
+file and the \texttt{zarithm.tex} file.
 %
 A note on proofs: Proofs sometimes use the \texttt{argue} environment,
 which is not type checked by \texttt{fuzz} according to the
@@ -79,9 +79,15 @@ which is not type checked by \texttt{fuzz} according to the
   SEGMENT == POINT \cross POINT \\
 \end{zed}
 %
+These definitions are direct translations of the ones given in the
+textbook.
+%
 \begin{zed}
   px == first[X,Y]; py == second[X,Y], 
 \end{zed}
+%
+Since $x$ and $y$ usually denote real variables, the projections were
+renamed to $px$ and $py$.
 %
 \begin{zed}
   area2 == (\lambda a, b, c: POINT @ \\
@@ -133,15 +139,16 @@ which is not type checked by \texttt{fuzz} according to the
   \where
   \forall s_1, s_2 : SEGMENT; a,b,c,d: POINT | s_1 =(a,b) \land
   s_2=(c,d) @ \\
-  s_2 \inrel{crosses} s_1 \iff area2(a,b,c) \amult area2(a,b,d) \alt \azero
+  \t1 s_2 \inrel{crosses} s_1 \iff area2(a,b,c) \amult area2(a,b,d) \alt \azero
 \end{axdef}
-% %
-% \begin{axdef}
-%   touches, crosses, intersects: SEGMENT \rel SEGMENT \\
-%   \where
-  
-% \end{axdef}
-
+%
+\begin{axdef}
+  intersects: SEGMENT \rel SEGMENT \\
+  \where
+  \forall s_1, s_2 : SEGMENT @ s_1 \inrel{intersects} s_2 \\
+  \t1 \iff (s_1 \inrel{crosses} s_2 \land s_2 \inrel{crosses} s_1)
+  \lor s_1 \inrel{touches} s_2 \lor s_2 \inrel{touches} s_1
+\end{axdef}
 %
 % bibliography
 \printbibliography{}
