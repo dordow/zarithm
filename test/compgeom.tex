@@ -80,7 +80,8 @@ which is not type checked by \texttt{fuzz} according to the
 \end{zed}
 %
 These definitions are direct translations of the ones given in the
-textbook.
+textbook. The definition of segment allows one that collapse to a
+single point.
 %
 \begin{zed}
   px == first[X,Y]; py == second[X,Y], 
@@ -97,10 +98,15 @@ renamed to $px$ and $py$.
   (px~c) \amult (py~b))
 \end{zed}
 %
+The function $area2$ calculates twice the area of a triangle given by
+points $a,b,c$, but can be negative. 
+%
 \begin{zed}
   segments == (\lambda c : CONTOUR @ \{~a, b: POINT | \langle a,
   b\rangle \inseq c~\})
 \end{zed}
+%
+Segments of a contour.
 %
 %%prerel between collinear
 \begin{zed}
@@ -109,13 +115,8 @@ renamed to $px$ and $py$.
   ( collinear \_ ) == \{~a, b, c: POINT | area2(a,b,c) = \azero~\}
 \end{zed}
 %
-% \newcommand{\betwn}{~between}
-% %%inrel \betwn
-% \begin{axdef}%
-%   \_ \betwn \_ : \real \rel (\real \cross \real)\\
-%   \where
-%   \forall x, a, e: \real @ x \betwn (a,e) \iff ( a \alt x \alt e \lor a \agt x \agt e)
-% \end{axdef}
+Three points are collinear if the triangle made up by them collapses
+into a single line or even point, indicated by an area of zero.
 %
 \begin{axdef}
   on: POINT \rel SEGMENT \\
@@ -125,6 +126,14 @@ renamed to $px$ and $py$.
   \t2 \land ((px~c \neq px~d \land between(px~c,px~a,px~d)) \\
   \t2 \lor (py~c \neq py~d \land between(py~c,py~a,py~d))))
 \end{axdef}
+%
+If a point is on a segment it is never one of the corner points of the
+segment, and these corner points must be different:
+%
+\begin{zed}
+  \forall a,c,d: POINT; s: SEGMENT | s = (c,d) @ a \inrel{on} s
+  \implies ( c \neq d  \land a \neq c \land a \neq d)
+\end{zed}
 %
 \begin{axdef}
   touches: SEGMENT \rel SEGMENT \\
