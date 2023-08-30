@@ -60,8 +60,6 @@
 %\tableofcontents
 %\newpage
 
-\section{Introduction}
-\label{sec:intro}
 Chapter 19 of Jacky's textbook \cite{Jacky1997a} formalizes some basic
 concepts of computational geometry with Z. The  coordinates are
 defined using integer numbers. This paper simply translates the
@@ -143,6 +141,9 @@ segment, and these corner points must be different:
   \t1 s_1 \inrel{touches} s_2 \iff a \inrel{on} s_2 \lor b \inrel{on} s_2
 \end{axdef}
 %
+If two segments are connected via their endpoints, as in a contour,
+then they do \emph{not} touch, which is strange.
+% 
 \begin{axdef}
   crosses: SEGMENT \rel SEGMENT \\
   \where
