@@ -293,7 +293,29 @@ From this definition it follows that
 \section{Quaternions}
 \label{sec:quaternions}
 The set of Quaternions is also considered as a subset of $\arithmos$,
-which contains the constants defined in section \ref{sec:arithmos}.
+which contains the complex numbers and therefore also real numbers and
+rational numbers.
+
+\begin{axdef}
+  \quaternions : \power \arithmos
+  \where
+  \complex \subset \quaternions \\
+  \ran ( (\quaternions \cross \quaternions) \dres (\_ \aplus \_) ) \subset \quaternions\\
+  \ran ( (\quaternions \cross \quaternions) \dres (\_ \amult \_) ) \subset \quaternions\\
+  \ran (\quaternions \dres (\aneg ))  \subset \quaternions\\
+  \ran (\quaternions \dres (\_ \ainv ))  \subset \quaternions\\
+\end{axdef}
+Since the complex numbers are included into the quaterions, $\iu$ is
+also member of $\quaternions$. There are two additional special
+constants:
+\begin{axdef}
+  \ju, \ku : \quaternions
+  \where
+  \iu \amult \iu = \ju \amult \ju = \ku \amult \ku = \aneg \aone\\
+  \iu \amult \ju = \aneg \ju \amult \iu = \ku \\
+  \ju \amult \ku = \aneg \ku \amult \ju = \iu \\
+  \ku \amult \iu = \aneg \iu \amult \ku = \ju
+\end{axdef}
 
 Read \cite{Mukundan2002,Vince2021}
 %
