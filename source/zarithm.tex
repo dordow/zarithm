@@ -317,7 +317,13 @@ Todo: rules for conjugate
 
 The \emph{unit quaternions} are defined as follows:
 \begin{zed}
-  UH == \{~q : \quaternions | q \amult q\aconj = \aone~\}
+  UnitH == \{~q : \quaternions | q \amult q\aconj = \aone~\}
+\end{zed}
+%
+Another important set is the set of pure quaternions defined as
+follows:
+\begin{zed}
+  PureH == \{~q : \quaternions | Hpr\_1~q = \azero~\}
 \end{zed}
 
 % \begin{axdef}
