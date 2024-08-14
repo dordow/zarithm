@@ -277,9 +277,10 @@ calculated:
   \t2 ( q1_0 \aplus q2_0 ) \amult \aone \aplus ( q1_1 \aplus q2_1 ) \amult
   \iu \aplus ( q1_2 \aplus q2_2 ) \amult \ju \aplus ( q1_3 \aplus q2_3
   ) \amult \ku ) \\
-  % dito for multiplication
 \end{zed}
-%
+Todo: dito for multiplication
+
+% 
 From definition and the above immediately follows:
 \begin{zed}
   \real \subset \quaternions \\
@@ -302,6 +303,16 @@ and
   \t1 r \amult (q1 \aplus q2) = r \amult q1 \aplus r \amult q2 \\
 \end{zed}
 %
+Introducing \emph{conjugate} function:
+%%postop \aconj
+\begin{axdef}
+  \_ \aconj : \quaternions \fun \quaternions
+  \where
+  \forall q: \quaternions @ q\aconj = Hpr_1~q \amult \aone \aminus
+  Hpr_i~q \amult \iu \aminus Hpr_j~q \amult \ju \aminus Hpr_k~q \amult \ku
+\end{axdef}
+%
+Todo: rules for conjugate
 
 % \begin{axdef}
 %   \quaternions : \power \arithmos
