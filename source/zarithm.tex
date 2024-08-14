@@ -190,6 +190,13 @@ There are shortcuts for positive and negative real numbers:
   \real_1 == \realplus \cup \realminus \\
 \end{zed}
 %
+Some standard vector XXX over the real numbers are defined as follows:
+\begin{zed}
+  \realtwod == \real \cross \real \\
+  \realthreed == \realtwod \cross \real \\
+  \realfourd == \realthreed \cross \real \\
+\end{zed}
+
 \section{Rational Numbers $\rat$}
 \label{sec:rational-numbers}
 The set of rational numbers $\rat$ is a subset $\real$.
@@ -215,6 +222,101 @@ There are shortcuts for the positive, negative and non-zero rational numbers:
   \ratminus == \rat \setminus ( \ratplus \cup \{~\azero~\}) \\
   \rat_1 == \ratplus \cup \ratminus \\
 \end{zed}
+%
+\section{Quaternions}
+\label{sec:quaternions}
+The set of \emph{Quaternions} $\quaternions$ is also considered as a
+subset of $\arithmos$, which contains the real numbers and the
+rational numbers.
+
+Quaternions are defined via three (actually four) basis quaternions:
+%
+\begin{axdef}
+  \iu, \ju, \ku : \arithmos
+  \where
+  \iu \amult \iu = \ju \amult \ju = \ku \amult \ku = \aneg \aone\\
+  \iu \amult \ju = \aneg \ju \amult \iu = \ku \\
+  \ju \amult \ku = \aneg \ku \amult \ju = \iu \\
+  \ku \amult \iu = \aneg \iu \amult \ku = \ju
+\end{axdef}
+
+The fourth basis quaternion is $\aone$.
+
+The subset $\quaternions \subset \arithmos$ is defined as follows:
+%
+\begin{axdef}
+  \quaternions : \power \arithmos
+  \where 
+  \quaternions = \{~q_0, q_1, q_2, q_3 : \real @ q_0 \amult \aone
+  \aplus q_1 \amult \iu \aplus q_2 \amult \ju \aplus q_3 \amult \ku~\}
+\end{axdef}
+%
+Since $\aone, \iu, \ju, \ku$ form a basis, the coefficients $q_i$ are
+unique. This allows the definition of \emph{projection functions}:
+%
+\begin{axdef}
+  Hpr\_1, Hpr\_i, Hpr\_j, Hpr\_k : \quaternions \fun \real
+  \where
+  \forall q: \quaternions @ q = Hpr\_1~q \amult \aone \aplus Hpr\_i~q \amult
+  \iu \aplus Hpr\_j~q \amult \ju \aplus Hpr\_k~q \amult \ku
+\end{axdef}
+%
+From previous definitions the addition of two quaternions can be
+calculated:
+\begin{zed}
+  \forall q1, q2 : \quaternions @ \\
+  \t1 (\LET q1_0 == Hpr\_1~q1 ;\\
+  \t2 q1_1  == Hpr\_i~q1 ;\\
+  \t2 q1_2  == Hpr\_j~q1 ;\\
+  \t2 q1_3  == Hpr\_k~q1 ;\\
+  \t2 q2_0 == Hpr\_1~q2 ;\\
+  \t2 q2_1  == Hpr\_i~q2 ;\\
+  \t2 q2_2  == Hpr\_j~q2 ;\\
+  \t2 q2_3  == Hpr\_k ~q2 @ \\
+  \t1 q1 \aplus q2 = \\
+  \t2 ( q1_0 \aplus q2_0 ) \amult \aone \aplus ( q1_1 \aplus q2_1 ) \amult
+  \iu \aplus ( q1_2 \aplus q2_2 ) \amult \ju \aplus ( q1_3 \aplus q2_3
+  ) \amult \ku ) \\
+  % dito for multiplication
+\end{zed}
+%
+From definition and the above immediately follows:
+\begin{zed}
+  \real \subset \quaternions \\
+  \ran ( (\quaternions \cross \quaternions) \dres (\_ \aplus \_) ) \subset \quaternions\\
+  \ran ( (\quaternions \cross \quaternions) \dres (\_ \amult \_) ) \subset \quaternions\\
+  \ran (\quaternions \dres (\aneg ))  \subset \quaternions\\
+  \ran (\quaternions \dres (\_ \ainv ))  \subset \quaternions\\
+\end{zed}
+%
+The quaternions form a (four-dimensional) vector space over $\real$:
+\begin{zed}
+  \forall r1, r2 : \real; q : \quaternions @\\
+  \t1 (r1 \aplus r2) \amult q = r1 \amult q \aplus r2 \amult q
+\end{zed}
+%
+and
+%
+\begin{zed}
+  \forall r : \real; q1, q2 : \quaternions @\\
+  \t1 r \amult (q1 \aplus q2) = r \amult q1 \aplus r \amult q2 \\
+\end{zed}
+%
+
+% \begin{axdef}
+%   \quaternions : \power \arithmos
+%   \where
+%   \complex \subset \quaternions \\
+%   \ran ( (\quaternions \cross \quaternions) \dres (\_ \aplus \_) ) \subset \quaternions\\
+%   \ran ( (\quaternions \cross \quaternions) \dres (\_ \amult \_) ) \subset \quaternions\\
+%   \ran (\quaternions \dres (\aneg ))  \subset \quaternions\\
+%   \ran (\quaternions \dres (\_ \ainv ))  \subset \quaternions\\
+% \end{axdef}
+% Since the complex numbers are included into the quaterions, $\iu$ is
+% also member of $\quaternions$. There are two additional special
+% constants:
+
+Read \cite{Mukundan2002,Vince2021}
 %
 \section{Complex Numbers $\complex$}
 \label{sec:complex-numbers}
@@ -275,50 +377,26 @@ In $\complex$ there is a \emph{conjugate}:
 %   \where
   
 % \end{axdef}
-\begin{zed}
-  \aconj == (\lambda z: \complex @ \Re(z) \aminus \iu \amult \Im(z)) 
-\end{zed}
+%%postop \aconj
+\begin{axdef}
+  \_ \aconj : \complex \fun \complex
+  \where
+  \forall z: \complex @ z\aconj = \Re(z) \aminus \iu \amult \Im(z) 
+%  \aconj == (\lambda z: \complex @ \Re(z) \aminus \iu \amult \Im(z)) 
+\end{axdef}
 %
 From this definition it follows that
 \begin{zed}
   % \real = \{~z : \complex @ \aconj~z = z~\}
-  \forall z : \complex @ z \in \real \iff \aconj~z = z \\
-  \forall z: \complex @  \aconj(\aconj~z) = z \\
-  \forall z_1, z_2 : \complex @ \aconj(z_1 \aplus z_2 ) = \aconj~z_1 \aplus \aconj~z_2\\
-  \forall z_1, z_2 : \complex @ \aconj(z_1 \aminus z_2 ) = \aconj~z_1 \aminus \aconj~z_2\\
-  \forall z_1, z_2 : \complex @ \aconj(z_1 \amult z_2 ) = \aconj~z_1 \amult \aconj~z_2\\
+  \forall z : \complex @ z \in \real \iff z\aconj = z \\
+  \forall z: \complex @  (z\aconj)\aconj = z \\
+  \forall z_1, z_2 : \complex @ (z_1 \aplus z_2 )\aconj = z_1\aconj \aplus z_2\aconj\\
+  \forall z_1, z_2 : \complex @ (z_1 \aminus z_2 )\aconj = z_1\aconj
+  \aminus z_2\aconj\\
+  \forall z_1, z_2 : \complex @ (z_1 \amult z_2)\aconj = z_1\aconj \amult z_2\aconj\\
 \end{zed}
 %
 
-\section{Quaternions}
-\label{sec:quaternions}
-The set of Quaternions is also considered as a subset of $\arithmos$,
-which contains the complex numbers and therefore also real numbers and
-rational numbers.
-
-\begin{axdef}
-  \quaternions : \power \arithmos
-  \where
-  \complex \subset \quaternions \\
-  \ran ( (\quaternions \cross \quaternions) \dres (\_ \aplus \_) ) \subset \quaternions\\
-  \ran ( (\quaternions \cross \quaternions) \dres (\_ \amult \_) ) \subset \quaternions\\
-  \ran (\quaternions \dres (\aneg ))  \subset \quaternions\\
-  \ran (\quaternions \dres (\_ \ainv ))  \subset \quaternions\\
-\end{axdef}
-Since the complex numbers are included into the quaterions, $\iu$ is
-also member of $\quaternions$. There are two additional special
-constants:
-\begin{axdef}
-  \ju, \ku : \quaternions
-  \where
-  \iu \amult \iu = \ju \amult \ju = \ku \amult \ku = \aneg \aone\\
-  \iu \amult \ju = \aneg \ju \amult \iu = \ku \\
-  \ju \amult \ku = \aneg \ku \amult \ju = \iu \\
-  \ku \amult \iu = \aneg \iu \amult \ku = \ju
-\end{axdef}
-
-Read \cite{Mukundan2002,Vince2021}
-%
 \section{Integers and Rational Numbers}
 \label{sec:integers-and-rationals}
 Unfortunately it is not possible to include the integer numbers into
@@ -472,7 +550,7 @@ its definition:
   x)\\
   \complex \dres abs = (\lambda z: \complex @ sqrt(\Re(z) \apwr 2
   \aplus \Im(z) \apwr 2))\\
-  \forall z: \complex @ (abs(z)) \apwr 2 = z \amult \aconj(z)\\
+  \forall z: \complex @ (abs(z)) \apwr 2 = z \amult z\aconj\\
 \end{axdef}
 
 \subsection{Finite Distributed Sum}
@@ -548,7 +626,17 @@ The \LaTeX{} commands listed here are defined in the style file
     $\arithmos$    & \verb|\arithmos| && $\real$ & \verb|\real|&& $\rat$ & \verb|\rat| \\
     $\arithmos_1$  & \verb|\arithmos_1| && $\real_1$ & \verb|\real_1| && $\rat_1$ & \verb|\rat_1| \\
     $\complex$ & \verb|\complex| &&  $\realplus$ & \verb|\realplus| && $\ratplus$ & \verb|\ratplus| \\ 
-    $\complex_1$ & \verb|\complex_1| && $\realminus$ & \verb|\realminus| && $\ratminus$ & \verb|\ratminus| \\
+    $\complex_1$ & \verb|\complex_1| && $\realminus$ &
+                                                       \verb|\realminus| && $\ratminus$ & \verb|\ratminus| \\
+    $\realtwod$ &
+                  \verb|\realtwod|
+                                      &&
+                                         $\realthreed$
+                                                 & \verb|realthreed|
+                                                               && $\realfourd$
+                                                                         & \verb|realfourd|
+    \\
+    $\quaternions$ & \verb|\quaternions| &&  & && &    \\
   \end{tabular}
   \caption{Commands for Number Sets}
   \label{tab:latex-number-sets}
