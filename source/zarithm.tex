@@ -126,7 +126,7 @@ inversion.
   \forall x : \arithmos @ x \amult \aone = \aone \amult x = x \\
   \forall x : \arithmos_1 @ x \amult (x \ainv) = \aone \\
   \forall x : \arithmos_1 @ (x \ainv)\ainv = x \\
-  \forall x,y: \arithmos @ x \amult y = y \amult x \\
+%  \forall x,y: \arithmos @ x \amult y = y \amult x \\
   \forall x,y,z: \arithmos @ ( x \amult y ) \amult z = x \amult (y
   \amult z) \\
   \forall x: \arithmos; y : \arithmos_1 @ x \adiv y = x \amult (y
@@ -136,6 +136,10 @@ inversion.
   \forall x, y, z: \arithmos @ x \amult ( y \aplus z ) = x \amult y
   \aplus x \amult z \\
 \end{axdef}
+%
+Note that the multiplication is not communtative since it is intended
+to include Hamilton quaternions in $\arithmos$ which are not
+commutative with respect to multiplication. 
 %
 \section{Real Numbers $\real$}
 \label{sec:real-numbers}
@@ -153,10 +157,13 @@ contains the constants defined in section \ref{sec:arithmos}.
   \ran ( (\real \cross \real) \dres (\_ \amult \_) ) \subset \real\\
   \ran (\real \dres (\aneg ))  \subset \real\\
   \ran (\real \dres (\_ \ainv ))  \subset \real\\
+  \forall x,y: \real @ x \amult y = y \amult x \\
 \end{axdef}
 
 The real numbers are closed with respect to addition, multiplication,
-negation and inversion.
+negation and inversion. Since $\arithmos$ is not commutative with
+respect to multiplication, it must be introduced here for the real
+numbers. 
 
 For real numbers, there is a relation ``$<$'':
 %
@@ -196,6 +203,11 @@ Some standard vector XXX over the real numbers are defined as follows:
   \realthreed == \realtwod \cross \real \\
   \realfourd == \realthreed \cross \real \\
 \end{zed}
+%
+% Attempt:
+% \begin{zed}
+%   pr2d_1 == 
+% \end{zed}
 
 \section{Rational Numbers $\rat$}
 \label{sec:rational-numbers}
@@ -279,11 +291,15 @@ calculated:
   ) \amult \ku ) \\
 \end{zed}
 Todo: dito for multiplication
-
+%
+Obviously, the real numbers are a subset of the quaternions:
+\begin{zed}
+  \real = \{~q : \quaternions | Hpr\_i~q = Hpr\_j~q = Hpr\_k~q =
+  \azero ~\} \subset \quaternions \\
+\end{zed}
 % 
 From definition and the above immediately follows:
 \begin{zed}
-  \real \subset \quaternions \\
   \ran ( (\quaternions \cross \quaternions) \dres (\_ \aplus \_) ) \subset \quaternions\\
   \ran ( (\quaternions \cross \quaternions) \dres (\_ \amult \_) ) \subset \quaternions\\
   \ran (\quaternions \dres (\aneg ))  \subset \quaternions\\
@@ -326,6 +342,16 @@ follows:
   PureH == \{~q : \quaternions | Hpr\_1~q = \azero~\}
 \end{zed}
 
+For interpretation of quaternions as rotations one needs to embed
+$\real3d$ into $\quaternions$:
+%
+\begin{zed}
+  % embdR3H == (\lambda r : \realthreed | (\exists r_1, r_2, r_3 : \real
+  % @ r = (r_1, r_2, r_3)) @ r_1 \amult \iu) 
+  embdR3H == (\lambda r : \realthreed @ first~(first~r) \amult \iu
+  \aplus second~(first~r) \amult \ju \aplus second~r \amult \ku) 
+\end{zed}
+%
 % \begin{axdef}
 %   \quaternions : \power \arithmos
 %   \where
