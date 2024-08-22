@@ -197,12 +197,12 @@ There are shortcuts for positive and negative real numbers:
   \real_1 == \realplus \cup \realminus \\
 \end{zed}
 %
-Some standard vector XXX over the real numbers are defined as follows:
-\begin{zed}
-  \realtwod == \real \cross \real \\
-  \realthreed == \realtwod \cross \real \\
-  \realfourd == \realthreed \cross \real \\
-\end{zed}
+% Some standard vector XXX over the real numbers are defined as follows:
+% \begin{zed}
+%   \realtwod == \real \cross \real \\
+%   \realthreed == \realtwod \cross \real \\
+%   \realfourd == \realthreed \cross \real \\
+% \end{zed}
 %
 % Attempt:
 % \begin{zed}
@@ -275,21 +275,36 @@ unique. This allows the definition of \emph{projection functions}:
 %
 From previous definitions the addition of two quaternions can be
 calculated:
+% \begin{zed}
+%   \forall q1, q2 : \quaternions @ \\
+%   \t1 (\LET q1_0 == Hpr\_1~q1 ;\\
+%   \t2 q1_1  == Hpr\_i~q1 ;\\
+%   \t2 q1_2  == Hpr\_j~q1 ;\\
+%   \t2 q1_3  == Hpr\_k~q1 ;\\
+%   \t2 q2_0 == Hpr\_1~q2 ;\\
+%   \t2 q2_1  == Hpr\_i~q2 ;\\
+%   \t2 q2_2  == Hpr\_j~q2 ;\\
+%   \t2 q2_3  == Hpr\_k ~q2 @ \\
+%   \t1 q1 \aplus q2 = \\
+%   \t2 ( q1_0 \aplus q2_0 ) \amult \aone \aplus ( q1_1 \aplus q2_1 ) \amult
+%   \iu \aplus ( q1_2 \aplus q2_2 ) \amult \ju \aplus ( q1_3 \aplus q2_3
+%   ) \amult \ku ) \\
+% \end{zed}
+%
 \begin{zed}
   \forall q1, q2 : \quaternions @ \\
-  \t1 (\LET q1_0 == Hpr\_1~q1 ;\\
-  \t2 q1_1  == Hpr\_i~q1 ;\\
-  \t2 q1_2  == Hpr\_j~q1 ;\\
-  \t2 q1_3  == Hpr\_k~q1 ;\\
-  \t2 q2_0 == Hpr\_1~q2 ;\\
-  \t2 q2_1  == Hpr\_i~q2 ;\\
-  \t2 q2_2  == Hpr\_j~q2 ;\\
-  \t2 q2_3  == Hpr\_k ~q2 @ \\
-  \t1 q1 \aplus q2 = \\
+  \t1 (\exists_1 q1_0, q1_1, q1_2, q1_3, q2_0, q2_1, q2_2, q2_3 :
+  \real @ \\
+  \t2 (q1 = q1_0 \amult \aone  \aplus q1_1 \amult \iu \aplus q1_2
+  \amult \ju \aplus q1_3 \amult \ku ) \land \\
+  \t2 (q2 = q2_0 \amult \aone  \aplus q2_1 \amult \iu \aplus q2_2
+  \amult \ju \aplus q2_3 \amult \ku ) \land \\
+  \t1 (q1 \aplus q2 = \\
   \t2 ( q1_0 \aplus q2_0 ) \amult \aone \aplus ( q1_1 \aplus q2_1 ) \amult
-  \iu \aplus ( q1_2 \aplus q2_2 ) \amult \ju \aplus ( q1_3 \aplus q2_3
-  ) \amult \ku ) \\
+  \iu \aplus ( q1_2 \aplus q2_2 ) \amult \ju \aplus ( q1_3 \aplus q2_3 
+  )  \amult \ku ))
 \end{zed}
+%
 Todo: dito for multiplication
 %
 Obviously, the real numbers are a subset of the quaternions:
@@ -342,15 +357,15 @@ follows:
   PureH == \{~q : \quaternions | Hpr\_1~q = \azero~\}
 \end{zed}
 
-For interpretation of quaternions as rotations one needs to embed
-$\real3d$ into $\quaternions$:
-%
-\begin{zed}
-  % embdR3H == (\lambda r : \realthreed | (\exists r_1, r_2, r_3 : \real
-  % @ r = (r_1, r_2, r_3)) @ r_1 \amult \iu) 
-  embdR3H == (\lambda r : \realthreed @ first~(first~r) \amult \iu
-  \aplus second~(first~r) \amult \ju \aplus second~r \amult \ku) 
-\end{zed}
+% For interpretation of quaternions as rotations one needs to embed
+% $\real3d$ into $\quaternions$:
+% %
+% \begin{zed}
+%   % embdR3H == (\lambda r : \realthreed | (\exists r_1, r_2, r_3 : \real
+%   % @ r = (r_1, r_2, r_3)) @ r_1 \amult \iu) 
+%   embdR3H == (\lambda r : \realthreed @ first~(first~r) \amult \iu
+%   \aplus second~(first~r) \amult \ju \aplus second~r \amult \ku) 
+% \end{zed}
 %
 % \begin{axdef}
 %   \quaternions : \power \arithmos
@@ -677,14 +692,6 @@ The \LaTeX{} commands listed here are defined in the style file
     $\complex$ & \verb|\complex| &&  $\realplus$ & \verb|\realplus| && $\ratplus$ & \verb|\ratplus| \\ 
     $\complex_1$ & \verb|\complex_1| && $\realminus$ &
                                                        \verb|\realminus| && $\ratminus$ & \verb|\ratminus| \\
-    $\realtwod$ &
-                  \verb|\realtwod|
-                                      &&
-                                         $\realthreed$
-                                                 & \verb|realthreed|
-                                                               && $\realfourd$
-                                                                         & \verb|realfourd|
-    \\
     $\quaternions$ & \verb|\quaternions| &&  & && &    \\
   \end{tabular}
   \caption{Commands for Number Sets}
