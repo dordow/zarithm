@@ -264,17 +264,18 @@ The subset $\quaternions \subset \arithmos$ is defined as follows:
 \end{axdef}
 %
 Since $\aone, \iu, \ju, \ku$ form a basis, the coefficients $q_i$ are
-unique. This allows the definition of \emph{projection functions}:
+unique.
+%This allows the definition of \emph{projection functions}:
 %
-\begin{axdef}
-  Hpr\_1, Hpr\_i, Hpr\_j, Hpr\_k : \quaternions \fun \real
-  \where
-  \forall q: \quaternions @ q = Hpr\_1~q \amult \aone \aplus Hpr\_i~q \amult
-  \iu \aplus Hpr\_j~q \amult \ju \aplus Hpr\_k~q \amult \ku
-\end{axdef}
+% \begin{axdef}
+%   Hpr\_1, Hpr\_i, Hpr\_j, Hpr\_k : \quaternions \fun \real
+%   \where
+%   \forall q: \quaternions @ q = Hpr\_1~q \amult \aone \aplus Hpr\_i~q \amult
+%   \iu \aplus Hpr\_j~q \amult \ju \aplus Hpr\_k~q \amult \ku
+% \end{axdef}
 %
-From previous definitions the addition of two quaternions can be
-calculated:
+% From previous definitions the addition of two quaternions can be
+% calculated:
 % \begin{zed}
 %   \forall q1, q2 : \quaternions @ \\
 %   \t1 (\LET q1_0 == Hpr\_1~q1 ;\\
@@ -290,6 +291,12 @@ calculated:
 %   \iu \aplus ( q1_2 \aplus q2_2 ) \amult \ju \aplus ( q1_3 \aplus q2_3
 %   ) \amult \ku ) \\
 % \end{zed}
+%
+Every quaternion can be expressed as a unique quadruple of real
+coefficients which is used below to express addition and
+multiplication in terms of these coefficients, using the equations for
+$\aone, \iu, \ju, \ku$ above. For the addition of
+quaternions there is:
 %
 \begin{zed}
   \forall q1, q2 : \quaternions @ \\
@@ -309,8 +316,8 @@ Todo: dito for multiplication
 %
 Obviously, the real numbers are a subset of the quaternions:
 \begin{zed}
-  \real = \{~q : \quaternions | Hpr\_i~q = Hpr\_j~q = Hpr\_k~q =
-  \azero ~\} \subset \quaternions \\
+  \real = \{~q : \quaternions | \exists q_0 : \real @ q = q_0 \amult
+  \aone~\}
 \end{zed}
 % 
 From definition and the above immediately follows:
@@ -339,8 +346,11 @@ Introducing \emph{conjugate} function:
 \begin{axdef}
   \_ \aconj : \quaternions \fun \quaternions
   \where
-  \forall q: \quaternions @ q\aconj = Hpr\_1~q \amult \aone \aminus
-  Hpr\_i~q \amult \iu \aminus Hpr\_j~q \amult \ju \aminus Hpr\_k~q \amult \ku
+  \forall q : \quaternions @ \\
+  \t1 \exists_1 q_0, q_1, q_2, q_3 :  \real @ \\
+  \t2 q = q_0 \amult \aone  \aplus q_1 \amult \iu \aplus q_2
+  \amult \ju \aplus q_3 \amult \ku \land\\
+  \t1 q\aconj = q_0 \amult \aone \aminus q_1 \amult \iu \aminus q_2 \amult \ju \aminus q_3 \amult \ku \\
 \end{axdef}
 %
 Todo: rules for conjugate
@@ -354,7 +364,8 @@ The \emph{unit quaternions} are defined as follows:
 Another important set is the set of pure quaternions defined as
 follows:
 \begin{zed}
-  PureH == \{~q : \quaternions | Hpr\_1~q = \azero~\}
+  PureH == \{~q : \quaternions | \exists_1 q_1, q_2, q_3 : \real @ q =
+  q_1 \amult \iu \aplus q_2 \amult \ju \aplus q_3 \amult \ku~\}
 \end{zed}
 
 % For interpretation of quaternions as rotations one needs to embed
