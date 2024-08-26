@@ -300,7 +300,7 @@ quaternions there is:
 %
 \begin{zed}
   \forall q1, q2 : \quaternions @ \\
-  \t1 (\exists_1 q1_0, q1_1, q1_2, q1_3, q2_0, q2_1, q2_2, q2_3 :
+  \t1 \exists_1 q1_0, q1_1, q1_2, q1_3, q2_0, q2_1, q2_2, q2_3 :
   \real @ \\
   \t2 (q1 = q1_0 \amult \aone  \aplus q1_1 \amult \iu \aplus q1_2
   \amult \ju \aplus q1_3 \amult \ku ) \land \\
@@ -309,10 +309,32 @@ quaternions there is:
   \t1 (q1 \aplus q2 = \\
   \t2 ( q1_0 \aplus q2_0 ) \amult \aone \aplus ( q1_1 \aplus q2_1 ) \amult
   \iu \aplus ( q1_2 \aplus q2_2 ) \amult \ju \aplus ( q1_3 \aplus q2_3 
-  )  \amult \ku ))
+  )  \amult \ku ) \land \\
+  \t1 (q1 \aminus q2 = \\
+  \t2 ( q1_0 \aminus q2_0 ) \amult \aone \aminus ( q1_1 \aminus q2_1 ) \amult
+  \iu \aminus ( q1_2 \aminus q2_2 ) \amult \ju \aminus ( q1_3 \aminus q2_3 
+  )  \amult \ku )
 \end{zed}
 %
-Todo: dito for multiplication
+For multiplication of quaternions:
+\begin{zed}
+  \forall q1, q2 : \quaternions @ \\
+  \t1 \exists_1 q1_0, q1_1, q1_2, q1_3, q2_0, q2_1, q2_2, q2_3 :
+  \real @ \\
+  \t2 (q1 = q1_0 \amult \aone  \aplus q1_1 \amult \iu \aplus q1_2
+  \amult \ju \aplus q1_3 \amult \ku ) \land \\
+  \t2 (q2 = q2_0 \amult \aone  \aplus q2_1 \amult \iu \aplus q2_2
+  \amult \ju \aplus q2_3 \amult \ku ) \land \\
+  \t1 q1 \amult q2 =\\
+  \t2 ((q1_0 \amult q2_0 \aminus q1_1 \amult q2_1 \aminus q1_2 \amult q2_2
+  \aminus q1_3 \amult q2_3 ) \amult \aone \aplus \\
+  \t2 (q1_0 \amult q2_1 \aplus q2_0 \amult q1_1 \aplus q1_2 \amult
+  q2_3 \aminus q2_2 \amult q1_3 ) \amult \iu \aplus \\
+  \t2 (q1_0 \amult q2_2 \aplus q2_0 \amult q1_2 \aplus q1_3 \amult
+  q2_1 \aminus q2_3 \amult q1_1 ) \amult \ju \aplus \\
+  \t2 (q1_0 \amult q2_3 \aplus q2_0 \amult q1_3 \aplus q1_1 \amult
+q2_2 \aminus q2_1 \amult q1_2 ) \amult \ku )\\
+\end{zed}
 %
 Obviously, the real numbers are a subset of the quaternions:
 \begin{zed}
