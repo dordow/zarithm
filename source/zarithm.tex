@@ -336,12 +336,6 @@ For multiplication of quaternions:
 q2_2 \aminus q2_1 \amult q1_2 ) \amult \ku )\\
 \end{zed}
 %
-Obviously, the real numbers are a subset of the quaternions:
-\begin{zed}
-  \real = \{~q : \quaternions | \exists q_0 : \real @ q = q_0 \amult
-  \aone~\}
-\end{zed}
-% 
 From definition and the above immediately follows:
 \begin{zed}
   \ran ( (\quaternions \cross \quaternions) \dres (\_ \aplus \_) ) \subset \quaternions\\
@@ -350,6 +344,12 @@ From definition and the above immediately follows:
   \ran (\quaternions \dres (\_ \ainv ))  \subset \quaternions\\
 \end{zed}
 %
+Obviously, the real numbers are a subset of the quaternions:
+\begin{zed}
+  \real = \{~q : \quaternions | \exists q_0 : \real @ q = q_0 \amult
+  \aone~\}
+\end{zed}
+% 
 The quaternions form a (four-dimensional) vector space over $\real$:
 \begin{zed}
   \forall r1, r2 : \real; q : \quaternions @\\
@@ -375,7 +375,13 @@ Introducing \emph{conjugate} function:
   \t1 q\aconj = q_0 \amult \aone \aminus q_1 \amult \iu \aminus q_2 \amult \ju \aminus q_3 \amult \ku \\
 \end{axdef}
 %
-Todo: rules for conjugate
+Some laws for the conjugate of quaternions:
+\begin{zed}
+  \forall q, q1, q2 : \quaternions @ \\
+  \t1 (q\aconj)\aconj = q \land \\
+  \t1 (q1 \aplus q2)\aconj = q1\aconj \aplus q2\aconj \land \\
+  \t1 (q1 \amult q2)\aconj = q2\aconj \amult q1\aconj
+\end{zed}
 %
 
 The \emph{unit quaternions} are defined as follows:
