@@ -60,7 +60,7 @@ Arithmos. Section \ref{sec:real-numbers} introduces real numbers,
 section \ref{sec:rational-numbers} rational numbers, and section
 \ref{sec:complex-numbers} complex numbers. Section
 \ref{sec:integers-and-rationals} discusses the relation between
-integers and rational numbers. Section \ref{sec:special-functions}
+integers and rational numbers. Section \ref{sec:additional-functions}
 introduces a couple of functions that are often used, and section
 \ref{sec:latex-commands} lists the \LaTeX{} commands that are used for
 type setting number sets, operations and relations.
@@ -140,6 +140,34 @@ inversion.
 Note that the multiplication is not communtative since it is intended
 to include Hamilton quaternions in $\arithmos$ which are not
 commutative with respect to multiplication. 
+
+An important function that is defined for Arithmos is the \emph{power
+  function}:
+%%inop \apwr 4
+\begin{axdef}
+  \_ \apwr \_ : \arithmos \cross \num \pfun \arithmos \\
+  \where
+  \forall n: \nat @ \azero \apwr n = \azero\\
+  \forall x: \arithmos @ x \apwr 0 = \aone\\
+  \forall x: \arithmos_1; z : \num @ x \apwr (z+1) = x \amult (x \apwr z)\\
+\end{axdef}
+
+Another function to be used in the following is the \emph{square root}
+which may not be defined for all elements of $\arithmos$. It is
+therefore defined as a partial function on $\arithmos$:
+%
+\begin{axdef}
+  sqrt : \arithmos \pfun \arithmos
+  \where
+  \forall x : \dom sqrt @ sqrt(x) \amult sqrt(x) = x
+\end{axdef}
+%
+The square root function has the following properties, derived from
+its definition:
+\begin{zed}
+  sqrt(\azero) = \azero\\
+  sqrt(\aone) = \aone\\
+\end{zed}
 %
 \section{Real Numbers $\real$}
 \label{sec:real-numbers}
@@ -209,6 +237,15 @@ There are shortcuts for positive and negative real numbers:
 %   pr2d_1 == 
 % \end{zed}
 
+For the square root function restricted to the real numbers there are
+some additional properties:
+%
+\begin{zed}
+  \realplus \cup \{~\azero~\} \subseteq \dom sqrt\\
+  \dom (sqrt \rres \real) = \realplus \cup \{~\azero~\}\\
+  \ran (\real \dres sqrt) = \realplus \cup \{~\azero~\}\\
+\end{zed}
+%
 \section{Rational Numbers $\rat$}
 \label{sec:rational-numbers}
 The set of rational numbers $\rat$ is a subset $\real$.
@@ -604,39 +641,39 @@ the following in a natural way:
   5 \azlta \aten \aaeqz 10
 \end{zed}
 
-\section{Special Functions}
-\label{sec:special-functions}
+\section{Additional Functions}
+\label{sec:additional-functions}
 
-\subsection{Power}
-\label{sec:power}
+% \subsection{Power}
+% \label{sec:power}
 
-%%inop \apwr 4
-\begin{axdef}
-  \_ \apwr \_ : \arithmos \cross \num \pfun \arithmos \\
-  \where
-  \forall n: \nat @ \azero \apwr n = \azero\\
-  \forall x: \arithmos @ x \apwr 0 = \aone\\
-  \forall x: \arithmos; z : \num @ x \apwr (z+1) = x \amult (x \apwr z)\\
-\end{axdef}
+% %%inop \apwr 4
+% \begin{axdef}
+%   \_ \apwr \_ : \arithmos \cross \num \pfun \arithmos \\
+%   \where
+%   \forall n: \nat @ \azero \apwr n = \azero\\
+%   \forall x: \arithmos @ x \apwr 0 = \aone\\
+%   \forall x: \arithmos_1; z : \num @ x \apwr (z+1) = x \amult (x \apwr z)\\
+% \end{axdef}
 
-\subsection{Square Root}
-\label{sec:square-root}
-The square root is a partial function on $\arithmos$.
-\begin{axdef}
-  sqrt : \arithmos \pfun \arithmos
-  \where
-  \forall x : \dom sqrt @ sqrt(x) \amult sqrt(x) = x
-\end{axdef}
+% \subsection{Square Root}
+% \label{sec:square-root}
+% The square root is a partial function on $\arithmos$.
+% \begin{axdef}
+%   sqrt : \arithmos \pfun \arithmos
+%   \where
+%   \forall x : \dom sqrt @ sqrt(x) \amult sqrt(x) = x
+% \end{axdef}
 
-The square root function has the following properties, derived from
-its definition:
-\begin{zed}
-  sqrt(\azero) = \azero\\
-  sqrt(\aone) = \aone\\
-  \realplus \cup \{~\azero~\} \subseteq \dom sqrt\\
-  \dom (sqrt \rres \real) = \realplus \cup \{~\azero~\}\\
-  \ran (\real \dres sqrt) = \realplus \cup \{~\azero~\}\\
-\end{zed}
+% The square root function has the following properties, derived from
+% its definition:
+% \begin{zed}
+%   sqrt(\azero) = \azero\\
+%   sqrt(\aone) = \aone\\
+%   \realplus \cup \{~\azero~\} \subseteq \dom sqrt\\
+%   \dom (sqrt \rres \real) = \realplus \cup \{~\azero~\}\\
+%   \ran (\real \dres sqrt) = \realplus \cup \{~\azero~\}\\
+% \end{zed}
 
 \subsection{Absolute Value}
 \label{sec:abs}
