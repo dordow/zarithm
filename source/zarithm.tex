@@ -272,7 +272,7 @@ There are shortcuts for the positive, negative and non-zero rational numbers:
   \rat_1 == \ratplus \cup \ratminus \\
 \end{zed}
 %
-\section{Quaternions}
+\section{Quaternions $\quaternions$}
 \label{sec:quaternions}
 The set of \emph{Quaternions} $\quaternions$ is also considered as a
 subset of $\arithmos$, which contains the real numbers and the
@@ -432,7 +432,7 @@ Using the conjugate to define the \emph{norm} of a quaternion:
 
 The \emph{unit quaternions} are defined as follows:
 \begin{zed}
-  UnitH == \{~q : \quaternions | q \amult q\aconj = \aone~\}
+  UnitH == \{~q : \quaternions | q \amult q\aconj = \norm(q) = \aone~\}
 \end{zed}
 %
 Another important set is the set of pure quaternions defined as
@@ -442,63 +442,46 @@ follows:
   q_1 \amult \iu \aplus q_2 \amult \ju \aplus q_3 \amult \ku~\}
 \end{zed}
 
-% For interpretation of quaternions as rotations one needs to embed
-% $\real3d$ into $\quaternions$:
-% %
-% \begin{zed}
-%   % embdR3H == (\lambda r : \realthreed | (\exists r_1, r_2, r_3 : \real
-%   % @ r = (r_1, r_2, r_3)) @ r_1 \amult \iu) 
-%   embdR3H == (\lambda r : \realthreed @ first~(first~r) \amult \iu
-%   \aplus second~(first~r) \amult \ju \aplus second~r \amult \ku) 
-% \end{zed}
-%
-% \begin{axdef}
-%   \quaternions : \power \arithmos
-%   \where
-%   \complex \subset \quaternions \\
-%   \ran ( (\quaternions \cross \quaternions) \dres (\_ \aplus \_) ) \subset \quaternions\\
-%   \ran ( (\quaternions \cross \quaternions) \dres (\_ \amult \_) ) \subset \quaternions\\
-%   \ran (\quaternions \dres (\aneg ))  \subset \quaternions\\
-%   \ran (\quaternions \dres (\_ \ainv ))  \subset \quaternions\\
-% \end{axdef}
-% Since the complex numbers are included into the quaterions, $\iu$ is
-% also member of $\quaternions$. There are two additional special
-% constants:
 
 Read \cite{Mukundan2002,Vince2021}
 %
 \section{Complex Numbers $\complex$}
 \label{sec:complex-numbers}
-The set of complex numbers $\complex$ is a subset of $\arithmos$,
-which contains the real numbers defined in section
-\ref{sec:real-numbers}.
+The set of complex numbers $\complex$ is a subset of $\quaternions$
+and therefore also of $\arithmos$, which contains the real numbers
+defined in section \ref{sec:real-numbers}.
 %
 \begin{axdef}
-  \complex : \power \arithmos\\
+  \complex : \power \quaternions\\
   \where
-  \real \subset \complex \\
+  \complex =  \{~x, y  : \real @ x \amult \aone \aplus y \amult \iu~\}
+\end{axdef}
+
+The complex numbers are closed with respect to addition,
+multiplication, negation and inversion:
+
+\begin{zed}
   \ran ( (\complex \cross \complex) \dres (\_ \aplus \_) ) \subset \complex\\
   \ran ( (\complex \cross \complex) \dres (\_ \amult \_) ) \subset \complex\\
   \ran (\complex \dres (\aneg ))  \subset \complex\\
   \ran (\complex \dres (\_ \ainv ))  \subset \complex\\
-\end{axdef}
+\end{zed}
 
-The complex numbers are closed with respect to addition,
-multiplication, negation and inversion.
-
-There is a special complex constant $\iu$:
+Moreover, the multiplication of complex numbers is commutative:
+\begin{zed}
+  \forall z_1, z_2 : \complex @ z_1 \amult z_2 = z_2 \amult z_1
+\end{zed}
 %
-\begin{axdef}
-  \iu : \complex
-  \where
-  \iu \amult \iu = \aneg \aone
-\end{axdef}
-
 Complex numbers have a real and an imaginary part:
 %
 \begin{axdef}
   \Re, \Im : \complex \fun \real
   \where
+  \forall z : \complex @ z = \Re(z) \aplus \iu \amult \Im(z)
+\end{axdef}
+%
+The following computation rules apply
+\begin{zed}
   \Re(\azero) = \Im(\azero) = \azero \\
   \Re(\aone) = \aone \land \Im(\aone) = \azero \\
   \Re(\iu) = \azero \land \Im(\iu) = \aone \\
@@ -513,27 +496,16 @@ Complex numbers have a real and an imaginary part:
   \forall z_1, z_2: \complex @ \Im(z_1 \amult z_2 ) = \Re(z_1) \amult
   \Im(z_2) \aplus  \Im(z_1) \amult \Re(z_2) \\
   \real = \dom (\Im \rres \{~\azero~\}) \\
-\end{axdef}
-%
-From these rules one can deduce
-\begin{zed}
-  \forall z : \complex @ z = \Re(z) \aplus \iu \amult \Im(z)
 \end{zed}
 %
-In $\complex$ there is a \emph{conjugate}:
-% \begin{axdef}
-%   \aconj : \complex \fun \comples
-%   \where
-  
-% \end{axdef}
-%%postop \aconj
-\begin{axdef}
-  \_ \aconj : \complex \fun \complex
-  \where
-  \forall z: \complex @ z\aconj = \Re(z) \aminus \iu \amult \Im(z) 
-%  \aconj == (\lambda z: \complex @ \Re(z) \aminus \iu \amult \Im(z)) 
-\end{axdef}
-%
+The restriction of the conjugate over quaternions to complex numbers
+provides:
+\begin{zed}
+    \forall z: \complex @ z\aconj = \Re(z) \aminus \iu \amult \Im(z) 
+\end{zed}
+% 
+%In $\complex$ there is a \emph{conjugate}:
+
 From this definition it follows that
 \begin{zed}
   % \real = \{~z : \complex @ \aconj~z = z~\}
