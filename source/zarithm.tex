@@ -46,7 +46,7 @@ The file \texttt{zarithm.sty} is only used for typesetting, whereas
 \texttt{zarithm.tex} includes the Z definitions of the types for
 quaternions as well as for rational, real and complex numbers, their
 basic operations and numerical comparisons. The Z definitions are
-sufficient for type setting and for checking with , not for automated
+sufficient for type setting and for type checking, not for automated
 proof. If the user intends to use automated proof, there is probably
 no better way than to transit to standard Z.
 
@@ -57,7 +57,7 @@ provided first.
 
 The document is structured as follows: the next section
 \ref{sec:arithmos} defines an artifical set of numbers named Arithmos,
-following teh ideas of Valentine \cite{Valentine2012}. Section
+following the ideas of Valentine \cite{Valentine2012}. Section
 \ref{sec:real-numbers} introduces real numbers, section
 \ref{sec:rational-numbers} rational numbers, section
 \ref{sec:quaternions} quaternions, and section
@@ -129,7 +129,6 @@ inversion.
   \forall x : \arithmos @ x \amult \aone = \aone \amult x = x \\
   \forall x : \arithmos_1 @ x \amult (x \ainv) = \aone \\
   \forall x : \arithmos_1 @ (x \ainv)\ainv = x \\
-%  \forall x,y: \arithmos @ x \amult y = y \amult x \\
   \forall x,y,z: \arithmos @ ( x \amult y ) \amult z = x \amult (y
   \amult z) \\
   \forall x: \arithmos; y : \arithmos_1 @ x \adiv y = x \amult (y
@@ -138,6 +137,8 @@ inversion.
   \azero\\
   \forall x, y, z: \arithmos @ x \amult ( y \aplus z ) = x \amult y
   \aplus x \amult z \\
+  \forall x, y, z: \arithmos @ ( y \aplus z ) \amult x = y \amult x
+  \aplus z \amult x \\
 \end{axdef}
 %
 Note that the multiplication is not communtative since it is intended
@@ -230,7 +231,9 @@ The set of rational numbers $\rat$ is a subset $\real$.
   \ran (\rat \dres (\_ \ainv ))  \subset \rat\\
 \end{axdef}
 The constants defined in section \ref{sec:arithmos} are also members
-of $\rat$.
+of $\rat$. Since $\rat$ is a subset of $\real$, and $\real$ is
+commutative with respect to multiplication, so is $\rat$.
+%
 
 There are shortcuts for the positive, negative and non-zero rational numbers:
 \begin{zed}
@@ -267,6 +270,8 @@ The subset $\quaternions \subset \arithmos$ is defined as follows:
   \quaternions = \{~q_0, q_1, q_2, q_3 : \real @ q_0 \amult \aone
   \aplus q_1 \amult \iu \aplus q_2 \amult \ju \aplus q_3 \amult \ku~\}
 \end{axdef}
+It is obvious that $\quaternions$ is not commutative.
+
 %
 $\quaternions_1$ is the set of non-zero quaternions:
 \begin{zed}
@@ -319,13 +324,12 @@ q2_2 \aminus q2_1 \amult q1_2 ) \amult \ku )\\
 \end{zed}
 %
 From definition and the above immediately follows that the set of
-quaternions is closed against addition, multipicateion, negation and
+quaternions is closed against addition, multipication, negation and
 inversion: 
 \begin{zed}
   \ran ( (\quaternions \cross \quaternions) \dres (\_ \aplus \_) ) \subset \quaternions\\
   \ran ( (\quaternions \cross \quaternions) \dres (\_ \amult \_) ) \subset \quaternions\\
   \ran (\quaternions \dres (\aneg ))  \subset \quaternions\\
-  \ran (\quaternions_1 \dres (\_ \ainv ))  \subset \quaternions\\
 \end{zed}
 %
 Obviously, the real numbers are a subset of the quaternions:
@@ -366,6 +370,26 @@ Some laws for the conjugate of quaternions:
   \forall q1, q2 : \quaternions @ (q1 \amult q2)\aconj = q2\aconj \amult q1\aconj
 \end{zed}
 %
+The product of a quaternion with its conjugate is a real number:
+\begin{zed}
+  \forall q : \quaternions @ \exists_1 q_0, q_1, q_2, q_3 : \real @\\
+  \t1 q = q_0 \amult \aone  \aplus q_1 \amult \iu \aplus q_2
+  \amult \ju \aplus q_3 \amult \ku \implies\\
+  \t1 q \amult q\aconj = q_0 \amult q_0 \aplus q_1 \amult q_1 \aplus
+  q_2 \amult q_2 \aplus q_3 \amult q_3 \in \real
+\end{zed}
+
+This equation allows the calculation of the inverse of a quaternion:
+\begin{zed}
+  \forall q : \quaternions_1 @ q\ainv = q\aconj \adiv ( q \amult
+  q\aconj) \in \quaternions_1
+\end{zed}
+
+and therefore
+\begin{zed}
+    \ran (\quaternions_1 \dres (\_ \ainv ))  \subset \quaternions
+\end{zed}
+% 
 The \emph{unit quaternions} are defined as follows:
 \begin{zed}
   UnitH == \{~q : \quaternions | q \amult q\aconj = \aone~\}
