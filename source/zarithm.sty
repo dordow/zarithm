@@ -3,6 +3,7 @@
 
 %\RequirePackage{zed-csp}
 %\RequirePackage{amssymb}
+\RequirePackage{bm}
 
 %% 'sans serif' option
 % \DeclareOption{sans}{
@@ -17,16 +18,24 @@
 %% Traditional LaTeX or TeX follows...
 % \mathbb cannot be used because amssymb or amsmath clashes with zed-csp
 \newcommand{\arithmos}{{\bbold A}}
+\newcommand{\quaternions}{{\bbold H}}
 \newcommand{\complex}{\bbold C}
 \newcommand{\realplus}{{\bbold R}_{+}}
 \newcommand{\realminus}{{\bbold R}_{-}}
+% \newcommand{\realtwod}{{\bbold R}^{2}} % \real2d would be better but
+%                                 % does not work
+% \newcommand{\realthreed}{{\bbold R}^{3}}
+% \newcommand{\realfourd}{{\bbold R}^{4}}
 \newcommand{\ratplus}{{\bbold Q}_{+}}
 \newcommand{\ratminus}{{\bbold Q}_{-}}
 \newcommand{\azero}{0}
 \newcommand{\aone}{1.0}
 \newcommand{\atwo}{2.0}
 \newcommand{\aten}{10.0}
-\newcommand{\iu}{{i\mkern1mu}}
+% \newcommand{\iu}{{i\mkern1mu}}
+\newcommand{\iu}{\bm{i}}
+\newcommand{\ju}{\bm{j}}
+\newcommand{\ku}{\bm{k}}
 \newcommand{\aplus}{+}
 \newcommand{\azplus}{+}
 \newcommand{\aplusz}{+}
@@ -58,12 +67,12 @@
 \newcommand{\azeqa}{=}
 % \newcommand{\alabs}{\mid}
 % \newcommand{\arabs}{\mid}
-\newcommand{\aconj}{conj}
-%\newcommand{\aconj}{\overline} funktioniert nicht!!
+%\newcommand{\aconj}{conj}
+\newcommand{\aconj}{^{*}} 
 \newcommand{\findistsum}{\sum}
 \newcommand{\findistprod}{\prod}
 \newcommand{\realmax}{max}
 \newcommand{\realmin}{min}
-
+\newcommand{\norm}{\mathcal{N}}
 
 \endinput

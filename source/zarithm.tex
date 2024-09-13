@@ -22,7 +22,7 @@
 \begin{abstract}
   The intention of this \LaTeX\ file is to extend the mathematical
   tool-kit of the Z reference manual to include rational, real and
-  complex numbers.
+  complex numbers, and quaternions.
 \end{abstract}
 
 %\tableofcontents
@@ -32,7 +32,7 @@
 \label{sec:intro}
 Rational and real numbers are often used in the specification of
 embedded systems to represent environmental variables such as
-distances, termperatures, voltage levels etc. The mathematical toolkit
+distances, temperatures, voltage levels etc. The mathematical toolkit
 of the Z reference manual (ZRM \cite{Spivey1998}) does not contain
 rational and real numbers, whereas the number toolkit of the ISO Z
 standard does. However, moving to standard (ISO) Z \cite{ISO13568} is
@@ -44,10 +44,11 @@ with ZRM, this set of two files (\texttt{zarithm.sty} and
 
 The file \texttt{zarithm.sty} is only used for typesetting, whereas
 \texttt{zarithm.tex} includes the Z definitions of the types for
-rational, real and complex numbers, their basic operations and
-numerical comparisons. The Z definitions are sufficient for type
-setting, not for automated proof. If the user intends to use automated
-proof, there is probably no better way than to transit to standard Z.
+quaternions as well as for rational, real and complex numbers, their
+basic operations and numerical comparisons. The Z definitions are
+sufficient for type setting and for type checking, not for automated
+proof. If the user intends to use automated proof, there is probably
+no better way than to transit to standard Z.
 
 The ZRM comes along with the tool \texttt{fuzz}, a typechecker. The
 approach described here makes use of the fact that fuzz accepts more
@@ -55,12 +56,14 @@ than one \LaTeX file and remembers the Z definitions of the files
 provided first.
 
 The document is structured as follows: the next section
-\ref{sec:arithmos} defines an artifical set of numbers named
-Arithmos. Section \ref{sec:real-numbers} introduces real numbers,
-section \ref{sec:rational-numbers} rational numbers, and section
+\ref{sec:arithmos} defines an artifical set of numbers named Arithmos,
+following the ideas of Valentine \cite{Valentine2012}. Section
+\ref{sec:real-numbers} introduces real numbers, section
+\ref{sec:rational-numbers} rational numbers, section
+\ref{sec:quaternions} quaternions, and section
 \ref{sec:complex-numbers} complex numbers. Section
 \ref{sec:integers-and-rationals} discusses the relation between
-integers and rational numbers. Section \ref{sec:special-functions}
+integers and rational numbers. Section \ref{sec:additional-functions}
 introduces a couple of functions that are often used, and section
 \ref{sec:latex-commands} lists the \LaTeX{} commands that are used for
 type setting number sets, operations and relations.
@@ -126,7 +129,6 @@ inversion.
   \forall x : \arithmos @ x \amult \aone = \aone \amult x = x \\
   \forall x : \arithmos_1 @ x \amult (x \ainv) = \aone \\
   \forall x : \arithmos_1 @ (x \ainv)\ainv = x \\
-  \forall x,y: \arithmos @ x \amult y = y \amult x \\
   \forall x,y,z: \arithmos @ ( x \amult y ) \amult z = x \amult (y
   \amult z) \\
   \forall x: \arithmos; y : \arithmos_1 @ x \adiv y = x \amult (y
@@ -135,7 +137,13 @@ inversion.
   \azero\\
   \forall x, y, z: \arithmos @ x \amult ( y \aplus z ) = x \amult y
   \aplus x \amult z \\
+  \forall x, y, z: \arithmos @ ( y \aplus z ) \amult x = y \amult x
+  \aplus z \amult x \\
 \end{axdef}
+%
+Note that the multiplication is not communtative since it is intended
+to include Hamilton quaternions in $\arithmos$ which are not
+commutative with respect to multiplication. 
 %
 \section{Real Numbers $\real$}
 \label{sec:real-numbers}
@@ -153,10 +161,13 @@ contains the constants defined in section \ref{sec:arithmos}.
   \ran ( (\real \cross \real) \dres (\_ \amult \_) ) \subset \real\\
   \ran (\real \dres (\aneg ))  \subset \real\\
   \ran (\real \dres (\_ \ainv ))  \subset \real\\
+  \forall x,y: \real @ x \amult y = y \amult x \\
 \end{axdef}
 
 The real numbers are closed with respect to addition, multiplication,
-negation and inversion.
+negation and inversion. Since $\arithmos$ is not commutative with
+respect to multiplication, it must be introduced here for the real
+numbers. 
 
 For real numbers, there is a relation ``$<$'':
 %
@@ -190,6 +201,19 @@ There are shortcuts for positive and negative real numbers:
   \real_1 == \realplus \cup \realminus \\
 \end{zed}
 %
+% Some standard vector XXX over the real numbers are defined as follows:
+% \begin{zed}
+%   \realtwod == \real \cross \real \\
+%   \realthreed == \realtwod \cross \real \\
+%   \realfourd == \realthreed \cross \real \\
+% \end{zed}
+%
+% Attempt:
+% \begin{zed}
+%   pr2d_1 == 
+% \end{zed}
+
+%
 \section{Rational Numbers $\rat$}
 \label{sec:rational-numbers}
 The set of rational numbers $\rat$ is a subset $\real$.
@@ -207,7 +231,9 @@ The set of rational numbers $\rat$ is a subset $\real$.
   \ran (\rat \dres (\_ \ainv ))  \subset \rat\\
 \end{axdef}
 The constants defined in section \ref{sec:arithmos} are also members
-of $\rat$.
+of $\rat$. Since $\rat$ is a subset of $\real$, and $\real$ is
+commutative with respect to multiplication, so is $\rat$.
+%
 
 There are shortcuts for the positive, negative and non-zero rational numbers:
 \begin{zed}
@@ -216,38 +242,205 @@ There are shortcuts for the positive, negative and non-zero rational numbers:
   \rat_1 == \ratplus \cup \ratminus \\
 \end{zed}
 %
-\section{Complex Numbers $\complex$}
-\label{sec:complex-numbers}
-The set of complex numbers $\complex$ is a subset of $\arithmos$,
-which contains the real numbers defined in section
-\ref{sec:real-numbers}.
+\section{Quaternions $\quaternions$}
+\label{sec:quaternions}
+The set of \emph{Quaternions} $\quaternions$ is also considered as a
+subset of $\arithmos$, which contains the real numbers and the
+rational numbers.
+
+Quaternions are defined via four \emph{basis quaternions}, three of
+them are involved in the following equations:
 %
 \begin{axdef}
-  \complex : \power \arithmos\\
+  \iu, \ju, \ku : \arithmos
   \where
-  \real \subset \complex \\
+  \iu \amult \iu = \ju \amult \ju = \ku \amult \ku = \aneg \aone\\
+  \iu \amult \ju = \aneg \ju \amult \iu = \ku \\
+  \ju \amult \ku = \aneg \ku \amult \ju = \iu \\
+  \ku \amult \iu = \aneg \iu \amult \ku = \ju
+\end{axdef}
+
+The fourth basis quaternion is $\aone$.
+
+The subset $\quaternions \subset \arithmos$ is defined as follows:
+%
+\begin{axdef}
+  \quaternions : \power \arithmos
+  \where 
+  \quaternions = \{~q_0, q_1, q_2, q_3 : \real @ q_0 \amult \aone
+  \aplus q_1 \amult \iu \aplus q_2 \amult \ju \aplus q_3 \amult \ku~\}
+\end{axdef}
+It is obvious that $\quaternions$ is not commutative.
+
+%
+$\quaternions_1$ is the set of non-zero quaternions:
+\begin{zed}
+  \quaternions_1 == \quaternions \setminus \{~\azero~\}
+\end{zed}
+%
+Since $\aone, \iu, \ju, \ku$ form a basis, the coefficients $q_i$ are
+unique. Therefore, every quaternion can be expressed as a unique
+quadruple of real coefficients which is used below to express addition
+and multiplication in terms of these coefficients, using the equations
+for $\aone, \iu, \ju, \ku$ above. For the addition of quaternions
+there is:
+%
+\begin{zed}
+  \forall q1, q2 : \quaternions @ \\
+  \t1 \exists_1 q1_0, q1_1, q1_2, q1_3, q2_0, q2_1, q2_2, q2_3 :
+  \real @ \\
+  \t2 (q1 = q1_0 \amult \aone  \aplus q1_1 \amult \iu \aplus q1_2
+  \amult \ju \aplus q1_3 \amult \ku ) \land \\
+  \t2 (q2 = q2_0 \amult \aone  \aplus q2_1 \amult \iu \aplus q2_2
+  \amult \ju \aplus q2_3 \amult \ku ) \land \\
+  \t1 (q1 \aplus q2 = \\
+  \t2 ( q1_0 \aplus q2_0 ) \amult \aone \aplus ( q1_1 \aplus q2_1 ) \amult
+  \iu \aplus ( q1_2 \aplus q2_2 ) \amult \ju \aplus ( q1_3 \aplus q2_3 
+  )  \amult \ku ) \land \\
+  \t1 (q1 \aminus q2 = \\
+  \t2 ( q1_0 \aminus q2_0 ) \amult \aone \aplus ( q1_1 \aminus q2_1 ) \amult
+  \iu \aplus ( q1_2 \aminus q2_2 ) \amult \ju \aplus ( q1_3 \aminus q2_3 
+  )  \amult \ku )
+\end{zed}
+%
+For multiplication of quaternions:
+\begin{zed}
+  \forall q1, q2 : \quaternions @ \\
+  \t1 \exists_1 q1_0, q1_1, q1_2, q1_3, q2_0, q2_1, q2_2, q2_3 :
+  \real @ \\
+  \t2 (q1 = q1_0 \amult \aone  \aplus q1_1 \amult \iu \aplus q1_2
+  \amult \ju \aplus q1_3 \amult \ku ) \land \\
+  \t2 (q2 = q2_0 \amult \aone  \aplus q2_1 \amult \iu \aplus q2_2
+  \amult \ju \aplus q2_3 \amult \ku ) \land \\
+  \t1 q1 \amult q2 =\\
+  \t2 ((q1_0 \amult q2_0 \aminus q1_1 \amult q2_1 \aminus q1_2 \amult q2_2
+  \aminus q1_3 \amult q2_3 ) \amult \aone \aplus \\
+  \t2 (q1_0 \amult q2_1 \aplus q2_0 \amult q1_1 \aplus q1_2 \amult
+  q2_3 \aminus q2_2 \amult q1_3 ) \amult \iu \aplus \\
+  \t2 (q1_0 \amult q2_2 \aplus q2_0 \amult q1_2 \aplus q1_3 \amult
+  q2_1 \aminus q2_3 \amult q1_1 ) \amult \ju \aplus \\
+  \t2 (q1_0 \amult q2_3 \aplus q2_0 \amult q1_3 \aplus q1_1 \amult
+q2_2 \aminus q2_1 \amult q1_2 ) \amult \ku )\\
+\end{zed}
+%
+From definition and the above immediately follows that the set of
+quaternions is closed against addition, multipication, negation and
+inversion: 
+\begin{zed}
+  \ran ( (\quaternions \cross \quaternions) \dres (\_ \aplus \_) ) \subset \quaternions\\
+  \ran ( (\quaternions \cross \quaternions) \dres (\_ \amult \_) ) \subset \quaternions\\
+  \ran (\quaternions \dres (\aneg ))  \subset \quaternions\\
+\end{zed}
+%
+Obviously, the real numbers are a subset of the quaternions:
+\begin{zed}
+  \real = \{~q : \quaternions | \exists q_0 : \real @ q = q_0 \amult
+  \aone~\}
+\end{zed}
+% 
+The quaternions form a (four-dimensional) vector space over $\real$:
+\begin{zed}
+  \forall r1, r2 : \real; q : \quaternions @
+  (r1 \aplus r2) \amult q = r1 \amult q \aplus r2 \amult q
+\end{zed}
+%
+and
+%
+\begin{zed}
+  \forall r : \real; q1, q2 : \quaternions @
+   r \amult (q1 \aplus q2) = r \amult q1 \aplus r \amult q2 
+\end{zed}
+%
+The \emph{conjugate} function over $\quaternions$ is defined as
+%%postop \aconj
+\begin{axdef}
+  \_ \aconj : \quaternions \fun \quaternions
+  \where
+  \forall q : \quaternions @ 
+  \exists_1 q_0, q_1, q_2, q_3 :  \real @ \\
+  \t1 q = q_0 \amult \aone  \aplus q_1 \amult \iu \aplus q_2
+  \amult \ju \aplus q_3 \amult \ku \land\\
+  \t1 q\aconj = q_0 \amult \aone \aminus q_1 \amult \iu \aminus q_2 \amult \ju \aminus q_3 \amult \ku \\
+\end{axdef}
+%
+Some laws for the conjugate of quaternions:
+\begin{zed}
+  \forall q : \quaternions @ (q\aconj)\aconj = q  \\
+  \forall q1, q2 : \quaternions @ (q1 \aplus q2)\aconj = q1\aconj \aplus q2\aconj \\
+  \forall q1, q2 : \quaternions @ (q1 \amult q2)\aconj = q2\aconj \amult q1\aconj
+\end{zed}
+%
+The product of a quaternion with its conjugate is a real number:
+\begin{zed}
+  \forall q : \quaternions @ \exists_1 q_0, q_1, q_2, q_3 : \real @\\
+  \t1 q = q_0 \amult \aone  \aplus q_1 \amult \iu \aplus q_2
+  \amult \ju \aplus q_3 \amult \ku \implies\\
+  \t1 q \amult q\aconj = q_0 \amult q_0 \aplus q_1 \amult q_1 \aplus
+  q_2 \amult q_2 \aplus q_3 \amult q_3 \in \real
+\end{zed}
+
+This equation allows the calculation of the inverse of a quaternion:
+\begin{zed}
+  \forall q : \quaternions_1 @ q\ainv = q\aconj \adiv ( q \amult
+  q\aconj) \in \quaternions_1
+\end{zed}
+
+and therefore
+\begin{zed}
+    \ran (\quaternions_1 \dres (\_ \ainv ))  \subset \quaternions
+\end{zed}
+% 
+The \emph{unit quaternions} are defined as follows:
+\begin{zed}
+  UnitH == \{~q : \quaternions | q \amult q\aconj = \aone~\}
+\end{zed}
+%
+Another important set is the set of pure quaternions defined as
+follows:
+\begin{zed}
+  PureH == \{~q : \quaternions | \exists_1 q_1, q_2, q_3 : \real @ q =
+  q_1 \amult \iu \aplus q_2 \amult \ju \aplus q_3 \amult \ku~\}
+\end{zed}
+%
+For more information on quaternions see \cite{Mukundan2002,Vince2021}.
+%
+\section{Complex Numbers $\complex$}
+\label{sec:complex-numbers}
+The set of complex numbers $\complex$ is a subset of $\quaternions$
+and therefore also of $\arithmos$, which contains the real numbers
+defined in section \ref{sec:real-numbers}.
+%
+\begin{axdef}
+  \complex : \power \quaternions\\
+  \where
+  \complex =  \{~x, y  : \real @ x \amult \aone \aplus y \amult \iu~\}
+\end{axdef}
+
+The complex numbers are closed with respect to addition,
+multiplication, negation and inversion:
+
+\begin{zed}
   \ran ( (\complex \cross \complex) \dres (\_ \aplus \_) ) \subset \complex\\
   \ran ( (\complex \cross \complex) \dres (\_ \amult \_) ) \subset \complex\\
   \ran (\complex \dres (\aneg ))  \subset \complex\\
   \ran (\complex \dres (\_ \ainv ))  \subset \complex\\
-\end{axdef}
+\end{zed}
 
-The complex numbers are closed with respect to addition,
-multiplication, negation and inversion.
-
-There is a special complex constant $\iu$:
+Moreover, the multiplication of complex numbers is commutative:
+\begin{zed}
+  \forall z_1, z_2 : \complex @ z_1 \amult z_2 = z_2 \amult z_1
+\end{zed}
 %
-\begin{axdef}
-  \iu : \complex
-  \where
-  \iu \amult \iu = \aneg \aone
-\end{axdef}
-
 Complex numbers have a real and an imaginary part:
 %
 \begin{axdef}
   \Re, \Im : \complex \fun \real
   \where
+  \forall z : \complex @ z = \Re(z) \aplus \iu \amult \Im(z)
+\end{axdef}
+%
+The following computation rules apply
+\begin{zed}
   \Re(\azero) = \Im(\azero) = \azero \\
   \Re(\aone) = \aone \land \Im(\aone) = \azero \\
   \Re(\iu) = \azero \land \Im(\iu) = \aone \\
@@ -262,31 +455,25 @@ Complex numbers have a real and an imaginary part:
   \forall z_1, z_2: \complex @ \Im(z_1 \amult z_2 ) = \Re(z_1) \amult
   \Im(z_2) \aplus  \Im(z_1) \amult \Re(z_2) \\
   \real = \dom (\Im \rres \{~\azero~\}) \\
-\end{axdef}
-%
-From these rules one can deduce
-\begin{zed}
-  \forall z : \complex @ z = \Re(z) \aplus \iu \amult \Im(z)
 \end{zed}
 %
-In $\complex$ there is a \emph{conjugate}:
-% \begin{axdef}
-%   \aconj : \complex \fun \comples
-%   \where
-  
-% \end{axdef}
+The restriction of the conjugate over quaternions to complex numbers
+provides:
 \begin{zed}
-  \aconj == (\lambda z: \complex @ \Re(z) \aminus \iu \amult \Im(z)) 
+    \forall z: \complex @ z\aconj = \Re(z) \aminus \iu \amult \Im(z) 
 \end{zed}
-%
+% 
+%In $\complex$ there is a \emph{conjugate}:
+
 From this definition it follows that
 \begin{zed}
   % \real = \{~z : \complex @ \aconj~z = z~\}
-  \forall z : \complex @ z \in \real \iff \aconj~z = z \\
-  \forall z: \complex @  \aconj(\aconj~z) = z \\
-  \forall z_1, z_2 : \complex @ \aconj(z_1 \aplus z_2 ) = \aconj~z_1 \aplus \aconj~z_2\\
-  \forall z_1, z_2 : \complex @ \aconj(z_1 \aminus z_2 ) = \aconj~z_1 \aminus \aconj~z_2\\
-  \forall z_1, z_2 : \complex @ \aconj(z_1 \amult z_2 ) = \aconj~z_1 \amult \aconj~z_2\\
+  \forall z : \complex @ z \in \real \iff z\aconj = z \\
+  \forall z: \complex @  (z\aconj)\aconj = z \\
+  \forall z_1, z_2 : \complex @ (z_1 \aplus z_2 )\aconj = z_1\aconj \aplus z_2\aconj\\
+  \forall z_1, z_2 : \complex @ (z_1 \aminus z_2 )\aconj = z_1\aconj
+  \aminus z_2\aconj\\
+  \forall z_1, z_2 : \complex @ (z_1 \amult z_2)\aconj = z_1\aconj \amult z_2\aconj\\
 \end{zed}
 %
 \section{Integers and Rational Numbers}
@@ -385,7 +572,7 @@ relations. Especially there is a need to define equality.
   (\_ \azgeqa \_) == (\_ \azeqa \_) \cup (\_ \azgta \_) \\
 \end{zed}
 Note that the definitions that look identical are of different type,
-either subset of $\num \cross \real$ or $\real \cross \num$.
+being either a subset of $\num \cross \real$ or $\real \cross \num$.
 
 With these definitions it is possible to formulate equations such as
 the following in a natural way:
@@ -393,43 +580,76 @@ the following in a natural way:
   5 \azlta \aten \aaeqz 10
 \end{zed}
 
-\section{Special Functions}
-\label{sec:special-functions}
+% Moreover, it is possible to formulate the fundamental property of
+% rational numbers:
+% \begin{zed}
+%   \forall q: \rat \exists m, n : \num @ n \neq 0 \land q = m n
+% \end{zed}
+%
+\section{Additional Functions}
+\label{sec:additional-functions}
 
-\subsection{Power}
-\label{sec:power}
-
+\subsection{Power Function}
+\label{sec:power-function}
+An important function that is defined for Arithmos is the \emph{power
+  function}:
 %%inop \apwr 4
 \begin{axdef}
   \_ \apwr \_ : \arithmos \cross \num \pfun \arithmos \\
   \where
   \forall n: \nat @ \azero \apwr n = \azero\\
   \forall x: \arithmos @ x \apwr 0 = \aone\\
-  \forall x: \arithmos; z : \num @ x \apwr (z+1) = x \amult (x \apwr z)\\
+  \forall x: \arithmos_1; z : \num @ x \apwr (z+1) = x \amult (x \apwr z)\\
 \end{axdef}
-
+%
 \subsection{Square Root}
 \label{sec:square-root}
-The square root is a partial function on $\arithmos$.
+The \emph{square root} function may not be defined for all elements of
+$\arithmos$, it is therefore defined as a partial function on
+$\arithmos$:
+%
 \begin{axdef}
   sqrt : \arithmos \pfun \arithmos
   \where
   \forall x : \dom sqrt @ sqrt(x) \amult sqrt(x) = x
 \end{axdef}
-
+%
 The square root function has the following properties, derived from
 its definition:
 \begin{zed}
   sqrt(\azero) = \azero\\
   sqrt(\aone) = \aone\\
+\end{zed}
+%
+For the square root function restricted to the real numbers there are
+some additional properties:
+%
+\begin{zed}
   \realplus \cup \{~\azero~\} \subseteq \dom sqrt\\
   \dom (sqrt \rres \real) = \realplus \cup \{~\azero~\}\\
   \ran (\real \dres sqrt) = \realplus \cup \{~\azero~\}\\
 \end{zed}
-
+%
+The square root is essential for the definition of other fundamental
+functions.
+%
+\subsection{The Norm $\norm$ on Quaternions}
+\label{sec:norm-quaternions}
+The conjugate is used to define the \emph{norm} of a quaternion:
+\begin{zed}
+  \norm == (\lambda q : \quaternions @ sqrt( q \amult q\aconj) )
+\end{zed}
+The norm can be easily calculated:
+\begin{zed}
+  \forall q : \quaternions @ \exists_1 q_0, q_1, q_2, q_3 :  \real @ \\
+  \t1 q = q_0 \amult \aone  \aplus q_1 \amult \iu \aplus q_2
+  \amult \ju \aplus q_3 \amult \ku \land\\
+  \t1 \norm(q) \amult \norm(q) = q_0 \amult q_0 \aplus q_1 \amult q_1 \aplus q_2 \amult q_2 \aplus q_3 \amult q_3 
+\end{zed}
+%
 \subsection{Absolute Value}
 \label{sec:abs}
-
+The absolute value can be defined partially over $\arithmos$ as follows:
 \begin{axdef}
   abs: \arithmos \pfun \realplus \cup \{~\azero~\}\\
   \where
@@ -440,10 +660,20 @@ its definition:
   abs(y)\\
   \real \dres abs = \id \real \oplus (\lambda x: \realminus @ \aneg
   x)\\
+  \forall z: \complex @ (abs(z)) \apwr 2 = z \amult z\aconj\\
+\end{axdef}
+%
+Also the absolute value of a complex number can be calculated as follows:
+\begin{zed}
   \complex \dres abs = (\lambda z: \complex @ sqrt(\Re(z) \apwr 2
   \aplus \Im(z) \apwr 2))\\
-  \forall z: \complex @ (abs(z)) \apwr 2 = z \amult \aconj(z)\\
-\end{axdef}
+\end{zed}
+% 
+The absolute value of complex numbers coincides with its norm as a quaternion:
+\begin{zed}
+  \complex \dres \norm = abs \\
+\end{zed}
+%
 
 \subsection{Finite Distributed Sum}
 \label{sec:fin-distr-sum}
@@ -465,18 +695,21 @@ commutativity and associativity of the addition in $\arithmos$.
 \label{sec:fin-distr-product}
 Similar to the finite distributed sum there is a finite distributed
 product of a finite indexed set of elements of
-$\arithmos$ is defined as follows:
+$\complex$ is defined as follows:
 
 \begin{gendef}[I]
-    \findistprod : (I \ffun \arithmos) \fun \arithmos
+    \findistprod : (I \ffun \complex) \fun \complex
     \where
     \findistprod~\emptyset = \aone \\
-    \forall f: I \ffun \arithmos | f \neq \emptyset @ \\
+    \forall f: I \ffun \complex | f \neq \emptyset @ \\
     \t1 (\exists i: \dom f @ \findistprod~f = (f~i) \amult
     \findistprod(\{~i~\} \ndres f))
 \end{gendef}
 The definition is valid irrespective of the index $i$ due to
-commutativity and associativity of the multiplication in $\arithmos$.
+commutativity and associativity of the multiplication in
+$\complex$. In contrast to the finite distributed sum, this property
+does not hold for $\arithmos$ in general, so the finite distributed
+product cannot be defined for $\arithmos$.
 
 \subsection{Maximum of finite Set of real Numbers}
 \label{sec:max-real}
@@ -518,7 +751,9 @@ The \LaTeX{} commands listed here are defined in the style file
     $\arithmos$    & \verb|\arithmos| && $\real$ & \verb|\real|&& $\rat$ & \verb|\rat| \\
     $\arithmos_1$  & \verb|\arithmos_1| && $\real_1$ & \verb|\real_1| && $\rat_1$ & \verb|\rat_1| \\
     $\complex$ & \verb|\complex| &&  $\realplus$ & \verb|\realplus| && $\ratplus$ & \verb|\ratplus| \\ 
-    $\complex_1$ & \verb|\complex_1| && $\realminus$ & \verb|\realminus| && $\ratminus$ & \verb|\ratminus| \\
+    $\complex_1$ & \verb|\complex_1| && $\realminus$ &
+                                                       \verb|\realminus| && $\ratminus$ & \verb|\ratminus| \\
+    $\quaternions$ & \verb|\quaternions| && $\quaternions_1$ & \verb|\quaternions_1| && &    \\
   \end{tabular}
   \caption{Commands for Number Sets}
   \label{tab:latex-number-sets}
@@ -526,9 +761,10 @@ The \LaTeX{} commands listed here are defined in the style file
 %
 \begin{table}[htbp]
   \centering
-  \begin{tabular}{llp{1cm}llp{1cm}ll}
-    $0$    & \verb|\azero| && $2.0$  & \verb|\atwo| && $\iu$  & \verb|\iu| \\
-    $1.0$  & \verb|\aone| && $10.0$ & \verb|\aten| && & \\
+  \begin{tabular}{llp{1cm}llp{1cm}llp{1cm}ll}
+    $\azero$    & \verb|\azero| && $\aone$  & \verb|\aone| && $\atwo$  &
+                                                                \verb|\atwo| && $\aten$ & \verb|\aten| \\
+    $\iu$  & \verb|\iu| && $\ju$ & \verb|\ju| && $\ku$ & \verb|\ku| && & \\
   \end{tabular}
   \caption{Commands for $\arithmos$ Constants}
   \label{tab:latex-constants}
@@ -536,9 +772,10 @@ The \LaTeX{} commands listed here are defined in the style file
 %
 \begin{table}[htbp]
   \centering
-  \begin{tabular}{ll}
-    $x\ainv$    & \verb|x\ainv| \\
-    $\aneg x$    & \verb|\aneg x| \\
+  \begin{tabular}{llp{1cm}llp{1cm}llp{1cm}ll}
+       $x\ainv$    & \verb|x\ainv| &&  $\aneg x$  & \verb|\aneg x| &&
+                                                                      $x\aconj$
+    & \verb|x\aconj|\\
   \end{tabular}
   \caption{Commands for unary Operators}
   \label{tab:latex-unary-operators}
@@ -549,19 +786,21 @@ The \LaTeX{} commands listed here are defined in the style file
   \begin{tabular}{llll}
     Operator & Left & Right & Command \\
     \hline \\
-    $\aplus$ & $\arithmos, \complex, \real, \rat$ & $\arithmos,
-                                                    \complex, \real, \rat$ & \verb|\aplus| \\
-    $\aplusz$ & $\num$ & $\arithmos, \complex, \real, \rat$ & \verb|\azplus| \\
-    $\azplus$ & $\arithmos, \complex, \real, \rat$ & $\num$ & \verb|\aplusz| \\
-    $\aminus$ & $\arithmos, \complex, \real, \rat$ & $\arithmos, \complex, \real, \rat$ & \verb|\aminus| \\
-    $\aminusz$ & $\num$ & $\arithmos, \complex, \real, \rat$ & \verb|\azminus| \\
-    $\azminus$ & $\arithmos, \complex, \real, \rat$ & $\num$ & \verb|\aminusz| \\
-    $\amult$ & $\arithmos, \complex, \real, \rat$ & $\arithmos, \complex, \real, \rat$ & \verb|\amult| \\
-    $\amultz$ & $\num$ & $\arithmos, \complex, \real, \rat$ & \verb|\azmult| \\
-    $\azmult$ & $\arithmos, \complex, \real, \rat$ & $\num$ & \verb|\amultz| \\
-    $\adiv$ & $\arithmos, \complex, \real, \rat$ & $\arithmos_1, \complex_1, \real_1, \rat_1$ & \verb|\adiv| \\
-    $\adivz$ & $\num$ & $\arithmos_1, \complex_1, \real_1, \rat_1$ & \verb|\azdiv| \\
-    $\azdiv$ & $\arithmos, \complex, \real, \rat$ & $\num \setminus \{0\}$ & \verb|\adivz| \\
+    $\aplus$ & $\arithmos, \quaternions, \complex, \real, \rat$ &
+                                                                  $\arithmos,
+                                                                  \quaternions, 
+                                                                  \complex, \real, \rat$ & \verb|\aplus| \\
+    $\aplusz$ & $\num$ & $\arithmos, \quaternions, \complex, \real, \rat$ & \verb|\azplus| \\
+    $\azplus$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\num$ & \verb|\aplusz| \\
+    $\aminus$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\arithmos, \quaternions, \complex, \real, \rat$ & \verb|\aminus| \\
+    $\aminusz$ & $\num$ & $\arithmos, \quaternions, \complex, \real, \rat$ & \verb|\azminus| \\
+    $\azminus$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\num$ & \verb|\aminusz| \\
+    $\amult$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\arithmos, \quaternions, \complex, \real, \rat$ & \verb|\amult| \\
+    $\amultz$ & $\num$ & $\arithmos, \quaternions, \complex, \real, \rat$ & \verb|\azmult| \\
+    $\azmult$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\num$ & \verb|\amultz| \\
+    $\adiv$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\arithmos_1, \quaternions_1, \complex_1, \real_1, \rat_1$ & \verb|\adiv| \\
+    $\adivz$ & $\num$ & $\arithmos_1, \quaternions_1, \complex_1, \real_1, \rat_1$ & \verb|\azdiv| \\
+    $\azdiv$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\num \setminus \{0\}$ & \verb|\adivz| \\
     \hline
   \end{tabular}
   \caption{Commands for binary Operators}
@@ -573,9 +812,9 @@ The \LaTeX{} commands listed here are defined in the style file
   \begin{tabular}{llll}
     Relation & Left & Right & Command \\
     \hline \\
-    $=$ & $\arithmos, \complex, \real, \rat$ & $\arithmos, \complex, \real, \rat$ & \verb|=| \\
-    $\aaeqz$ & $\arithmos, \complex, \real, \rat$ & $\num$ & \verb|\aaeqz| \\
-    $\azeqa$ & $\num$ & $\arithmos, \complex, \real, \rat$ & \verb|\azeqa| \\
+    $=$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\arithmos, \quaternions, \complex, \real, \rat$ & \verb|=| \\
+    $\aaeqz$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\num$ & \verb|\aaeqz| \\
+    $\azeqa$ & $\num$ & $\arithmos, \quaternions, \complex, \real, \rat$ & \verb|\azeqa| \\
     $\alt$ & $\real, \rat$ & $\real, \rat$ & \verb|\alt| \\
     $\aaltz$ & $\real, \rat$ & $\num$ & \verb|\aaltz| \\
     $\azlta$ & $\num$ & $\real, \rat$ & \verb|\azlta| \\
@@ -600,7 +839,6 @@ The \LaTeX{} commands listed here are defined in the style file
     $abs(x)$    & \verb|abs(x)| \\
     $x \apwr n$    & \verb|x \apwr n| \\
     $sqrt(x)$    & \verb|sqrt(x)| \\
-    $\aconj(z)$    & \verb|\aconj(z)|\\
     Finite distributes sum & \verb|\findistsum| \\
     Finite distributes product & \verb|\findistprod| \\
     $\realmax$ & \verb|\realmax| \\
@@ -626,6 +864,16 @@ The \LaTeX{} commands listed here are defined in the style file
     ISO/IEC 13568:2002(E),
     \textit{Information technology -- Z formal specification notation -- Syntax, type system and semantics},
     2002
+  \bibitem{Vince2021}
+    John Vince,
+    \textit{Quaternions for Computer Graphics},
+    Springer London,
+    2021
+  \bibitem{Mukundan2002}
+      Ramakrishnan Mukundan,
+      \textit{Quaternions: From classical mechanics to computer graphics, and beyond},
+      Proceedings of the 7th Asian Technology Conference in Mathematics,
+      2002
 \end{thebibliography}
 
 \end{document}
