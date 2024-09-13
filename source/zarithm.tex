@@ -572,7 +572,7 @@ relations. Especially there is a need to define equality.
   (\_ \azgeqa \_) == (\_ \azeqa \_) \cup (\_ \azgta \_) \\
 \end{zed}
 Note that the definitions that look identical are of different type,
-either subset of $\num \cross \real$ or $\real \cross \num$.
+being either a subset of $\num \cross \real$ or $\real \cross \num$.
 
 With these definitions it is possible to formulate equations such as
 the following in a natural way:
@@ -604,9 +604,9 @@ An important function that is defined for Arithmos is the \emph{power
 %
 \subsection{Square Root}
 \label{sec:square-root}
-The \emph{square root} function is defined as follows, which may not
-be defined for all elements of $\arithmos$. It is therefore defined as
-a partial function on $\arithmos$:
+The \emph{square root} function may not be defined for all elements of
+$\arithmos$, it is therefore defined as a partial function on
+$\arithmos$:
 %
 \begin{axdef}
   sqrt : \arithmos \pfun \arithmos
@@ -695,7 +695,7 @@ commutativity and associativity of the addition in $\arithmos$.
 \label{sec:fin-distr-product}
 Similar to the finite distributed sum there is a finite distributed
 product of a finite indexed set of elements of
-$\arithmos$ is defined as follows:
+$\complex$ is defined as follows:
 
 \begin{gendef}[I]
     \findistprod : (I \ffun \complex) \fun \complex
@@ -708,7 +708,8 @@ $\arithmos$ is defined as follows:
 The definition is valid irrespective of the index $i$ due to
 commutativity and associativity of the multiplication in
 $\complex$. In contrast to the finite distributed sum, this property
-does not hold in $\arithmos$ in general.
+does not hold for $\arithmos$ in general, so the finite distributed
+product cannot be defined for $\arithmos$.
 
 \subsection{Maximum of finite Set of real Numbers}
 \label{sec:max-real}
@@ -785,19 +786,21 @@ The \LaTeX{} commands listed here are defined in the style file
   \begin{tabular}{llll}
     Operator & Left & Right & Command \\
     \hline \\
-    $\aplus$ & $\arithmos, \complex, \real, \rat$ & $\arithmos,
-                                                    \complex, \real, \rat$ & \verb|\aplus| \\
-    $\aplusz$ & $\num$ & $\arithmos, \complex, \real, \rat$ & \verb|\azplus| \\
-    $\azplus$ & $\arithmos, \complex, \real, \rat$ & $\num$ & \verb|\aplusz| \\
-    $\aminus$ & $\arithmos, \complex, \real, \rat$ & $\arithmos, \complex, \real, \rat$ & \verb|\aminus| \\
-    $\aminusz$ & $\num$ & $\arithmos, \complex, \real, \rat$ & \verb|\azminus| \\
-    $\azminus$ & $\arithmos, \complex, \real, \rat$ & $\num$ & \verb|\aminusz| \\
-    $\amult$ & $\arithmos, \complex, \real, \rat$ & $\arithmos, \complex, \real, \rat$ & \verb|\amult| \\
-    $\amultz$ & $\num$ & $\arithmos, \complex, \real, \rat$ & \verb|\azmult| \\
-    $\azmult$ & $\arithmos, \complex, \real, \rat$ & $\num$ & \verb|\amultz| \\
-    $\adiv$ & $\arithmos, \complex, \real, \rat$ & $\arithmos_1, \complex_1, \real_1, \rat_1$ & \verb|\adiv| \\
-    $\adivz$ & $\num$ & $\arithmos_1, \complex_1, \real_1, \rat_1$ & \verb|\azdiv| \\
-    $\azdiv$ & $\arithmos, \complex, \real, \rat$ & $\num \setminus \{0\}$ & \verb|\adivz| \\
+    $\aplus$ & $\arithmos, \quaternions, \complex, \real, \rat$ &
+                                                                  $\arithmos,
+                                                                  \quaternions, 
+                                                                  \complex, \real, \rat$ & \verb|\aplus| \\
+    $\aplusz$ & $\num$ & $\arithmos, \quaternions, \complex, \real, \rat$ & \verb|\azplus| \\
+    $\azplus$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\num$ & \verb|\aplusz| \\
+    $\aminus$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\arithmos, \quaternions, \complex, \real, \rat$ & \verb|\aminus| \\
+    $\aminusz$ & $\num$ & $\arithmos, \quaternions, \complex, \real, \rat$ & \verb|\azminus| \\
+    $\azminus$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\num$ & \verb|\aminusz| \\
+    $\amult$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\arithmos, \quaternions, \complex, \real, \rat$ & \verb|\amult| \\
+    $\amultz$ & $\num$ & $\arithmos, \quaternions, \complex, \real, \rat$ & \verb|\azmult| \\
+    $\azmult$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\num$ & \verb|\amultz| \\
+    $\adiv$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\arithmos_1, \quaternions_1, \complex_1, \real_1, \rat_1$ & \verb|\adiv| \\
+    $\adivz$ & $\num$ & $\arithmos_1, \quaternions_1, \complex_1, \real_1, \rat_1$ & \verb|\azdiv| \\
+    $\azdiv$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\num \setminus \{0\}$ & \verb|\adivz| \\
     \hline
   \end{tabular}
   \caption{Commands for binary Operators}
@@ -809,9 +812,9 @@ The \LaTeX{} commands listed here are defined in the style file
   \begin{tabular}{llll}
     Relation & Left & Right & Command \\
     \hline \\
-    $=$ & $\arithmos, \complex, \real, \rat$ & $\arithmos, \complex, \real, \rat$ & \verb|=| \\
-    $\aaeqz$ & $\arithmos, \complex, \real, \rat$ & $\num$ & \verb|\aaeqz| \\
-    $\azeqa$ & $\num$ & $\arithmos, \complex, \real, \rat$ & \verb|\azeqa| \\
+    $=$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\arithmos, \quaternions, \complex, \real, \rat$ & \verb|=| \\
+    $\aaeqz$ & $\arithmos, \quaternions, \complex, \real, \rat$ & $\num$ & \verb|\aaeqz| \\
+    $\azeqa$ & $\num$ & $\arithmos, \quaternions, \complex, \real, \rat$ & \verb|\azeqa| \\
     $\alt$ & $\real, \rat$ & $\real, \rat$ & \verb|\alt| \\
     $\aaltz$ & $\real, \rat$ & $\num$ & \verb|\aaltz| \\
     $\azlta$ & $\num$ & $\real, \rat$ & \verb|\azlta| \\
