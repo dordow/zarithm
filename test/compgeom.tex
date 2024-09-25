@@ -97,14 +97,24 @@ renamed to $px$ and $py$.
 \end{zed}
 %
 The function $area2$ calculates twice the area of a triangle given by
-points $a,b,c$, but can be negative. 
+points $a,b,c$, but can be negative. It is
+%
+\begin{zed}
+  area2 \in POINT \cross POINT \cross POINT \fun \real
+\end{zed}
+%
+Segments of a contour are calculated by:
 %
 \begin{zed}
   segments == (\lambda c : CONTOUR @ \{~a, b: POINT | \langle a,
-  b\rangle \inseq c~\})
+  b\rangle \inseq c @ a \mapsto b~\} )
 \end{zed}
 %
-Segments of a contour.
+It is
+%
+\begin{zed}
+  segments \in CONTOUR \fun \power SEGMENT
+\end{zed}
 %
 %%prerel between collinear
 \begin{zed}
