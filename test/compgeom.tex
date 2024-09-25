@@ -54,7 +54,7 @@
   Jonthan Jacky has devoted a small chapter of his textbook
   \cite{Jacky1997a} on computational geometry using $\num$ for the
   coordinates. This is a test paper for the Arithmetics in Z package
-  and style, translating the definitions there into reals.
+  and style, translating the definitions there into real numbers.
 \end{abstract}
 
 %\tableofcontents
@@ -66,9 +66,9 @@ defined using integer numbers. This paper simply translates the
 definitions using the real numbers defined in the \texttt{zarithm.sty}
 file and the \texttt{zarithm.tex} file.
 %
-A note on proofs: Proofs sometimes use the \texttt{argue} environment,
-which is not type checked by \texttt{fuzz} according to the
-\texttt{fuzz} manual \cite{Spivey2000}.
+% A note on proofs: Proofs sometimes use the \texttt{argue} environment,
+% which is not type checked by \texttt{fuzz} according to the
+% \texttt{fuzz} manual \cite{Spivey2000}.
 %
 \begin{zed}
   X == \real; Y == \real \\
@@ -78,7 +78,7 @@ which is not type checked by \texttt{fuzz} according to the
 \end{zed}
 %
 These definitions are direct translations of the ones given in the
-textbook. The definition of segments includes such that collapse to a
+textbook. The definition of segments includes those that collapse to a
 single point.
 %
 \begin{zed}
@@ -98,7 +98,7 @@ renamed to $px$ and $py$.
 %
 The function $area2$ calculates twice the area of a triangle given by
 points $a,b,c$, but can be negative. It is
-%
+% 
 \begin{zed}
   area2 \in POINT \cross POINT \cross POINT \fun \real
 \end{zed}
@@ -116,6 +116,8 @@ It is
   segments \in CONTOUR \fun \power SEGMENT
 \end{zed}
 %
+For a compact definition of polygones, two ``helper'' relations are
+introduced: 
 %%prerel between collinear
 \begin{zed}
   ( between \_ ) == \{~x,y,z: \real | x \alt y \alt z \lor x \agt y
@@ -152,7 +154,8 @@ segment, and these corner points must be different:
 \end{axdef}
 %
 If two segments are connected via their endpoints, as in a contour,
-then they do \emph{not} touch, which is strange.
+then they do \emph{not} touch, which is essential for the definition
+of polygons.
 % 
 \begin{axdef}
   crosses: SEGMENT \rel SEGMENT \\
@@ -170,6 +173,16 @@ then they do \emph{not} touch, which is strange.
   \lor s_1 \inrel{touches} s_2 \lor s_2 \inrel{touches} s_1
 \end{axdef}
 %
+Finally it is possible to define a polygon:
+%
+\begin{schema}{Polygon}
+  c: CONTOUR
+  \where
+  \# c \geq 4 \\
+  head~c = last~c\\
+  front~c \in \iseq POINT \\
+  \forall s_1, s_2 : segments~c | s_1 \neq s_2 @ \lnot (s_1 \inrel{intersects} s_2)
+\end{schema}
 % bibliography
 \printbibliography{}
 
