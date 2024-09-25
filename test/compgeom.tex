@@ -30,8 +30,6 @@
 % \usepackage{todo}
 % \restoresymbol{TXF}{because}
 
-
-
 %\nochangebars
 
 \newcommand{\remark}[1]{ \vspace{1em}\textbf{\underline{#1}}\vspace{1em} }
@@ -46,407 +44,145 @@
 \begin{document}
 
 % opening
-\title{Polynomials}
+\title{Computational Geometry}
 \author{Frank Dordowsky}
 
 % make the title area
 \maketitle
 
 \begin{abstract}
-  This is a test paper for the Arithmetics in Z package and style,
-  using polynomials.
+  Jonthan Jacky has devoted a small chapter of his textbook
+  \cite{Jacky1997a} on computational geometry using $\num$ for the
+  coordinates. This is a test paper for the Arithmetics in Z package
+  and style, translating the definitions there into real numbers.
 \end{abstract}
 
 %\tableofcontents
 %\newpage
 
-\section{Introduction}
-\label{sec:intro}
-The arithmetics of polynomials is used as a test bed for the
-arithmetics in Z, type checked with \texttt{fuzz}.
-
-As a prepararation, the generic finite distributed sum in
-\texttt{zarithm.tex} is refined to the \emph{finite sum of elements of
-Arithmos}:
-\newcommand{\finsum}{\sum}
-\begin{zdef}[Finite Sum]
-  \label{zdef:finite-sum}
-  
-  \begin{axdef}
-    \finsum : \nat \cross \nat \cross (\nat \fun \arithmos) \fun \arithmos \\
-    \where
-    \forall k, l : \nat; f: \nat \fun \arithmos | k \leq l @
-    \finsum(k,l,f) = \findistsum((k \upto l) \dres f)
-  \end{axdef}
-\end{zdef}
+Chapter 19 of Jacky's textbook \cite{Jacky1997a} formalizes some basic
+concepts of computational geometry with Z. The  coordinates are
+defined using integer numbers. This paper simply translates the
+definitions using the real numbers defined in the \texttt{zarithm.sty}
+file and the \texttt{zarithm.tex} file.
 %
-A note on proofs: Proofs sometimes use the \texttt{argue} environment,
-which is not type checked by \texttt{fuzz} according to the
-\texttt{fuzz} manual \cite{Spivey2000}.
+% A note on proofs: Proofs sometimes use the \texttt{argue} environment,
+% which is not type checked by \texttt{fuzz} according to the
+% \texttt{fuzz} manual \cite{Spivey2000}.
 %
-\section{Polynomials}
-\label{sec:polynomials}
-Now the central definition of the paper, the set of polynomials:
-\begin{zdef}[Polynomials]
-  \label{zdef:polynomials}
-  A polynomial is actually a finite sequence of non-zero real numbers,
-  which are members of a function from all natural numbers to the real
-  numbers.
-  \begin{zed}
-    POLYNOMIAL == \{~p: \nat \fun \arithmos | (\exists N: \nat @ (\forall n:
-    \nat | n > N @ p(n)=\azero))~\}
-  \end{zed}
-\end{zdef}
-
-\begin{zdef}[Coeefficients of a Polynomial]
-  \label{zdef:coefficient}
-  The $i$-th coefficient of a polynomial is the real value at position
-  $i$. 
-  \begin{zed}
-    coefficient == (\lambda p: POLYNOMIAL; i: \nat @ p(i))
-  \end{zed}
-\end{zdef}
-%
-With this definition it is
 \begin{zed}
-  coefficient \in POLYNOMIAL \cross \nat \fun \arithmos
+  X == \real; Y == \real \\
+  POINT == X \cross Y \\
+  CONTOUR == \seq POINT \\
+  SEGMENT == POINT \cross POINT \\
 \end{zed}
 %
-\newcommand{\zeropol}{\mathbf{0}}
-\begin{zdef}[Zero Polynomial]
-  \label{zdef:zero-polynomial}
-  The \emph{zero polynomial} $\zeropol$ has only coefficients of value
-  $\azero$:
-  \begin{axdef}
-    \zeropol : POLYNOMIAL
-    \where
-    \ran \zeropol = \{~\azero~\}
-  \end{axdef}
-\end{zdef}
-
-\begin{zdef}[Degree of a Polynomial]
-  The degree of a non-zero polynomial is the largest coefficient not equal to
-  zero, and equal to $-1$ for the zero polynomial.
-  \label{zdef:degree}
-  \begin{axdef}
-    deg : POLYNOMIAL \fun \nat
-    \where
-    deg~\zeropol = -1 \\
-    \forall p: POLYNOMIAL | p \neq \zeropol @ deg~p = max~(\dom (p \nrres
-  \{~\azero~\}))\\
-  \end{axdef}
-\end{zdef}
-
-\begin{lemma}[Alternative Description of Degree]
-  \label{lemma:alternative-degree}
-  \begin{zed}
-    \forall p: POLYNOMIAL; n: \nat @ deg~p = n \iff p(n) \neq \azero \land
-    (\forall i : \nat | i > n @ p(i) = \azero)
-  \end{zed}
-\end{lemma}
-
-\begin{proof}[Proof of lemma \ref{lemma:alternative-degree}]
-  to  be completed
-\end{proof}
+These definitions are direct translations of the ones given in the
+textbook. The definition of segments includes those that collapse to a
+single point.
 %
-Real and complex polynomials are those with coefficients in either
-$\real$ or $\complex$ respectively:
-\begin{zdef}[Complex Polynomials]
-  \label{zdef:complex-polynomials}
-  \emph{Complex polynomials} are polynomials where all coefficients
-  are complex numbers:
-  \begin{zed}
-    ComplexPolynomial == \{~p: POLYNOMIAL | \ran~p \subseteq \complex~\}
-  \end{zed}
-\end{zdef}
-%
-The definition of real polynomials is based on that for complex
-polynomials so that they form a subset relation.
-\begin{zdef}[Real Polynomials]
-  \label{zdef:real-polynomials}
-  Real polynomials are polynomials where all coefficients are real numbers:
-  \begin{zed}
-    RealPolynomial == \{~p: ComplexPolynomial | \ran~p \subseteq \real~\}
-  \end{zed}
-\end{zdef}
-%
-With these definitions there is
 \begin{zed}
-  RealPolynomial \subseteq ComplexPolynomial \subseteq POLYNOMIAL
+  px == first[X,Y]; py == second[X,Y], 
 \end{zed}
 %
-\section{Addition and Multiplication of Polynomials}
-\label{sec:addition-multiplication}
-There are two operations on the set of polynomials, the addition and
-the multiplication of polynomials.
-\newcommand{\polyplus}{+}
-\begin{zdef}[Addition of Polynomials]
-  \label{zdef:polynomial-addition}
-%%inop \polyplus 3 
-  \begin{axdef}
-    \_ \polyplus \_ : POLYNOMIAL \cross POLYNOMIAL \fun POLYNOMIAL\\
-    \where
-    \forall p, q : POLYNOMIAL @ p \polyplus q = (\lambda i: \nat @ p~i
-    \aplus q~i)
-  \end{axdef}
-\end{zdef}
-
-\begin{prop}[Zero Polynomial is neutral Element]
-  \label{prop:zero-polynomial-neutral-element}
-  The zero polynomial $\zeropol$ is the neutral element of the
-  polynomial addition:
-  \begin{zed}
-    \forall p: POLYNOMIAL @ p \polyplus \zeropol = \zeropol \polyplus
-    p = p
-  \end{zed}
-\end{prop}
+Since $x$ and $y$ usually denote real variables, the projections were
+renamed to $px$ and $py$.
+%
+\begin{zed}
+  area2 == (\lambda a, b, c: POINT @ \\
+  \t1 (px~a) \amult (py~b) \aminus (py~a)\amult (px~b) \aplus (py~a)\amult
+  (px~c) \\
+  \t1 \aminus (px~a) \amult (py~c) \aplus (px~b) \amult (py~c) \aminus
+  (px~c) \amult (py~b))
+\end{zed}
+%
+The function $area2$ calculates twice the area of a triangle given by
+points $a,b,c$, but can be negative. It is
 % 
-\newcommand{\polymult}{*}
-\begin{zdef}[Multiplication of Polynomials]
-  \label{zdef:polynomial-multiplication}
-%%inop \polymult 4 
-  \begin{axdef}
-    \_ \polymult \_ : POLYNOMIAL \cross POLYNOMIAL \fun POLYNOMIAL\\
-    \where
-    \forall p, q : POLYNOMIAL @ p \polymult q = (\lambda i: \nat @
-    \finsum(0,i,(\lambda j: \nat @ p(j) \amult q(i-j))))
-  \end{axdef}
-\end{zdef}
+\begin{zed}
+  area2 \in POINT \cross POINT \cross POINT \fun \real
+\end{zed}
 %
-Todo: Polynomials form a commutative ring!!
+Segments of a contour are calculated by:
+%
+\begin{zed}
+  segments == (\lambda c : CONTOUR @ \{~a, b: POINT | \langle a,
+  b\rangle \inseq c @ a \mapsto b~\} )
+\end{zed}
+%
+It is
+%
+\begin{zed}
+  segments \in CONTOUR \fun \power SEGMENT
+\end{zed}
+%
+For a compact definition of polygones, two ``helper'' relations are
+introduced: 
+%%prerel between collinear
+\begin{zed}
+  ( between \_ ) == \{~x,y,z: \real | x \alt y \alt z \lor x \agt y
+  \agt z~\}\\
+  ( collinear \_ ) == \{~a, b, c: POINT | area2(a,b,c) = \azero~\}
+\end{zed}
+%
+Three points are collinear if the triangle made up by them collapses
+into a single line or even point, indicated by an area of zero.
+%
+\begin{axdef}
+  on: POINT \rel SEGMENT \\
+  \where
+  \forall s: SEGMENT; a,c,d: POINT | s = (c,d) @ \\
+  \t1 a \inrel{on} s \iff ( collinear(c,a,d) \\
+  \t2 \land ((px~c \neq px~d \land between(px~c,px~a,px~d)) \\
+  \t2 \lor (py~c \neq py~d \land between(py~c,py~a,py~d))))
+\end{axdef}
+%
+If a point is on a segment it is never one of the corner points of the
+segment, and these corner points must be different:
+%
+\begin{zed}
+  \forall a,c,d: POINT; s: SEGMENT | s = (c,d) @ a \inrel{on} s
+  \implies ( c \neq d  \land a \neq c \land a \neq d)
+\end{zed}
+%
+\begin{axdef}
+  touches: SEGMENT \rel SEGMENT \\
+  \where
+  \forall s_1, s_2 : SEGMENT; a,b,c,d: POINT | s_1 =(a,b) \land
+  s_2=(c,d) @ \\
+  \t1 s_1 \inrel{touches} s_2 \iff a \inrel{on} s_2 \lor b \inrel{on} s_2
+\end{axdef}
+%
+If two segments are connected via their endpoints, as in a contour,
+then they do \emph{not} touch, which is essential for the definition
+of polygons.
 % 
-\begin{prop}[Additition and Multiplication of Real and Complex
-  Polynomials are closed]
-  \label{prop:closure-of-real-complex-addition-multiplication}
-  Addition and Multiplication of real or complex polynomials result in
-  real or complex polynomials respectively:
-  \begin{zed}
-    \ran ((RealPolynomial \cross RealPolynomial) \dres (\_ \polyplus
-    \_ )) \subseteq RealPolynomial\\
-    \ran ((ComplexPolynomial \cross ComplexPolynomial) \dres (\_ \polyplus
-    \_ )) \subseteq ComplexPolynomial\\
-    \ran ((RealPolynomial \cross RealPolynomial) \dres (\_ \polymult
-    \_ )) \subseteq RealPolynomial\\
-    \ran ((ComplexPolynomial \cross ComplexPolynomial) \dres (\_ \polymult
-    \_ )) \subseteq ComplexPolynomial\\
-  \end{zed}
-\end{prop}
-\begin{proof}[Proof of proposition
-  \ref{prop:closure-of-real-complex-addition-multiplication}]
-  The coefficients of the resulting polynomial of an addition or
-  multiplication of two polynomials $p_1$ and $p_2$ are computed by addition and
-  multiplication of the coefficients of $p_1$ and $p_2$. If all these
-  coefficients are either real or complex, then are the sum or product
-  of them, and so are the coefficients of the resulting polynomial.
-\end{proof}
+\begin{axdef}
+  crosses: SEGMENT \rel SEGMENT \\
+  \where
+  \forall s_1, s_2 : SEGMENT; a,b,c,d: POINT | s_1 =(a,b) \land
+  s_2=(c,d) @ \\
+  \t1 s_2 \inrel{crosses} s_1 \iff area2(a,b,c) \amult area2(a,b,d) \alt \azero
+\end{axdef}
 %
-\begin{zdef}[Special binomial]
-  \label{zdef:special-binnomial}
-  $P$ is a constructor to produce the polynomial $x^n - r^n$ for a
-  given $r \in \arithmos$ and $n \in \nat_1$.
-  \begin{zed}
-    P == (\lambda n: \nat_1; r: \arithmos @ (\zeropol \oplus \{~0 \mapsto
-    r \apwr n~\}) \oplus \{~n \mapsto \aone ~\})
-  \end{zed}
-\end{zdef}
-
-\begin{prop}[Factorization of special binomial]
-  \label{prop:factorization-binomial}
-  For a given $r \in \arithmos$ and $n \in \nat_1$ there is a polynomial
-  $p$ with $(x^n-r^n) = p \polymult (x - r)$.
-  \begin{zed}
-    \forall n: \nat_1; r: \arithmos @ \exists p : POLYNOMIAL @ P(n,r) = p
-    \polymult P(1,r)
-  \end{zed}
-\end{prop}
-
-\begin{proof}[Proof of proposition \ref{prop:factorization-binomial}]
-  The polynomial $p(x) = \sum_{i=0}^{n-1}r^{n-i-1}X^i$ does the
-  trick. In Z:
-  \begin{zed}
-    \forall n: \nat_1; r: \arithmos @ \\
-    \t1 (\LET p==\zeropol \oplus 
-    (\lambda i : 0 \upto (n-1) @ r\apwr(n-i-1)) @ P(n,r) = p
-    \polymult P(1,r))
-  \end{zed}
-  Formal proof to be completed.
-\end{proof}
-
-\section{Evaluation of Polynomials}
-\label{sec:evaluation}
-
-For the evaluation of polynomials we use the Horner schema. As a
-preparation we define the left shifting of polynomials.
- 
-\begin{zdef}[Left-Shift of a Polynomial]
-  \label{zdef:left-shift}
-  \begin{axdef}
-    lshift: POLYNOMIAL \fun POLYNOMIAL \\
-    \where
-    \forall p : POLYNOMIAL @ (\forall i: \nat @ (lshift~p)(i)=p(i+1))
-  \end{axdef}
-\end{zdef}
-
-\begin{prop}[Left-shifting the zero Polynomial]
-  \label{prop:left-shift-zero-polynomial}
-  \begin{zed}
-    lshift~\zeropol = \zeropol
-  \end{zed}
-\end{prop}
-
-\begin{proof}[Proof of proposition
-  \ref{prop:left-shift-zero-polynomial}]
-  \begin{argue}
-    \forall i : \nat @ (lshift~\zeropol)(i) = \zeropol(i+1) = \azero &
-    def. of zero polynomial  \ref{zdef:zero-polynomial} and
-    lshift \ref{zdef:left-shift}\\
-    \vdash lshift~\zeropol = \zeropol \\
-  \end{argue}
-  
-\end{proof}
-
-\begin{lemma}[Degree of left-shifted Polynomial]
-  \label{lemma:degree-left-shift}
-  Left shifting a non-zero polynomial reduces its degree by one.
-  \begin{zed}
-    \forall p: POLYNOMIAL | p \neq \zeropol @ deg (lshift~p) = deg~p - 1
-  \end{zed}
-\end{lemma}
-
-\begin{proof}[Proof of Lemma \ref{lemma:degree-left-shift}]
-  It is necessary to distinguish two cases: $deg~p = 0$ and $deg~p >
-  0$. Starting with  $deg~p = 0$:
-  \begin{argue}
-    p : POLYNOMIAL | deg~p = 0 @ p(0) \neq \azero \land
-    (\forall i: \nat | i > 0 @ p(i) = \azero)\\
-    \vdash (lshift~p) = \zeropol \\
-    \vdash deg(lshift~p) = deg(\zeropol) = -1 = deg~p - 1
-  \end{argue}
-  Now for the case $deg~p > 0$:
-  \begin{argue}
-    p : POLYNOMIAL | deg~p > 0 @ p(deg~p) \neq \azero \land
-    (\forall i: \nat | i > deg~p @ p(i) = \azero)\\
-    \vdash (lshift~p)((deg~p)-1) = p(deg~p) \neq \azero \\
-    \t1 \land (\forall i: \nat | i > ((deg~p)-1) @ (lshift~p)(i) =
-    p(i+1) = \azero)\\
-    \vdash deg(lshift~p) = deg~p - 1
-  \end{argue}
-\end{proof}
-
-\begin{zdef}[Evaluation of Polynomials]
-  \label{zdef:evaluation}
-  The evaluation of a polynomial $p$ yields a function from $\arithmos$ to
-  $\arithmos$:
-  \begin{axdef}
-    eval: POLYNOMIAL \fun (\arithmos \fun \arithmos)\\
-    \where
-    eval(\zeropol) = (\lambda v: \arithmos @ \azero)\\
-    \forall p: POLYNOMIAL | p \neq \zeropol @ eval(p) = (\lambda v:
-    \arithmos @ p(0) \aplus v \amult ((eval(lshift~p))(v)))
-  \end{axdef}
-\end{zdef}
-
-
-\begin{prop}[Evaluation of Polynomials]
-  \label{prop:evalutation}
-  \begin{zed}
-    \forall p: POLYNOMIAL; v: \arithmos | p \neq \zeropol @ (eval~p)(v) = \\
-    \t1 \finsum(0,deg~p,(\lambda i: \nat @ (p~i)\amult(v \apwr i)))
-  \end{zed}
- Note: in normal math notation this is simply
- \begin{equation*}
-   \label{eq:math-notation-polynomial-evaluation}
-   eval(p)(v) = \sum_{i=0}^n a_iv^i \text{ with } n = deg(p) \text{ and
-   } a_i = p(i)
- \end{equation*}
-\end{prop}
+\begin{axdef}
+  intersects: SEGMENT \rel SEGMENT \\
+  \where
+  \forall s_1, s_2 : SEGMENT @ s_1 \inrel{intersects} s_2 \\
+  \t1 \iff (s_1 \inrel{crosses} s_2 \land s_2 \inrel{crosses} s_1)
+  \lor s_1 \inrel{touches} s_2 \lor s_2 \inrel{touches} s_1
+\end{axdef}
 %
-\begin{proof}[Proof of proposition \ref{prop:evalutation}]
-  Induction over $deg~p$.
-  \begin{argue}
-    $deg~p = \azero$\quad \vdash (p~0 \neq \azero) \land (\forall i:
-    \nat_1 @ p~i = \azero)\\
-    \t1 \vdash lshift~p = \zeropol\\
-    \t1 \vdash eval(lshift~p) = eval(\zeropol) = (\lambda v: \arithmos @
-    \azero)\\
-    \t1 \vdash eval(p) = (\lambda v: \arithmos @ p(0) \aplus v \amult
-    \azero) = (\lambda v: \arithmos @ p(0))\\
-    \t2 = \finsum(0,0,(\lambda i: \nat @ (p~i)\amult(v \apwr i)))
-  \end{argue}
-
-  We now assume that the proposition is correct for all polynomials of
-  degree $n$ and consider polynomial $p$ of degree $n+1$.
-
-  \begin{argue}
-    \forall p: POLYNOMIAL | deg~p = n+1\\
-    \vdash eval(p)(v) = p(0) \aplus v \amult (eval(lshift~p))(v) &
-    Def. \ref{zdef:left-shift}\\
-    \t1 = p(0) \aplus v \amult \finsum(0,deg(lshift~p),(\lambda i:
-    \nat @ ((lshift~p)~i)\amult(v \apwr i))) & Lemma
-    \ref{lemma:degree-left-shift} \\ & and induction\\
-    \t1 = p(0) \aplus \finsum(0,deg(lshift~p),(\lambda i:
-    \nat @ ((lshift~p)~i)\amult(v \apwr (i+1))))\\
-    \t1 = p(0) \aplus \finsum(1,deg(lshift~p)+1,(\lambda i:
-    \nat_1 @ ((lshift~p)~(i+1))\amult(v \apwr i)))\\
-    \t1 = p(0) \aplus \finsum(1,deg~p,(\lambda i:
-    \nat_1 @ p(i)\amult(v \apwr i)))\\
-    \t1 = \finsum(0,deg~p,(\lambda i: \nat @ p(i)\amult(v \apwr i)))\\
-  \end{argue}
-\end{proof}
+Finally it is possible to define a polygon:
 %
-\begin{prop}[Evaluation of Real or Complex Polynomial yields Real or Complex Results]
-  \label{prop:evaluation-real-complex-polynomial}
-  The evaluation of a real value of a real polynomial yields a real
-  result. The same applies to complex values and complex polynomials.
-  \begin{zed}
-%    \ran(\real \dres (RealPolynomial \dres eval)) \subseteq \real
-    \forall p: RealPolynomial; r: \real @ (eval~p)(r) \in \real\\
-    \forall p: ComplexPolynomial; c: \complex @ (eval~p)(c) \in \complex\\
-  \end{zed}
-\end{prop}
-\begin{proof}[Proof of proposition \ref{prop:evaluation-real-complex-polynomial}]
-  This is a corrolary of proposition \ref{prop:evalutation} since all
-  terms are either real or complex.
-\end{proof}
-
-%
-\section{Roots of a Polynomial}
-\label{sec:roots}
-
-
-\begin{zdef}[Roots of a Polynomial]
-  \label{zdef:roots}
-  \begin{axdef}
-    roots : POLYNOMIAL \fun \power \arithmos\\
-    \where
-    roots~\zeropol = \arithmos\\
-    \forall p : POLYNOMIAL | p \neq \zeropol @ roots~p = \{~r: \arithmos |
-    (eval(p))(r) = \azero~\}
-  \end{axdef}
-\end{zdef}
-
-\begin{prop}[Factor theorem]
-  \label{prop:factor-theorem}
-  The roots $r \in \arithmos$ of a polynomial $p$ can be factored out: $p
-  = pf \polymult (x-r)$ with a polynomial $pf$.
-  \begin{zed}
-    \forall p: POLYNOMIAL; r: \arithmos | r \in roots~p @ \exists pf: POLYNOMIAL @ p =
-    pf \polymult P(1,r)
-  \end{zed}
-\end{prop}
-\begin{proof}[Proof of factor theorem \ref{prop:factor-theorem}]
-  to be completed
-\end{proof}
-%
-\begin{prop}[Fundamental Theorem of Algebra]
-  Every non-constant complex polynomial has a root that is a complex
-  number.
-  \begin{zed}
-    \forall p : ComplexPolynomial | deg~p > 0 @ roots~p \cap \complex
-    \neq \emptyset
-  \end{zed}
-\end{prop}
-%
+\begin{schema}{Polygon}
+  c: CONTOUR
+  \where
+  \# c \geq 4 \\
+  head~c = last~c\\
+  front~c \in \iseq POINT \\
+  \forall s_1, s_2 : segments~c | s_1 \neq s_2 @ \lnot (s_1 \inrel{intersects} s_2)
+\end{schema}
 % bibliography
 \printbibliography{}
 
